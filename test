@@ -1,3 +1,24 @@
+getgenv().settings = {
+	ws = nil;
+	wsa = 16;
+	Fly = nil;
+	FlyBV = nil;
+	flys = 70;
+	Clip = nil;
+	webhook = false;
+	webhookUrl = "";
+	boss = false;
+	antivoid = false;
+}
+
+if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") == nil or game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") == nil	 then
+	local args = {
+		[1] = "Hueco Mundo",
+	}
+
+	game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
+end
+
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local UIS = game:GetService("UserInputService")
@@ -12,17 +33,6 @@ local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/metau
 local ControlModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/metauser08/lua/main/cm"))()
 
 
-getgenv().settings = {
-	ws = nil;
-	wsa = 16;
-	Fly = nil;
-	FlyBV = nil;
-	flys = 70;
-	Clip = nil;
-	webhook = false;
-	webhookUrl = "";
-	boss = false;
-}
 
 local filename = game.Players.LocalPlayer.Name.. "-TypeSoul" .. "-settings.txt";
 	
@@ -147,7 +157,13 @@ function autoBoss()
 		}
 
 		game:GetService("Players").LocalPlayer.Kisuke:FireServer(unpack(args))
+		
+	elseif game.PlaceId == 14069122388 then
+		local args = {
+			[1] = "Karakura Town",
+		}
 
+		game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
 	end
 
 	if game.PlaceId == 17047374266 then
@@ -416,6 +432,11 @@ end)
 
 sub2:CreateToggle("Auto Farm Boss", getgenv().settings.boss, function(a)
 	getgenv().settings.boss = a
+	autoBoss()
+	saveSettings()
+end)
+sub2:CreateToggle("Anti Void", getgenv().settings.antivoid, function(a)
+	getgenv().settings.antivoid = a
 	autoBoss()
 	saveSettings()
 end)
