@@ -255,6 +255,7 @@ function Library:CreateWindow()
 			local content = {}
 
 			function content:CreateToggle(text,toggled, callback)
+				toggled = toggled or false
 				text = text or "New Toggle"
 				callback = callback or function() end
 				print(toggled)
@@ -500,5 +501,4 @@ function Library:CreateWindow()
 	end
 	return inLib
 end
-
-return Library
+retunr Library
