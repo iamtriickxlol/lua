@@ -305,7 +305,7 @@ function autoBoss()
 					wait()
 				end)
 							
-					if (tick()-lapse) >= 20 and boss.Humanoid.Health == 900 then
+					if (tick()-lapse) >= 200 and boss.Humanoid.Health == 900 then
 								
 								httpservice = game:GetService("HttpService")
 
