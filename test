@@ -288,7 +288,7 @@ function autoBoss()
 		game.Players.LocalPlayer.PlayerGui.ScreenEffects.ChildAdded:Connect(function(v)
 			local timelapsed = (tick()-lapse)
 			if v:IsA("Frame") then
-				for i2,v2 in pairs(v.Parent:GetDescendants()) do
+				for i2,v2 in pairs(v:GetDescendants()) do
 					if v2:IsA("TextLabel") then
 						if string.find(v2.Text, "obtained.") and getgenv().settings.webhook ~= false and getgenv().settings.webhookURL ~= "" then
 							local nitem = string.gsub(v2.Text,"obtained.", "")
