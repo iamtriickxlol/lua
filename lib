@@ -495,11 +495,60 @@ function Library:CreateWindow()
 				UICorner_10.Parent = TextBox
 
 			end
+			
+			function content:CreateButton(name,callback)
+				name = name or "New Button"
+				callback = callback or function() end
+				local WebhookURL_2 = Instance.new("Frame")
+				local Label_6 = Instance.new("TextLabel")
+				local TextButton = Instance.new("TextButton")
+				local UICorner_6 = Instance.new("UICorner")
+
+				WebhookURL_2.Name = name
+				WebhookURL_2.Parent = Holder
+				WebhookURL_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				WebhookURL_2.BackgroundTransparency = 1.000
+				WebhookURL_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				WebhookURL_2.BorderSizePixel = 0
+				WebhookURL_2.Position = UDim2.new(0, 0, 0.161904767, 0)
+				WebhookURL_2.Size = UDim2.new(1, 0, 0, 20)
+
+				Label_6.Name = "Label"
+				Label_6.Parent = WebhookURL_2
+				Label_6.AnchorPoint = Vector2.new(0, 0.5)
+				Label_6.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Label_6.BackgroundTransparency = 1.000
+				Label_6.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				Label_6.BorderSizePixel = 0
+				Label_6.Position = UDim2.new(0.0500000231, 0, 0.5, 0)
+				Label_6.Size = UDim2.new(0.204343647, 0, 1, 0)
+				Label_6.Font = Enum.Font.SourceSansBold
+				Label_6.Text = name
+				Label_6.TextColor3 = Color3.fromRGB(180, 163, 185)
+				Label_6.TextSize = 16.000
+				Label_6.TextXAlignment = Enum.TextXAlignment.Left
+
+				TextButton.Parent = WebhookURL_2
+				TextButton.BackgroundColor3 = Color3.fromRGB(30, 27, 34)
+				TextButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				TextButton.BorderSizePixel = 0
+				TextButton.Position = UDim2.new(0.689999998, 0, 0, 0)
+				TextButton.Size = UDim2.new(0.280000001, 0, 1, 0)
+				TextButton.Font = Enum.Font.SourceSansBold
+				TextButton.TextColor3 = Color3.fromRGB(139, 126, 143)
+				TextButton.TextSize = 14.000
+				TextButton.Text = ""
+
+				UICorner_6.Parent = TextButton
+				
+				TextButton.MouseButton1Click:Connect(function()
+					pcall(callback)
+				end)
+			end
 			return content
 		end
 		return insideTab
 	end
 	return inLib
 end
-
 return Library
