@@ -145,6 +145,7 @@ end
 function autoBoss()
 	repeat wait() until game:IsLoaded()
 	if  game.PlaceId == 14069678431 then
+		print('yes')
 		game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.PartyCreate:FireServer()
 
 
@@ -178,7 +179,7 @@ function autoBoss()
 				print(tostring(boss.Humanoid.Health))	
 				local c 
 				c = game:GetService("RunService").Heartbeat:Connect(function()
-					if _G.a == true then
+					if getgenv().settings.boss == true then
 						if boss:GetAttribute("CurrentState") == "Unconscious" then
 							print("Boss is dead")
 							c:Disconnect()
@@ -431,8 +432,8 @@ end)
 
 
 sub2:CreateToggle("Auto Farm Boss", getgenv().settings.boss, function(a)
-	print(a)
 	getgenv().settings.boss = a
+	autoBoss()
 	saveSettings()
 end)
 
@@ -461,4 +462,3 @@ end)
 sub4:CreateButton("Accept", function(a)
 	tradeAccept()
 end)
-
