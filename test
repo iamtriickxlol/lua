@@ -26,36 +26,28 @@ getgenv().settings = {
 
 local filename = game.Players.LocalPlayer.Name.. "-TypeSoul" .. "-settings.txt";
 	
-for i,v in pairs(getgenv().settings) do
-	print(i,v)
-end
-
 function loadsettings()
-	print("Meta Hub: Loading settings...")
+
 	local httpService = game:GetService("HttpService")
 	if readfile and isfile and isfile("Meta Hub/"..filename) then
 		getgenv().settings = httpService:JSONDecode(readfile("Meta Hub/"..filename))
-		print("Meta Hub: Settings Loaded.")
-
-	else
-		print("Meta Hub: Executor isn't supported.")
 
 	end
 
 end
 
 function saveSettings()
-	print("Meta Hub: Saving settings...")
+	
 	local json
 	local httpService = game:GetService("HttpService")
 	if writefile and makefolder then
-		print("Meta Hub: Settings Saved.")
+		
 		json = httpService:JSONEncode(getgenv().settings)
 		local settingsTXT = writefile("Meta Hub/"..filename, json)
 		makefolder("Meta Hub")
 
 	else
-		print("Chopper Hub: Executor doesn't support saving settings.")
+	
 	end
 end
 
@@ -99,7 +91,6 @@ end
 
 local function noclip(t)
 	if (not t) then
-		print(t)
 		getgenv().settings.Clip:Disconnect()
 		getgenv().settings.Clip = nil
 		for _,part in next, Player.Character:GetChildren() do
@@ -111,7 +102,6 @@ local function noclip(t)
 	end
 	
 	getgenv().settings.Clip = RunService.Heartbeat:Connect(function()
-		print(getgenv().settings.Clip)
 		for _,part in next, Player.Character:GetChildren() do
 			if part:IsA("BasePart") or part:IsA("MeshPart") or part:IsA("Part") then
 				part.CanCollide = false
@@ -145,7 +135,6 @@ end
 function autoBoss()
 	repeat wait() until game:IsLoaded()
 	if  game.PlaceId == 14069678431 then
-		print('yes')
 		game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.PartyCreate:FireServer()
 
 
@@ -162,7 +151,6 @@ function autoBoss()
 	end
 
 	if game.PlaceId == 17047374266 then
-		print("loaded")
 		local plr = game.Players.LocalPlayer
 		local boss
 		local lapse = tick()
@@ -170,13 +158,11 @@ function autoBoss()
 		_G.win = false
 		game.Workspace.Entities.ChildAdded:Connect(function(v)
 
-			print(v)
 			if v.Name ~= plr.Name and v:GetAttribute("EntityType") and v.Name ~= "Wolf" or string.find(v.Name, "_") or v:GetAttribute("EntityType") == "Shinigami" or v:GetAttribute("EntityType") == "Quincy"  then
 
 				boss = v
 
 				local hum = boss:WaitForChild("Humanoid")
-				print(tostring(boss.Humanoid.Health))	
 				local c 
 				c = game:GetService("RunService").Heartbeat:Connect(function()
 					if getgenv().settings.boss == true then
@@ -253,8 +239,6 @@ function autoBoss()
 
 					wait()
 				end)
-			else
-				print(v.Name.." spawned")
 			end
 
 		end)
@@ -268,8 +252,6 @@ function autoBoss()
 					if v2:IsA("TextLabel") then
 						if string.find(v2.Text, "obtained.") and getgenv().settings.webhook ~= false and getgenv().settings.webhookURL ~= "" then
 							local nitem = string.gsub(v2.Text,"obtained.", "")
-							print(v2.Name,v2.Parent,v2.Parent.Parent)
-							print(nitem)
 							item = nitem
 							_G.win = true
 							httpservice = game:GetService("HttpService")						
@@ -296,6 +278,7 @@ function autoBoss()
 							})
 						else
 							print("Webhook not found.")
+							return;
 						end
 					end
 				end
@@ -305,7 +288,6 @@ function autoBoss()
 		game.Workspace.Entities.ChildRemoved:Connect(function(v)
 
 			if v.Name == boss.Name and getgenv().settings.webhook ~= false and getgenv().settings.webhookURL ~= "" and _G.win == false then
-				print(_G.win)
 				httpservice = game:GetService("HttpService")
 
 				local response = request({
@@ -335,6 +317,7 @@ function autoBoss()
 				game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
 			else
 				print("Webhook not found.")
+				return
 			end
 		end)
 	end
@@ -447,7 +430,6 @@ sub3:CreateToggle("Webhook",getgenv().settings.webhook, function(a)
 end)
 
 sub3:CreateTextbox("WebhookURL", "URL here", function(a)
-	print(a)
 	getgenv().settings.webhookURL = a
 	saveSettings()
 end)
