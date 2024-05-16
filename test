@@ -399,10 +399,6 @@ function antiVoid()
 		if game.PlaceId == 14069678431 and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
 			game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored = true
 		end
-
-		if (tick()-Start) >= 10 and game.PlaceId == 14069122388 then
-			tpTokt()
-		end
 		if (tick()-Start) >= 15	 and game.PlaceId == 14069678431 then
 			tpToHM()
 		elseif (tick()-Start) >= 800 and game.PlaceId == 17047374266 then
