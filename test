@@ -11,7 +11,7 @@ getgenv().settings = {
 	antivoid = false;
 }
 
-if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") == nil or game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") == nil and getgenv().settings.antivoid == true	then
+if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") == nil or game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") == nil and getgenv().settings.antivoid == true and game.PlaceId == 14069678431	then
 	local args = {
 		[1] = "Hueco Mundo",
 	}
@@ -302,7 +302,7 @@ function autoBoss()
 		end)
 
 		game.Workspace.Entities.ChildRemoved:Connect(function(v)
-
+			wait(2)
 			if v.Name == boss.Name and getgenv().settings.webhook ~= false and getgenv().settings.webhookURL ~= "" and _G.win == false then
 				httpservice = game:GetService("HttpService")
 
