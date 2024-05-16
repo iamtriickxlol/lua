@@ -257,7 +257,7 @@ function Library:CreateWindow()
 			function content:CreateToggle(text,toggled, callback)
 				text = text or "New Toggle"
 				callback = callback or function() end
-
+				print(toggled)
 				local Toggled = toggled or false
 				local Toggle = Instance.new("Frame")
 				local Button = Instance.new("TextButton")
@@ -298,6 +298,13 @@ function Library:CreateWindow()
 				Label_2.TextColor3 = Color3.fromRGB(180, 163, 185)
 				Label_2.TextSize = 16.000
 				Label_2.TextXAlignment = Enum.TextXAlignment.Left
+				
+				if toggled == false then
+					Button.BackgroundColor3 = Color3.fromRGB(64, 57, 72)
+
+				else
+					Button.BackgroundColor3 = Color3.fromRGB(180, 163, 185)
+				end
 
 				Button.MouseButton1Click:Connect(function()
 					if Toggled == false then
