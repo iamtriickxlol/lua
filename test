@@ -256,10 +256,10 @@ function autoBoss()
 			if v:IsA("ScreenGui") then
 				for i2,v2 in pairs(v.Parent:GetDescendants()) do
 					if v2:IsA("TextLabel") then
-						if string.find(v2.Text, "obtained.") and getgenv().settings.webhook ~= false and getgenv().settings.webhookURL ~= "" then
+						_G.win = true
+						if string.find(v2.Text, "obtained.") and getgenv().settings.webhook == true and getgenv().settings.webhookURL ~= nil then
 							local nitem = string.gsub(v2.Text,"obtained.", "")
 							item = nitem
-							_G.win = true
 							httpservice = game:GetService("HttpService")						
 							local response = request({
 								Url = getgenv().settings.webhookURL,
@@ -293,7 +293,7 @@ function autoBoss()
 
 		game.Workspace.Entities.ChildRemoved:Connect(function(v)
 			wait(2)
-			if v.Name == boss.Name and getgenv().settings.webhook ~= false and getgenv().settings.webhookURL ~= "" and _G.win == false then
+			if v.Name == boss.Name and getgenv().settings.webhook == true and getgenv().settings.webhookURL ~= nil and _G.win == false then
 				httpservice = game:GetService("HttpService")
 
 				local response = request({
@@ -379,18 +379,6 @@ function antiVoid()
 		game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
 
 	end
-
-	local function tpTokt()
-
-		wait(2)
-		local args = {
-			[1] = "Karakura Town",
-		}
-
-		game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
-
-	end
-
 
 	game:GetService("GuiService").ErrorMessageChanged:Connect(function()
 		game:GetService("TeleportService"):Teleport(14069678431, game:GetService("Players").LocalPlayer)
