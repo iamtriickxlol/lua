@@ -59,7 +59,7 @@ end
 
 function Library:CreateWindow()
 	local Meta = Instance.new("ScreenGui")
-	Meta.Parent = gethui() or game.CoreGui
+	Meta.Parent =game.Players.LocalPlayer.PlayerGui
 	local Main = Instance.new("Frame")
 	local UICorner = Instance.new("UICorner")
 	local TopBar = Instance.new("Frame")
@@ -254,11 +254,11 @@ function Library:CreateWindow()
 
 			local content = {}
 
-			function content:CreateToggle(text, callback)
+			function content:CreateToggle(text,toggled, callback)
 				text = text or "New Toggle"
 				callback = callback or function() end
 
-				local Toggled = false
+				local Toggled = toggled or false
 				local Toggle = Instance.new("Frame")
 				local Button = Instance.new("TextButton")
 				local Label_2 = Instance.new("TextLabel")
