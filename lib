@@ -1,0 +1,448 @@
+local Library = {}
+
+
+local function MakeDraggable(topbarobject, object)
+	local Dragging = nil
+	local DragInput = nil
+	local DragStart = nil
+	local StartPosition = nil
+
+	local function Update(input)
+		local Delta = input.Position - DragStart
+		local pos =
+			UDim2.new(
+				StartPosition.X.Scale,
+				StartPosition.X.Offset + Delta.X,
+				StartPosition.Y.Scale,
+				StartPosition.Y.Offset + Delta.Y
+			)
+		object.Position = pos
+	end
+
+	topbarobject.InputBegan:Connect(
+		function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				Dragging = true
+				DragStart = input.Position
+				StartPosition = object.Position
+
+				input.Changed:Connect(
+					function()
+						if input.UserInputState == Enum.UserInputState.End then
+							Dragging = false
+						end
+					end
+				)
+			end
+		end
+	)
+
+	topbarobject.InputChanged:Connect(
+		function(input)
+			if
+				input.UserInputType == Enum.UserInputType.MouseMovement or
+				input.UserInputType == Enum.UserInputType.Touch
+			then
+				DragInput = input
+			end
+		end
+	)
+
+	UserInputService.InputChanged:Connect(
+		function(input)
+			if input == DragInput and Dragging then
+				Update(input)
+			end
+		end
+	)
+end
+
+function Library:CreateWindow()
+	local Meta = Instance.new("ScreenGui")
+	Meta.Parent =game.Players.LocalPlayer.PlayerGui
+	local Main = Instance.new("Frame")
+	local UICorner = Instance.new("UICorner")
+	local TopBar = Instance.new("Frame")
+	local HubName = Instance.new("TextLabel")
+	local UICorner_2 = Instance.new("UICorner")
+	local MainTabs = Instance.new("Frame")
+	local UICorner_3 = Instance.new("UICorner")
+	local Tabs = Instance.new("Frame")
+	local UIListLayout_2 = Instance.new("UIListLayout")
+	local UIPadding_2 = Instance.new("UIPadding")
+
+	Meta.Name = "Meta"
+
+	Meta.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+	Main.Name = "Main"
+	Main.Parent = Meta
+	Main.BackgroundColor3 = Color3.fromRGB(47, 38, 54)
+	Main.BackgroundTransparency = 0.200
+	Main.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Main.BorderSizePixel = 0
+	Main.Position = UDim2.new(0.275636852, 0, 0.187898085, 0)
+	Main.Size = UDim2.new(0, 547, 0, 354)
+
+
+	UICorner.Parent = Main
+
+	TopBar.Name = "TopBar"
+	TopBar.Parent = Main
+	TopBar.BackgroundColor3 = Color3.fromRGB(28, 24, 33)
+	TopBar.BackgroundTransparency = 0.990
+	TopBar.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	TopBar.BorderSizePixel = 0
+	TopBar.Size = UDim2.new(1, 0, 0.0408204496, 20)
+
+	HubName.Name = "HubName"
+	HubName.Parent = TopBar
+	HubName.AnchorPoint = Vector2.new(0, 0.5)
+	HubName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	HubName.BackgroundTransparency = 1.000
+	HubName.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	HubName.BorderSizePixel = 0
+	HubName.Position = UDim2.new(0.024999978, 0, 0.49999994, 0)
+	HubName.Size = UDim2.new(0.0554387793, 50, 0.699999988, 0)
+	HubName.Font = Enum.Font.SourceSansBold
+	HubName.Text = "MetaHub"
+	HubName.TextColor3 = Color3.fromRGB(255, 255, 255)
+	HubName.TextScaled = true
+	HubName.TextSize = 14.000
+	HubName.TextWrapped = true
+	HubName.TextXAlignment = Enum.TextXAlignment.Left
+
+	UICorner_2.Parent = TopBar
+
+	MainTabs.Name = "MainTabs"
+	MainTabs.Parent = Main
+	MainTabs.BackgroundColor3 = Color3.fromRGB(32, 28, 38)
+	MainTabs.BackgroundTransparency = 0.200
+	MainTabs.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	MainTabs.BorderSizePixel = 0
+	MainTabs.Position = UDim2.new(0.0109689217, 0, 0.0973176286, 0)
+	MainTabs.Size = UDim2.new(0, 535, 0, 313)
+
+	UICorner_3.Parent = MainTabs
+
+	Tabs.Name = "Tabs"
+	Tabs.Parent = Main
+	Tabs.BackgroundColor3 = Color3.fromRGB(28, 24, 33)
+	Tabs.BackgroundTransparency = 1.000
+	Tabs.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Tabs.BorderSizePixel = 0
+	Tabs.Position = UDim2.new(0.202925041, 0, 0, 0)
+	Tabs.Size = UDim2.new(0.723948836, 0, 0.0408204496, 20)
+
+
+
+	UIListLayout_2.Parent = Tabs
+	UIListLayout_2.FillDirection = Enum.FillDirection.Horizontal
+	UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
+
+	UIPadding_2.Parent = Tabs
+	UIPadding_2.PaddingTop = UDim.new(0, 5)
+
+	MakeDraggable(TopBar,Main)
+
+	local inLib = {}
+
+	function inLib:CreateTab(text)
+		local ts = game:GetService("TweenService")
+		local Player_2 = Instance.new("TextButton")
+		local Player = Instance.new("ScrollingFrame")
+		local UIPadding = Instance.new("UIPadding")
+		local UIGridLayout = Instance.new("UIGridLayout")
+
+		Player_2.Name = text
+		Player_2.Parent = Tabs
+		Player_2.AnchorPoint = Vector2.new(0, 0.5)
+		Player_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		Player_2.BackgroundTransparency = 1.000
+		Player_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		Player_2.BorderSizePixel = 0
+		Player_2.Position = UDim2.new(0, 0, 0.5, 0)
+		Player_2.Size = UDim2.new(0, 60, 0.800000012, 0)
+		Player_2.Font = Enum.Font.SourceSansBold
+		Player_2.Text = text
+		Player_2.TextColor3 = Color3.new(0.705882, 0.639216, 0.72549)
+		Player_2.TextSize = 17.000
+		Player_2.TextWrapped = true
+
+		Player.Name = text.. " Tab"
+		Player.Parent = MainTabs
+		Player.Active = true
+		Player.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		Player.BackgroundTransparency = 1.000
+		Player.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		Player.BorderSizePixel = 0
+		Player.Size = UDim2.new(1, 0, 1, 0)
+		Player.CanvasSize = UDim2.new(0, 0, 1, 0)
+		Player.ScrollBarThickness = 5
+		Player.Visible =false
+
+		UIPadding.Parent = Player
+		UIPadding.PaddingLeft = UDim.new(0, 8)
+		UIPadding.PaddingTop = UDim.new(0, 8)
+
+		UIGridLayout.Parent = Player
+		UIGridLayout.SortOrder = Enum.SortOrder.LayoutOrder
+		UIGridLayout.CellPadding = UDim2.new(0, 8, 0, 5)
+		UIGridLayout.CellSize = UDim2.new(0.485000014, 0, 1, -8)
+
+
+		Player_2.MouseButton1Click:Connect(function()
+			for i,v in next,MainTabs:GetChildren() do
+				if v:IsA("Frame") or v:IsA("ScrollingFrame") then
+					v.Visible = false
+				end
+			end
+			for i2,v2 in pairs(Tabs:GetChildren()) do
+				if v2:IsA("TextButton") then
+					ts:Create(v2,TweenInfo.new(.5),{TextColor3 = Color3.new(0.705882, 0.639216, 0.72549)}):Play()
+				end
+			end
+			ts:Create(Player_2,TweenInfo.new(.5),{TextColor3 = Color3.new(0.972549, 0.882353, 1)}):Play()
+			Player.Visible = true
+		end)
+
+		local insideTab = {}
+
+		function insideTab:createSubTab(text)
+			text = text or "New SubTab"
+			local Movement = Instance.new("Frame")
+			local UICorner_4 = Instance.new("UICorner")
+			local Label = Instance.new("TextLabel")
+			local Holder = Instance.new("Frame")
+
+			local UIListLayout = Instance.new("UIListLayout")
+
+			Movement.Name = text.." SubTab"
+			Movement.Parent = Player
+			Movement.AnchorPoint = Vector2.new(0.5, 0.5)
+			Movement.BackgroundColor3 = Color3.fromRGB(54, 48, 61)
+			Movement.BackgroundTransparency = 0.200
+			Movement.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			Movement.BorderSizePixel = 0
+			Movement.Position = UDim2.new(0.25413084, 0, 0.5, 0)
+			Movement.Size = UDim2.new(0.48300001, 0, 0.833000004, 40)
+
+			Holder.Name = "Holder"
+			Holder.Parent = Movement
+			Holder.BackgroundTransparency = 1
+			Holder.Size = UDim2.new(1,0,.91,0)
+			Holder.Position = UDim2.new(0,0,0.09,0)
+
+			Label.Name = "Label"
+			Label.Parent = Movement
+			Label.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+			Label.BackgroundTransparency = 1.000
+			Label.BorderColor3 = Color3.fromRGB(0, 0, 0)
+			Label.BorderSizePixel = 0
+			Label.Size = UDim2.new(1, 0, 0, 20)
+			Label.Font = Enum.Font.SourceSansBold
+			Label.Text = text
+			Label.TextColor3 = Color3.fromRGB(180, 163, 185)
+			Label.TextSize = 14.000
+
+			UIListLayout.Parent = Holder
+			UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+			UIListLayout.Padding = UDim.new(0, 6)
+
+			UICorner_4.Parent = Movement
+
+			local content = {}
+
+			function content:CreateToggle(text, callback)
+				text = text or "New Toggle"
+				callback = callback or function() end
+
+				local Toggled = false
+				local Toggle = Instance.new("Frame")
+				local Button = Instance.new("TextButton")
+				local Label_2 = Instance.new("TextLabel")
+
+
+				Toggle.Name = text.. " Toggle"
+				Toggle.Parent = Holder
+				Toggle.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Toggle.BackgroundTransparency = 1.000
+				Toggle.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				Toggle.BorderSizePixel = 0
+				Toggle.Position = UDim2.new(0, 0, 0.161904767, 0)
+				Toggle.Size = UDim2.new(1, 0, 0, 20)
+
+				Button.Name = "Button"
+				Button.Parent = Toggle
+				Button.AnchorPoint = Vector2.new(0, 0.5)
+				Button.BackgroundColor3 = Color3.fromRGB(64, 57, 72)
+				Button.BorderColor3 = Color3.fromRGB(180, 163, 185)
+				Button.Position = UDim2.new(0.0500000007, 0, 0.5, 0)
+				Button.Size = UDim2.new(0, 12, 0, 12)
+				Button.Font = Enum.Font.SourceSans
+				Button.Text = ""
+				Button.TextSize = 14.000
+
+				Label_2.Name = "Label"
+				Label_2.Parent = Toggle
+				Label_2.AnchorPoint = Vector2.new(0, 0.5)
+				Label_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Label_2.BackgroundTransparency = 1.000
+				Label_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				Label_2.BorderSizePixel = 0
+				Label_2.Position = UDim2.new(0.180000007, 0, 0.5, 0)
+				Label_2.Size = UDim2.new(0.5, 0, 1, 0)
+				Label_2.Font = Enum.Font.SourceSansBold
+				Label_2.Text = text
+				Label_2.TextColor3 = Color3.fromRGB(180, 163, 185)
+				Label_2.TextSize = 16.000
+				Label_2.TextXAlignment = Enum.TextXAlignment.Left
+
+				Button.MouseButton1Click:Connect(function()
+					if Toggled == false then
+						Button.BackgroundColor3 = Color3.fromRGB(180, 163, 185)
+
+					else
+						Button.BackgroundColor3 = Color3.fromRGB(64, 57, 72)
+					end
+
+					Toggled = not Toggled
+					pcall(callback,Toggled)
+				end)
+			end
+
+			function content:CreateSlider(text,min,max,start,callback)
+				text = text or "New Slider"
+				min = min or 0
+				max = max or 100
+				start = start or 50
+				callback = callback or function() end
+				local WalkspeedSlider = Instance.new("Frame")
+				local Label_3 = Instance.new("TextLabel")
+				local SliderBack = Instance.new("Frame")
+				local Draggable = Instance.new("Frame")
+				local Amount = Instance.new("TextLabel")
+				local uis = game:GetService("UserInputService")
+				local mouse = game.Players.LocalPlayer:GetMouse()
+
+				WalkspeedSlider.Name = text.." Slider"
+				WalkspeedSlider.Parent = Holder
+				WalkspeedSlider.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				WalkspeedSlider.BackgroundTransparency = 1.000
+				WalkspeedSlider.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				WalkspeedSlider.BorderSizePixel = 0
+				WalkspeedSlider.Position = UDim2.new(0, 0, 0.247619048, 0)
+				WalkspeedSlider.Size = UDim2.new(1.00000012, 0, 0.0809523836, 20)
+
+				Label_3.Name = "Label"
+				Label_3.Parent = WalkspeedSlider
+				Label_3.AnchorPoint = Vector2.new(0, 0.5)
+				Label_3.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Label_3.BackgroundTransparency = 1.000
+				Label_3.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				Label_3.BorderSizePixel = 0
+				Label_3.Position = UDim2.new(0.0499999337, 0, 0.300000161, 0)
+				Label_3.Size = UDim2.new(0.674982905, 0, 0.5, 0)
+				Label_3.Font = Enum.Font.SourceSansBold
+				Label_3.Text = text
+				Label_3.TextColor3 = Color3.fromRGB(180, 163, 185)
+				Label_3.TextSize = 16.000
+				Label_3.TextXAlignment = Enum.TextXAlignment.Left
+
+				SliderBack.Name = "SliderBack"
+				SliderBack.Parent = WalkspeedSlider
+				SliderBack.BackgroundColor3 = Color3.fromRGB(54, 48, 61)
+				SliderBack.BorderColor3 = Color3.fromRGB(180, 163, 185)
+				SliderBack.Position = UDim2.new(0.0500000007, 0, 0.699999988, 0)
+				SliderBack.Size = UDim2.new(0.899999976, 0, 0.300000012, 0)
+
+				Draggable.Name = "Draggable"
+				Draggable.Parent = SliderBack
+				Draggable.BackgroundColor3 = Color3.fromRGB(158, 141, 179)
+				Draggable.BorderColor3 = Color3.fromRGB(180, 163, 185)
+				Draggable.Size = UDim2.fromScale(((start-min)/(max-min)), 1)
+
+				Amount.Name = "Amount"
+				Amount.Parent = SliderBack
+				Amount.BackgroundColor3 = Color3.fromRGB(180, 163, 185)
+				Amount.BackgroundTransparency = 1.000
+				Amount.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				Amount.BorderSizePixel = 0
+				Amount.Size = UDim2.new(1, 0, 1, 0)
+				Amount.ZIndex = 2
+				Amount.Font = Enum.Font.SourceSansBold
+				Amount.Text = tostring(start).."/"..max
+				Amount.TextColor3 = Color3.fromRGB(255, 255, 255)
+				Amount.TextSize = 15.000
+				Amount.TextWrapped = true
+
+				local slider = {
+					Hover = false,
+					MouseDown = false,
+					Connection = nil,
+					val = start,
+				}
+
+				function slider:SetValue(v)
+					if v == nil then
+						local per = math.clamp((mouse.X - SliderBack.AbsolutePosition.X)/(SliderBack.AbsoluteSize.X),0,1)
+						local val= math.floor(((max-min)*per)+min)
+						Amount.Text = tostring(val).."/"..max
+						Draggable.Size = UDim2.fromScale(per,1)
+						slider.val = val
+
+					else
+						Amount.Text = tostring(v).."/"..max
+						Draggable.Size = UDim2.fromScale(((v-min)/(max-min)), 1)
+						slider.val = start
+
+					end
+					callback(slider:getValue())
+				end
+
+				function slider:getValue()
+					print(slider.val)
+					return slider.val
+				end
+
+
+				WalkspeedSlider.MouseEnter:Connect(function()
+					slider.Hover = true
+				end)
+
+				WalkspeedSlider.MouseLeave:Connect(function()
+					slider.Hover = false
+				end)
+
+				uis.InputBegan:Connect(function(input)
+
+					if input.UserInputType == Enum.UserInputType.MouseButton1 and slider.Hover then
+						slider.MouseDown = true
+						Main.Draggable = false
+						if not slider.Connection then
+							slider.Connection = game:GetService("RunService").RenderStepped:Connect(function()
+								slider:SetValue()
+							end)
+						end
+					end
+
+				end)
+
+				uis.InputEnded:Connect(function(input, gpe)
+
+					if input.UserInputType == Enum.UserInputType.MouseButton1 then
+						slider.MouseDown = false
+						Main.Draggable = true
+						if slider.Connection then slider.Connection:Disconnect() end
+						slider.Connection = nil
+					end
+				end)
+			end
+
+			return content
+		end
+		return insideTab
+	end
+	return inLib
+end
+return Library
