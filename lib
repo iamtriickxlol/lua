@@ -558,15 +558,4 @@ function Library:CreateWindow()
 	end
 	return inLib
 end
-local main = Library:CreateWindow()
-local tab =	main:CreateTab("Player")
-local tab2 = main:CreateTab("Misc")
-local tab3 = main:CreateTab("Settings")
-
-local sub = tab:createSubTab("MOVEMENT")
-local sub2 = tab2:createSubTab("AUTO FARM")
-local sub3 = tab3:createSubTab("SETTINGS")
-
-sub:CreateTextbox("test","test", function(a)
-	print(a)
-end)
+return Library
