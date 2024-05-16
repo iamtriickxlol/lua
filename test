@@ -11,7 +11,7 @@ getgenv().settings = {
 	antivoid = false;
 }
 
-if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") == nil or game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") == nil	 then
+if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") == nil or game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") == nil and getgenv().settings.antivoid == true	then
 	local args = {
 		[1] = "Hueco Mundo",
 	}
@@ -376,6 +376,14 @@ function tradeAccept(a)
 
 end
 
+function antiVoid()
+	local args = {
+		[1] = "Hueco Mundo",
+	}
+
+	game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
+end
+
 loadsettings()
 
 for i,v in pairs(getgenv().settings) do
@@ -384,6 +392,10 @@ end
 
 if getgenv().settings.boss then
 	autoBoss()
+end
+
+if getgenv().settings.antivoid then
+	antiVoid()
 end
 
 
@@ -437,7 +449,7 @@ sub2:CreateToggle("Auto Farm Boss", getgenv().settings.boss, function(a)
 end)
 sub2:CreateToggle("Anti Void", getgenv().settings.antivoid, function(a)
 	getgenv().settings.antivoid = a
-	autoBoss()
+	antiVoid()
 	saveSettings()
 end)
 
