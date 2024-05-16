@@ -332,7 +332,7 @@ function autoBoss()
 
 				game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
 			else
-				print("Webhook not found.")
+				print("Webhook not found")
 				return
 			end
 		end)
