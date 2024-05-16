@@ -19,8 +19,6 @@ local RunService = game:GetService("RunService")
 
 local Player = Players.LocalPlayer
 local Char = Player.Character or Player.CharacterAdded:Wait()
-local Humanoid = Char:WaitForChild("Humanoid")
-local HRP = Char:WaitForChild("HumanoidRootPart")
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/metauser08/lua/main/lib"))()
 local ControlModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/metauser08/lua/main/cm"))()
 
