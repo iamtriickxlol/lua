@@ -11,14 +11,6 @@ getgenv().settings = {
 	antivoid = false;
 }
 
-if game.Players.LocalPlayer.Character:FindFirstChild("Humanoid") == nil or game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") == nil and getgenv().settings.antivoid == true and game.PlaceId == 14069678431	then
-	local args = {
-		[1] = "Hueco Mundo",
-	}
-
-	game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
-end
-
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local UIS = game:GetService("UserInputService")
@@ -377,11 +369,48 @@ function tradeAccept(a)
 end
 
 function antiVoid()
-	local args = {
-		[1] = "Hueco Mundo",
-	}
+	local Start = tick()
+	print(Start)
+	local function tpToHM()
 
-	game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
+		wait(2)
+		local args = {
+			[1] = "Hueco Mundo",
+		}
+
+		game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
+
+	end
+
+	local function tpTokt()
+
+		wait(2)
+		local args = {
+			[1] = "Karakura Town",
+		}
+
+		game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
+
+	end
+
+
+	game:GetService("GuiService").ErrorMessageChanged:Connect(function()
+		game:GetService("TeleportService"):Teleport(14069678431, game:GetService("Players").LocalPlayer)
+	end)
+	game:GetService("RunService").RenderStepped:Connect(function()
+		if game.PlaceId == 14069678431 and game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+			game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Anchored = true
+		end
+
+		if (tick()-Start) >= 10 and game.PlaceId == 14069122388 then
+			tpTokt()
+		end
+		if (tick()-Start) >= 15	 and game.PlaceId == 14069678431 then
+			tpToHM()
+		elseif (tick()-Start) >= 800 and game.PlaceId == 17047374266 then
+			tpToHM()
+		end
+	end)
 end
 
 loadsettings()
