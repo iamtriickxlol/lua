@@ -6,7 +6,7 @@ getgenv().settings = {
 	flys = 70;
 	Clip = nil;
 	webhook = false;
-	webhookUrl = "";
+	webhookURL = "";
 	boss = false;
 	antivoid = false;
 }
