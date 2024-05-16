@@ -283,8 +283,9 @@ function autoBoss()
 								})
 							})
 						else
-							print("Webhook not found.")
-							return;
+							print(_G.win)
+							print(getgenv().settings.webhookURL)
+							print(getgenv().settings.webhook)
 						end
 					end
 				end
@@ -322,7 +323,9 @@ function autoBoss()
 
 				game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
 			else
-				print("Webhook not found")
+				print(_G.win)
+				print(getgenv().settings.webhookURL)
+				print(getgenv().settings.webhook)
 				return
 			end
 		end)
