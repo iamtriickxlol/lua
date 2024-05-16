@@ -295,7 +295,7 @@ function autoBoss()
 
 		game.Workspace.Entities.ChildRemoved:Connect(function(v)
 			wait(2)
-			if v.Name == boss.Name and getgenv().settings.webhook == true and getgenv().settings.webhookURL ~= nil and _G.win == false then
+			if v == boss and getgenv().settings.webhook == true and getgenv().settings.webhookURL ~= nil and _G.win == false then
 				httpservice = game:GetService("HttpService")
 
 				local response = request({
