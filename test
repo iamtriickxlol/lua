@@ -574,8 +574,29 @@ function autoBoss()
 
 
 		local item
-			game.Players.LocalPlayer.PlayerGui.ScreenEffects.ChildAdded:Connect(function(v)
+		game:GetService("Players").LocalPlayer.PlayerGui.ScreenEffects.ChildAdded:Connect(function(v)
+						httpservice = game:GetService("HttpService")						
+						local response = request({
+							Url = getgenv().settings.webhookURL,
+							Method = "POST",
+							Headers = {
+								["Content-Type"] = 'application/json'
+							},
+							Body = httpservice:JSONEncode({
+								["content"] = "",
+								["embeds"] = {{
+									["title"] = "DEBUG",
+									["description"] = "Name: "..v.Name,
+									["type"] = "rich",
+									["color"] = tonumber(0x4d6180),
+									["footer"] = {
+										["text"] = "Meta Hub",
+									}
 
+
+								}}
+							})
+						})
 			local timelapsed = (tick()-lapse)
 			if v.Name == "ItemFrame" then
 				_G.win = true
@@ -700,7 +721,6 @@ end
 if getgenv().settings.boss then
 	autoBoss()
 end
-
 
 local main = Library:CreateWindow()
 local tab =	main:CreateTab("Player")
