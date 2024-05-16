@@ -1,5 +1,5 @@
 local Library = {}
-
+local UserInputService = game:GetService("UserInputService")
 
 local function MakeDraggable(topbarobject, object)
 	local Dragging = nil
@@ -148,6 +148,7 @@ function Library:CreateWindow()
 	local inLib = {}
 
 	function inLib:CreateTab(text)
+		text = text or "New Tab"
 		local ts = game:GetService("TweenService")
 		local Player_2 = Instance.new("TextButton")
 		local Player = Instance.new("ScrollingFrame")
@@ -438,11 +439,59 @@ function Library:CreateWindow()
 					end
 				end)
 			end
+			
+			function content:CreateTextbox(name,text, callback)
+				name = name or "New Textbox"
+				text = text or "New Textbox"
+				callback = callback or function() end
+				local WebhookURL = Instance.new("Frame")
+				local Label_17 = Instance.new("TextLabel")
+				local TextBox = Instance.new("TextBox")
+				local UICorner_10 = Instance.new("UICorner")
+				
+				WebhookURL.Name = "WebhookURL"
+				WebhookURL.Parent = Holder
+				WebhookURL.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				WebhookURL.BackgroundTransparency = 1.000
+				WebhookURL.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				WebhookURL.BorderSizePixel = 0
+				WebhookURL.Position = UDim2.new(0, 0, 0.161904767, 0)
+				WebhookURL.Size = UDim2.new(1, 0, 0, 20)
+				
+				Label_17.Name = "Label"
+				Label_17.Parent = WebhookURL
+				Label_17.AnchorPoint = Vector2.new(0, 0.5)
+				Label_17.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Label_17.BackgroundTransparency = 1.000
+				Label_17.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				Label_17.BorderSizePixel = 0
+				Label_17.Position = UDim2.new(0.0500000231, 0, 0.5, 0)
+				Label_17.Size = UDim2.new(0.204343647, 0, 1, 0)
+				Label_17.Font = Enum.Font.SourceSansBold
+				Label_17.Text = name
+				Label_17.TextColor3 = Color3.fromRGB(180, 163, 185)
+				Label_17.TextSize = 16.000
+				Label_17.TextXAlignment = Enum.TextXAlignment.Left
+				
+				TextBox.Parent = WebhookURL
+				TextBox.BackgroundColor3 = Color3.fromRGB(30, 27, 34)
+				TextBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				TextBox.BorderSizePixel = 0
+				TextBox.Position = UDim2.new(0.69040072, 0, 0, 0)
+				TextBox.Size = UDim2.new(0.279599279, 0, 1, 0)
+				TextBox.Font = Enum.Font.SourceSansBold
+				TextBox.Text = text
+				TextBox.TextColor3 = Color3.fromRGB(139, 126, 143)
+				TextBox.TextSize = 14.000
 
+				UICorner_10.Parent = TextBox
+
+			end
 			return content
 		end
 		return insideTab
 	end
 	return inLib
 end
+
 return Library
