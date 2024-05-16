@@ -251,11 +251,11 @@ function autoBoss()
 
 
 		local item
-		game.Players.LocalPlayer.PlayerGui.ChildAdded:Connect(function(v)
+		game.Players.LocalPlayer.PlayerGui.ScreenEffects.ChildAdded:Connect(function(v)
 			local timelapsed = (tick()-lapse)
 			if v:IsA("ScreenGui") then
 				for i2,v2 in pairs(v.Parent:GetDescendants()) do
-					if v2:IsA("TextLabel") then
+					if v2:IsA("TextLabel") and string.find(v2.Text, "obtained.") then
 						_G.win = true
 						if string.find(v2.Text, "obtained.") and getgenv().settings.webhook == true and getgenv().settings.webhookURL ~= nil then
 							local nitem = string.gsub(v2.Text,"obtained.", "")
@@ -286,6 +286,7 @@ function autoBoss()
 							print(_G.win)
 							print(getgenv().settings.webhookURL)
 							print(getgenv().settings.webhook)
+							return;
 						end
 					end
 				end
@@ -307,7 +308,7 @@ function autoBoss()
 						["content"] = "",
 						["embeds"] = {{
 							["title"] = "ERROR",
-							["description"] = "**Reason:** Boss was bugged or timer ran out",
+							["description"] = _G.win,
 							["type"] = "rich",
 							["color"] = tonumber(0xeb4034),
 							["footer"] = {
@@ -324,9 +325,8 @@ function autoBoss()
 				game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
 			else
 				print(_G.win)
-				print(getgenv().settings.webhookURL)
-				print(getgenv().settings.webhook)
-				return
+				print("lost")
+				return;
 			end
 		end)
 	end
