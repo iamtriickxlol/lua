@@ -59,7 +59,7 @@ end
 
 function Library:CreateWindow()
 	local Meta = Instance.new("ScreenGui")
-	Meta.Parent =game.Players.LocalPlayer.PlayerGui
+	Meta.Parent = gethui() or game.CoreGui
 	local Main = Instance.new("Frame")
 	local UICorner = Instance.new("UICorner")
 	local TopBar = Instance.new("Frame")
@@ -491,6 +491,7 @@ function Library:CreateWindow()
 				TextBox.Text = text
 				TextBox.TextColor3 = Color3.fromRGB(139, 126, 143)
 				TextBox.TextSize = 14.000
+				TextBox.ClipsDescendants = true
 
 				UICorner_10.Parent = TextBox
 				TextBox.FocusLost:Connect(function(e)
@@ -557,4 +558,15 @@ function Library:CreateWindow()
 	end
 	return inLib
 end
-return Library
+local main = Library:CreateWindow()
+local tab =	main:CreateTab("Player")
+local tab2 = main:CreateTab("Misc")
+local tab3 = main:CreateTab("Settings")
+
+local sub = tab:createSubTab("MOVEMENT")
+local sub2 = tab2:createSubTab("AUTO FARM")
+local sub3 = tab3:createSubTab("SETTINGS")
+
+sub:CreateTextbox("test","test", function(a)
+	print(a)
+end)
