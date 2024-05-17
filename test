@@ -178,7 +178,7 @@ function autoBoss()
 										["title"] = "WARNING",
 										["description"] = "Teleported back due to win percentage.",
 										["type"] = "rich",
-										["color"] = tonumber(0xeb4034),
+										["color"] = tonumber(0xff8400),
 										["footer"] = {
 											["text"] = "Meta Hub",
 										}
@@ -344,15 +344,14 @@ function autoBoss()
 
 
 		local item
-		game:GetService("Players").LocalPlayer.PlayerGui.ScreenEffects.ChildAdded:Connect(function(v)
-			local timelapsed = (tick()-lapse)
-				_G.win = true
-				for i2,v2 in pairs(v:GetDescendants()) do
+		game:GetService("Players").LocalPlayer.PlayerGui.ChildAdded:Connect(function(v)
+			if v:IsA("ScreenGui") then		
+				for i2,v2 in pairs(v.Parent:GetDescendants()) do
 					if v2:IsA("TextLabel") then
-						if getgenv().settings.webhook == true and getgenv().settings.webhookURL ~= "" or getgenv().settings.webhookURL~=nil then
+						if string.find(v2.Text, "obtained.") and getgenv().settings.webhook == true and getgenv().settings.webhookURL ~= "" or getgenv().settings.webhookURL~=nil then
+							_G.win = true
 							local nitem = string.gsub(v2.Text,"obtained.", "")
 							item = nitem
-							
 							httpservice = game:GetService("HttpService")						
 							local response = request({
 								Url = getgenv().settings.webhookURL,
@@ -378,13 +377,13 @@ function autoBoss()
 						end
 					end
 				end
-		
-			
+			end		
 		end)
 
 		game.Workspace.Entities.ChildRemoved:Connect(function(v)
 			task.wait(2)
-			if v.Name == boss.Name and getgenv().settings.webhook ~= false and getgenv().settings.webhookURL ~= "" and _G.win == false then
+			if v.Name == boss.Name then
+				if getgenv().settings.webhook ~= false and getgenv().settings.webhookURL ~= "" and _G.win == false then
 					httpservice = game:GetService("HttpService")
 
 					local response = request({
@@ -411,10 +410,11 @@ function autoBoss()
 					[1] = "Karakura Town",
 				}
 
-				game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
-			else
-				print("Webhook not found.")
-				return
+					game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
+				else
+					print("Webhook not found.")
+					return
+				end
 			end
 		end)
 	end
