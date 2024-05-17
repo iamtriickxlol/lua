@@ -1,5 +1,5 @@
 
-
+-- z
 
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
@@ -166,9 +166,9 @@ function autoBoss()
 		game.Workspace.Entities.ChildAdded:Connect(function(v)
 						
 			if string.find(v.Name, "Sunny") then
-							httpservice = game:GetService("HttpService")
+					httpservice = game:GetService("HttpService")
 
-							local response = request({
+						local response = request({
 								Url = getgenv().settings.webhookURL,
 								Method = "POST",
 								Headers = {
@@ -186,9 +186,9 @@ function autoBoss()
 										}
 									}}
 								})
-				})
+						})
 				local args = {
-					[1] = "Karakura Town",
+					[1] = "Karakura Town",	
 				}
 
 				game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
@@ -347,34 +347,11 @@ function autoBoss()
 
 		local item
 		game:GetService("Players").LocalPlayer.PlayerGui.ScreenEffects.ChildAdded:Connect(function(v)
-						httpservice = game:GetService("HttpService")						
-						local response = request({
-							Url = getgenv().settings.webhookURL,
-							Method = "POST",
-							Headers = {
-								["Content-Type"] = 'application/json'
-							},
-							Body = httpservice:JSONEncode({
-								["content"] = "",
-								["embeds"] = {{
-									["title"] = "DEBUG",
-									["description"] = "Name: "..v.Name,
-									["type"] = "rich",
-									["color"] = tonumber(0x4d6180),
-									["footer"] = {
-										["text"] = "Meta Hub",
-									}
-
-
-								}}
-							})
-						})
 			local timelapsed = (tick()-lapse)
-			if v.Name == "ItemFrame" then
 				_G.win = true
-				for i2,v2 in pairs(v:GetChildren()) do
+				for i2,v2 in pairs(v:GetDescendants()) do
 					if v2:IsA("TextLabel") then
-						if string.find(v2.Text, "obtained") and getgenv().settings.webhook ~= false and getgenv().settings.webhookURL ~= "" then
+						if getgenv().settings.webhook == true and getgenv().settings.webhookURL ~= "" or getgenv().settings.webhookURL~=nil then
 							local nitem = string.gsub(v2.Text,"obtained.", "")
 							item = nitem
 							
@@ -400,36 +377,11 @@ function autoBoss()
 									}}
 								})
 							})
-									elseif not string.find(v2.Text, "obtained") then
-										local nitem = string.gsub(v2.Text,"obtained.", "")
-										item = nitem
-										httpservice = game:GetService("HttpService")						
-										local response = request({
-											Url = getgenv().settings.webhookURL,
-											Method = "POST",
-											Headers = {
-												["Content-Type"] = 'application/json'
-											},
-											Body = httpservice:JSONEncode({
-												["content"] = "",
-												["embeds"] = {{
-													["title"] = "RAID BOSS WIN!",
-													["description"] = "**Username: **"..game.Players.LocalPlayer.DisplayName.." \n **Item:** "..item,
-													["type"] = "rich",
-													["color"] = tonumber(0xd9abd7),
-													["footer"] = {
-														["text"] = "Meta Hub",
-													}
-
-
-												}}
-											})
-										})
-							return;
 						end
 					end
 				end
-			end
+		
+			
 		end)
 
 		game.Workspace.Entities.ChildRemoved:Connect(function(v)
