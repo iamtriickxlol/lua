@@ -20,6 +20,7 @@ getgenv().settings = {
 	webhookUrl = "";
 	boss = false;
 	antivoid = false;
+	sprint = false;
 }
 
 
@@ -411,6 +412,23 @@ function autoBoss()
 	end
 end
 
+function sprint(a)
+	if (not a) then		
+		getgenv().settings.sprint:Disconnect()
+		getgenv().settings.sprint = nil;
+		return
+	end
+	
+	getgenv().settings.sprint = RunService.Heartbeat:Connect(function()
+		local args = {
+			[1] = "Pressed"
+		}
+
+		game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Sprint:FireServer(unpack(args))
+
+	end)
+end
+
 function sendTrade(a)
 	if a then
 
@@ -533,6 +551,10 @@ if getgenv().settings.boss then
 	autoBoss()
 end
 
+if getgenv().settings.sprint then
+	sprint(getgenv().settings.sprint)
+end
+
 local main = Library:CreateWindow()
 local tab =	main:CreateTab("Player")
 local tab2 = main:CreateTab("Misc")
@@ -558,9 +580,6 @@ sub:CreateToggle("Walkspeed",getgenv().settings.ws, function(a)
 	end
 end)
 
-sub:CreateSlider("Walkspeed Amount",10,120,16, function(a)
-	getgenv().settings.wsa = a
-end)
 
 sub:CreateToggle("Fly", getgenv().settings.Fly, function(a)	
 
@@ -572,9 +591,19 @@ end)
 sub:CreateToggle("No Clip", getgenv().settings.Clip, function(a)
 	noclip(a)
 end)
+
+sub:CreateToggle("Auto Sprint", getgenv().settings.sprint, function(a)
+	sprint(a)
+	saveSettings()
+end)
 sub:CreateSlider("Fly Speed",50,200,70, function(a)
 	getgenv().settings.flys = a
 end)
+
+sub:CreateSlider("Walkspeed Amount",10,120,16, function(a)
+	getgenv().settings.wsa = a
+end)
+
 
 
 
