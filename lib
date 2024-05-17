@@ -144,6 +144,13 @@ function Library:CreateWindow()
 	UIPadding_2.PaddingTop = UDim.new(0, 5)
 
 	MakeDraggable(TopBar,Main)
+	
+	UserInputService.InputBegan:Connect(function(input,gpe)
+		if input.KeyCode == Enum.KeyCode.Tab then
+			Main.Visible = not Main.Visible
+		end
+	end)
+	
 
 	local inLib = {}
 
@@ -485,8 +492,8 @@ function Library:CreateWindow()
 				TextBox.BackgroundColor3 = Color3.fromRGB(30, 27, 34)
 				TextBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				TextBox.BorderSizePixel = 0
-				TextBox.Position = UDim2.new(0.5, 0, 0, 0)
-				TextBox.Size = UDim2.new(0.47, 0, 1, 0)
+				TextBox.Position = UDim2.new(0.69040072, 0, 0, 0)
+				TextBox.Size = UDim2.new(0.279599279, 0, 1, 0)
 				TextBox.Font = Enum.Font.SourceSansBold
 				TextBox.Text = text
 				TextBox.TextColor3 = Color3.fromRGB(139, 126, 143)
@@ -559,3 +566,12 @@ function Library:CreateWindow()
 	return inLib
 end
 return Library
+local main = Library:CreateWindow()
+local tab =	main:CreateTab("Player")
+local tab2 = main:CreateTab("Misc")
+local tab3 = main:CreateTab("Settings")
+
+local sub = tab:createSubTab("MOVEMENT")
+local sub2 = tab2:createSubTab("AUTO FARM")
+local sub3 = tab3:createSubTab("SETTINGS")
+
