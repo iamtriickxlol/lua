@@ -202,56 +202,117 @@ function autoBoss()
 				local c 
 
 
-				local ScreenGui = Instance.new("ScreenGui")
+				local boss = Instance.new("ScreenGui")
+				local background = Instance.new("Frame")
+				local Meta = Instance.new("TextLabel")
+				local Hub = Instance.new("TextLabel")
+				local RaidFarm = Instance.new("TextLabel")
+				local Timer = Instance.new("TextLabel")
 				local back = Instance.new("Frame")
 				local back_2 = Instance.new("Frame")
-				local TextLabel = Instance.new("TextLabel")
 
 				--Properties:
 
-				ScreenGui.Parent = gethui() or game.CoreGui
-				ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+				boss.Name = "boss"
+				boss.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+				boss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+				boss.ResetOnSpawn = false
+
+				background.Name = "background"
+				background.Parent = boss
+				background.AnchorPoint = Vector2.new(0.5, 0.5)
+				background.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
+				background.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				background.BorderSizePixel = 0
+				background.Position = UDim2.new(0.5, 0, 0.5, 0)
+				background.Size = UDim2.new(1.5, 0, 1.5, 0)
+
+				Meta.Name = "Meta"
+				Meta.Parent = background
+				Meta.AnchorPoint = Vector2.new(0.5, 0.5)
+				Meta.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Meta.BackgroundTransparency = 1.000
+				Meta.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				Meta.BorderSizePixel = 0
+				Meta.Position = UDim2.new(0.482709557, 0, 0.452026457, 0)
+				Meta.Size = UDim2.new(0, 116, 0, 50)
+				Meta.Font = Enum.Font.SourceSansBold
+				Meta.Text = "Meta"
+				Meta.TextColor3 = Color3.fromRGB(234, 169, 255)
+				Meta.TextSize = 44.000
+
+				Hub.Name = "Hub"
+				Hub.Parent = background
+				Hub.AnchorPoint = Vector2.new(0.5, 0.5)
+				Hub.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Hub.BackgroundTransparency = 1.000
+				Hub.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				Hub.BorderSizePixel = 0
+				Hub.Position = UDim2.new(0.515539587, 0, 0.452026457, 0)
+				Hub.Size = UDim2.new(0, 116, 0, 50)
+				Hub.Font = Enum.Font.SourceSansBold
+				Hub.Text = "Hub"
+				Hub.TextColor3 = Color3.fromRGB(255, 255, 255)
+				Hub.TextSize = 44.000
+				Hub.TextWrapped = true
+
+				RaidFarm.Name = "RaidFarm"
+				RaidFarm.Parent = background
+				RaidFarm.AnchorPoint = Vector2.new(0.5, 0.5)
+				RaidFarm.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				RaidFarm.BackgroundTransparency = 1.000
+				RaidFarm.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				RaidFarm.BorderSizePixel = 0
+				RaidFarm.Position = UDim2.new(0.5, 0, 0.479999989, 0)
+				RaidFarm.Size = UDim2.new(0, 116, 0, 23)
+				RaidFarm.Font = Enum.Font.SourceSansBold
+				RaidFarm.Text = "Raid farm"
+				RaidFarm.TextColor3 = Color3.fromRGB(194, 194, 194)
+				RaidFarm.TextSize = 23.000
+				RaidFarm.TextWrapped = true
+
+				Timer.Name = "Timer"
+				Timer.Parent = background
+				Timer.AnchorPoint = Vector2.new(0.5, 0.5)
+				Timer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Timer.BackgroundTransparency = 1.000
+				Timer.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				Timer.BorderSizePixel = 0
+				Timer.Position = UDim2.new(0.499781132, 0, 0.520529449, 0)
+				Timer.Size = UDim2.new(0, 83, 0, 23)
+				Timer.Font = Enum.Font.SourceSansBold
+				Timer.Text = "0m 0s"
+				Timer.TextColor3 = Color3.fromRGB(168, 168, 168)
+				Timer.TextScaled = true
+				Timer.TextSize = 16.000
+				Timer.TextWrapped = true
 
 				back.Name = "back"
-				back.Parent = ScreenGui
-				back.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
+				back.Parent = boss
+				back.AnchorPoint = Vector2.new(0.5, 0.5)
+				back.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 				back.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				back.BorderSizePixel = 0
-				back.AnchorPoint = Vector2.new(0.5,0)
-				back.Position = UDim2.new(0.5, 0, 0.0461783446, 0)
-				back.Size = UDim2.new(0.5, 0, 0.032, 0)
+				back.Position = UDim2.new(0.5, 0, 0.5, 0)
+				back.Size = UDim2.new(0.146749809, 0, 0.0131730186, 0)
 
 				back_2.Name = "back"
 				back_2.Parent = back
 				back_2.BackgroundColor3 = Color3.fromRGB(180, 113, 114)
 				back_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				back_2.BorderSizePixel = 0
-				back_2.Size = UDim2.new(0.503105581, 0, 1, 0)
-				
-
-				TextLabel.Parent = back
-				TextLabel.AnchorPoint = Vector2.new(0.5, 0)
-				TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-				TextLabel.BackgroundTransparency = 1.000
-				TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
-				TextLabel.BorderSizePixel = 0
-				TextLabel.Position = UDim2.new(0.5, 0, 0, 0)
-				TextLabel.Size = UDim2.new(0.200000003, 0, 1, 0)
-				TextLabel.Font = Enum.Font.SourceSansBold
-				TextLabel.Text = "000/000"
-				TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-				TextLabel.TextSize = 14.000
+				back_2.Size = UDim2.new(0.5, 0, 1, 0)
 
 				local function health()
 					local bar = math.clamp(_G.boss.Humanoid.Health/_G.boss.Humanoid.MaxHealth,0,1)
 					back_2.Size  = UDim2.new(bar,0,1,0)
-					TextLabel.Text = _G.boss.Humanoid.Health.."/".._G.boss.Humanoid.MaxHealth
 				end
 				health()
 				_G.boss.Humanoid:GetPropertyChangedSignal("Health"):Connect(health)
 				_G.boss.Humanoid:GetPropertyChangedSignal("MaxHealth"):Connect(health)
 				c = game:GetService("RunService").Heartbeat:Connect(function()
 					if getgenv().settings.boss == true then
+						script.Parent.Text = math.floor((tick()-lapse)/60).."m "..math.floor((tick()-lapse)%60).."s"
 						if _G.boss:GetAttribute("CurrentState") == "Unconscious" then
 							print("Boss is dead")
 							c:Disconnect()
@@ -378,6 +439,7 @@ function autoBoss()
 
 		game.Workspace.Entities.ChildRemoved:Connect(function(v)
 			if v.Name == _G.boss.Name and v.Name ~= plr.Name then
+				wait(2)
 				if getgenv().settings.webhook ~= false and getgenv().settings.webhookURL ~= "" and _G.win == false then
 					httpservice = game:GetService("HttpService")
 
