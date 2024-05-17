@@ -622,6 +622,3 @@ end)
 sub4:CreateButton("Accept", function(a)
 	tradeAccept()
 end)
-			
-
-
