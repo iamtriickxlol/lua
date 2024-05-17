@@ -595,7 +595,7 @@ farm:CreateToggle("Auto Farm Boss", getgenv().settings.boss, function(a)
 end)
 
 sub2:CreateButton("Redeem All Codes", function(a)
-	
+	redeemcode()
 end)
 
 sub2:CreateButton("Server Hop", function(a)
