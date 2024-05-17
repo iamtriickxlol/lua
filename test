@@ -1,6 +1,4 @@
 
--- z
-
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local UIS = game:GetService("UserInputService")
@@ -399,7 +397,7 @@ function autoBoss()
 							["content"] = "",
 							["embeds"] = {{
 								["title"] = "ERROR",
-								["description"] = _G.win,
+								["description"] = "Boss was bugged",
 								["type"] = "rich",
 								["color"] = tonumber(0xeb4034),
 								["footer"] = {
