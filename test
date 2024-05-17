@@ -344,11 +344,11 @@ function autoBoss()
 
 
 		local item
-		game:GetService("Players").LocalPlayer.PlayerGui.ChildAdded:Connect(function(v)
+		game.Players.LocalPlayer.PlayerGui.ChildAdded:Connect(function(v)
 			if v:IsA("ScreenGui") then		
 				for i2,v2 in pairs(v.Parent:GetDescendants()) do
 					if v2:IsA("TextLabel") then
-						if string.find(v2.Text, "obtained.") and getgenv().settings.webhook == true and getgenv().settings.webhookURL ~= "" or getgenv().settings.webhookURL~=nil then
+						if string.find(v2.Text, "obtained.") then
 							_G.win = true
 							local nitem = string.gsub(v2.Text,"obtained.", "")
 							item = nitem
@@ -360,14 +360,14 @@ function autoBoss()
 									["Content-Type"] = 'application/json'
 								},
 								Body = httpservice:JSONEncode({
-									["content"] = "",
+									["content"] = "@everyone",
 									["embeds"] = {{
 										["title"] = "RAID BOSS WIN!",
 										["description"] = "**Username: **"..game.Players.LocalPlayer.DisplayName.." \n **Item:** "..item,
 										["type"] = "rich",
 										["color"] = tonumber(0xd9abd7),
 										["footer"] = {
-											["text"] = "Meta Hub",
+											["text"] = "Type Soul - Meta Hub",
 										}
 
 
@@ -381,7 +381,7 @@ function autoBoss()
 		end)
 
 		game.Workspace.Entities.ChildRemoved:Connect(function(v)
-			task.wait(2)
+			wait(3)
 			if v.Name == boss.Name then
 				if getgenv().settings.webhook ~= false and getgenv().settings.webhookURL ~= "" and _G.win == false then
 					httpservice = game:GetService("HttpService")
