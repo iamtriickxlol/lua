@@ -159,7 +159,7 @@ function autoBoss()
 	if game.PlaceId == 17047374266 then
 		local plr = game.Players.LocalPlayer
 		_G.boss = nil
-		local lapse = tick()
+		
 		_G.a = true
 		_G.win = false
 		game.Workspace.Entities.ChildAdded:Connect(function(v)
@@ -195,7 +195,7 @@ function autoBoss()
 			end
 
 			if v.Name ~= plr.Name and v:GetAttribute("EntityType") and v.Name ~= "Wolf" and v:GetAttribute("EntityType") == "Shinigami" or v:GetAttribute("EntityType") == "Quincy"  then
-
+				local lapse = tick()
 				_G.boss = v
 
 				local hum = _G.boss:WaitForChild("Humanoid")
@@ -257,8 +257,9 @@ function autoBoss()
 							c:Disconnect()
 							c = nil
 							
+							wait(1)
 							_G.boss.HumanoidRootPart.Anchored = true
-							wait(.5)
+							wait(1)
 							plr.Character.HumanoidRootPart.CFrame =  _G.boss.HumanoidRootPart.CFrame
 							
 							
@@ -301,7 +302,7 @@ function autoBoss()
 				end)
 				
 
-				if (tick()-lapse) >= 70 and _G.boss.Humanoid.Health == 900 then
+				if (tick()-lapse) >= 30 and _G.boss.Humanoid.Health == 900 then
 
 					httpservice = game:GetService("HttpService")
 
