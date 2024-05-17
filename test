@@ -238,8 +238,9 @@ function autoBoss()
 							print("Boss is dead")
 							c:Disconnect()
 							c = nil
-							wait(1)
+							wait(.5)
 							boss.HumanoidRootPart.Anchored = true
+							wait(.5)
 							plr.Character.HumanoidRootPart.CFrame =  boss.HumanoidRootPart.CFrame
 							wait(1)
 							game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Execute:FireServer()
@@ -362,7 +363,7 @@ function autoBoss()
 									["content"] = "@everyone",
 									["embeds"] = {{
 										["title"] = "Raid Notifier",
-										["description"] = "**User:** |"..game.Players.LocalPlayer.DisplayName.." \n **Item:** "..item,
+										["description"] = "**User:** "..game.Players.LocalPlayer.DisplayName.." \n **Item:** "..item,
 										["type"] = "rich",
 										["color"] = tonumber(0xd9abd7),
 										["footer"] = {
@@ -456,6 +457,81 @@ function tradeAccept(a)
 
 end
 
+function redeemcode(a)
+	local codes = {
+		"setrohadtoguesswhatthiscodewasnamed",
+		"tamaverified",
+		"setroboominda",
+		"senkuwascloudkageinjoedame",
+		"hakudanerfafter1000years",
+		"theresahiddennpcsomewhere",
+		"cursedgearruinsfriendships",
+		"cyberpoint",
+		"brovisitedhisfriends",
+		"davehashit10kwow",
+		"Benihimebuff",
+		"nosreppbestaustraliandeveloperinthewholeworld",
+		"almightyeye",
+		"breathlesspumpkle",
+		"tsugokusenku",
+		"thekiraeventparttwo",
+		"thekiraevent",
+		"5minutesoffame",
+		"nothinghappened",
+		"code1",
+		"jayomalawfirm",
+		"newfaceswow",
+		"400kdiscmembers",
+		"160mvisits",
+		"somethingrandom",
+		"canyouwrap",
+		"mobileflashpd",
+		"johnboomingg",
+		"icanimaginesomeonesayingimnexttoatree",
+		"phase1",
+		"canyourecmeintodemonhunter",
+		"myhopewillneverdie",
+		"johnbooming",
+		"gulliblelol",
+		"threatneutralized",
+		"robloxban",
+		"lightsegunda",
+		"100mlikes",
+		"afkworld",
+		"robotcowoe",
+		"soulianstreak",
+		"pleasegivemererollscodesimliterallystarvingoverhereimstuckwithacid",
+		"kamehamehax3",
+		"ididntgetopenedupiliterallyjustgottiredofblocking",
+		"khaoticyachty",
+		"luisvonmarco",
+		"supasta",
+		"nuovaprimadon",
+		"johnbooming",
+		"cowoe10k",
+		"sorryfortheinconvenienceee",
+		"eduardobrg10k",
+		"spiritgun",
+		"doomatearoom",
+		"balancedbalance",
+		"mainmenufixes",
+		"tradehub",
+		"happyhalloween",
+		"newclanwargame",
+		
+	}
+	
+	for i,v in pairs(codes) do	
+		local args = {
+			[1] = v
+		}
+		game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Codes:InvokeServer(unpack(args))
+		print("Redeemed: "..v)
+		wait(.5)
+	end
+
+end
+
 loadsettings()
 
 for i,v in pairs(getgenv().settings) do
@@ -472,7 +548,8 @@ local tab2 = main:CreateTab("Misc")
 local tab3 = main:CreateTab("Settings")
 
 local sub = tab:createSubTab("MOVEMENT")
-local sub2 = tab2:createSubTab("AUTO FARM")
+local farm = tab:createSubTab("FARM")
+local sub2 = tab2:createSubTab("MISC")
 local sub3 = tab3:createSubTab("SETTINGS")
 local sub4 = tab2:createSubTab("TRADING")
 
@@ -509,15 +586,16 @@ sub:CreateSlider("Fly Speed",50,200,70, function(a)
 end)
 
 
-sub2:CreateToggle("Auto Farm Boss", getgenv().settings.boss, function(a)
+
+
+farm:CreateToggle("Auto Farm Boss", getgenv().settings.boss, function(a)
 	getgenv().settings.boss = a
 	autoBoss()
 	saveSettings()
 end)
-sub2:CreateToggle("Anti Void", getgenv().settings.antivoid, function(a)
-	getgenv().settings.antivoid = a
-	autoBoss()
-	saveSettings()
+
+sub2:CreateButton("Redeem All Codes", function(a)
+	
 end)
 
 sub2:CreateButton("Server Hop", function(a)
