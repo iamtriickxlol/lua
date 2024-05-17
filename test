@@ -239,10 +239,9 @@ function autoBoss()
 							c:Disconnect()
 							c = nil
 							wait(1)
+							boss.HumanoidRootPart.Anchored = true
 							plr.Character.HumanoidRootPart.CFrame =  boss.HumanoidRootPart.CFrame
-							wait(.3)
-							game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Execute:FireServer()
-							wait(.3)
+							wait(1)
 							game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Execute:FireServer()
 							return	
 						end
@@ -530,7 +529,7 @@ sub3:CreateToggle("Webhook",getgenv().settings.webhook, function(a)
 	saveSettings()
 end)
 
-sub3:CreateTextbox("WebhookURL", getgenv().settings.webhookURL, function(a)
+sub3:CreateTextbox("Webhook URL", getgenv().settings.webhookURL, function(a)
 	getgenv().settings.webhookURL = a
 	saveSettings()
 end)
