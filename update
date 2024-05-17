@@ -20,7 +20,7 @@ getgenv().settings = {
 	webhookUrl = "";
 	boss = false;
 	antivoid = false;
-	sprint = false;
+	sprint = nil;
 }
 
 
@@ -245,7 +245,7 @@ function autoBoss()
 				local function health()
 					local bar = math.clamp(_G.boss.Humanoid.Health/_G.boss.Humanoid.MaxHealth,0,1)
 					back_2.Size  = UDim2.new(bar,0,1,0)
-					TextLabel.Text = _G.boss.Humanoid.Health.."/".._G.boss.Humanoid.Health
+					TextLabel.Text = _G.boss.Humanoid.Health.."/".._G.boss.Humanoid.MaxHealth
 				end
 				health()
 				_G.boss.Humanoid:GetPropertyChangedSignal("Health"):Connect(health)
@@ -296,11 +296,12 @@ function autoBoss()
 						game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
 
 					end
-
+		
 					wait()
 				end)
+				
 
-				if (tick()-lapse) >= 200 and _G.boss.Humanoid.Health == 900 then
+				if (tick()-lapse) >= 70 and _G.boss.Humanoid.Health == 900 then
 
 					httpservice = game:GetService("HttpService")
 
@@ -329,6 +330,8 @@ function autoBoss()
 					}
 
 					game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
+					
+					
 				end
 			end
 
@@ -373,8 +376,7 @@ function autoBoss()
 		end)
 
 		game.Workspace.Entities.ChildRemoved:Connect(function(v)
-			wait(3)
-			if v.Name == _G.boss.Name and v.Name ~= plr.Name and _G.boss:GetAttribute("Shinigami") then
+			if v.Name == _G.boss.Name and v.Name ~= plr.Name then
 				if getgenv().settings.webhook ~= false and getgenv().settings.webhookURL ~= "" and _G.win == false then
 					httpservice = game:GetService("HttpService")
 
@@ -642,6 +644,3 @@ end)
 sub4:CreateButton("Accept", function(a)
 	tradeAccept()
 end)
-
-
-
