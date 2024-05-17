@@ -60,6 +60,7 @@ end
 function Library:CreateWindow()
 	local Meta = Instance.new("ScreenGui")
 	Meta.Parent = gethui() or game.CoreGui
+	Meta.DisplayOrder = 5
 	local Main = Instance.new("Frame")
 	local UICorner = Instance.new("UICorner")
 	local TopBar = Instance.new("Frame")
