@@ -164,27 +164,27 @@ function autoBoss()
 		game.Workspace.Entities.ChildAdded:Connect(function(v)
 						
 			if string.find(v.Name, "Sunny") then
-					httpservice = game:GetService("HttpService")
-
-						local response = request({
-								Url = getgenv().settings.webhookURL,
-								Method = "POST",
-								Headers = {
-									["Content-Type"] = 'application/json'
-								},
-								Body = httpservice:JSONEncode({
-									["content"] = "",
-									["embeds"] = {{
-										["title"] = "WARNING",
-										["description"] = "Teleported back due to win percentage.",
-										["type"] = "rich",
-										["color"] = tonumber(0xff8400),
-										["footer"] = {
-											["text"] = "Meta Hub",
-										}
-									}}
-								})
-						})
+				httpservice = game:GetService("HttpService")
+				local response = request({
+					Url = getgenv().settings.webhookURL,
+					Method = "POST",
+					Headers = {
+						["Content-Type"] = 'application/json'
+					},
+					Body = httpservice:JSONEncode({
+						["content"] = "",
+						["embeds"] = {{
+							["title"] = "Warning",
+							["description"] = "Teleported back due to low win percentage.",
+							["type"] = "rich",
+							["color"] = tonumber(0xffba70),
+							["footer"] = {
+								["text"] = "Type Soul - Meta Hub",
+							}
+						}}
+					})
+				})
+				
 				local args = {
 					[1] = "Karakura Town",	
 				}
@@ -217,7 +217,7 @@ function autoBoss()
 				back.BorderSizePixel = 0
 				back.Position = UDim2.new(0.241335049, 0, 0.0461783446, 0)
 				back.Size = UDim2.new(0.5, 0, 0.07, 0)
-
+				
 				back_2.Name = "back"
 				back_2.Parent = back
 				back_2.BackgroundColor3 = Color3.fromRGB(79, 80, 103)
@@ -238,10 +238,11 @@ function autoBoss()
 							print("Boss is dead")
 							c:Disconnect()
 							c = nil
-							wait(.5)
-							boss.HumanoidRootPart.Anchored = true
+
 							wait(.5)
 							plr.Character.HumanoidRootPart.CFrame =  boss.HumanoidRootPart.CFrame
+							wait(.5)
+							boss.HumanoidRootPart.Anchored = true
 							wait(1)
 							game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Execute:FireServer()
 							return	
@@ -382,7 +383,7 @@ function autoBoss()
 
 		game.Workspace.Entities.ChildRemoved:Connect(function(v)
 			wait(3)
-			if v == boss then
+			if v.Name == boss.Name then
 				if getgenv().settings.webhook ~= false and getgenv().settings.webhookURL ~= "" and _G.win == false then
 					httpservice = game:GetService("HttpService")
 
@@ -622,3 +623,6 @@ end)
 sub4:CreateButton("Accept", function(a)
 	tradeAccept()
 end)
+			
+
+
