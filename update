@@ -214,9 +214,9 @@ function autoBoss()
 				--Properties:
 
 				boss.Name = "boss"
-				boss.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+				boss.Parent = gethui() or game.CoreGui
 				boss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-				boss.ResetOnSpawn = false
+				boss.ResetOnSpawn = true
 
 				background.Name = "background"
 				background.Parent = boss
@@ -235,7 +235,7 @@ function autoBoss()
 				Meta.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				Meta.BorderSizePixel = 0
 				Meta.Position = UDim2.new(0.482709557, 0, 0.452026457, 0)
-				Meta.Size = UDim2.new(0, 116, 0, 50)
+				Meta.Size = UDim2.new(0.05,0,0.05,0)
 				Meta.Font = Enum.Font.SourceSansBold
 				Meta.Text = "Meta"
 				Meta.TextColor3 = Color3.fromRGB(234, 169, 255)
@@ -249,7 +249,7 @@ function autoBoss()
 				Hub.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				Hub.BorderSizePixel = 0
 				Hub.Position = UDim2.new(0.515539587, 0, 0.452026457, 0)
-				Hub.Size = UDim2.new(0, 116, 0, 50)
+				Hub.Size = UDim2.new(0.05,0,0.05,0)
 				Hub.Font = Enum.Font.SourceSansBold
 				Hub.Text = "Hub"
 				Hub.TextColor3 = Color3.fromRGB(255, 255, 255)
@@ -312,7 +312,7 @@ function autoBoss()
 				_G.boss.Humanoid:GetPropertyChangedSignal("MaxHealth"):Connect(health)
 				c = game:GetService("RunService").Heartbeat:Connect(function()
 					if getgenv().settings.boss == true then
-						script.Parent.Text = math.floor((tick()-lapse)/60).."m "..math.floor((tick()-lapse)%60).."s"
+						Timer.Text = math.floor((tick()-lapse)/60).."m "..math.floor((tick()-lapse)%60).."s"
 						if _G.boss:GetAttribute("CurrentState") == "Unconscious" then
 							print("Boss is dead")
 							c:Disconnect()
