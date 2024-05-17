@@ -530,7 +530,7 @@ sub3:CreateToggle("Webhook",getgenv().settings.webhook, function(a)
 	saveSettings()
 end)
 
-sub3:CreateTextbox("WebhookURL", "URL here", function(a)
+sub3:CreateTextbox("WebhookURL", getgenv().settings.webhookURL, function(a)
 	getgenv().settings.webhookURL = a
 	saveSettings()
 end)
