@@ -234,7 +234,7 @@ function autoBoss()
 				Meta.BackgroundTransparency = 1.000
 				Meta.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				Meta.BorderSizePixel = 0
-				Meta.Position = UDim2.new(0.478, 0, 0.452026457, 0)
+				Meta.Position = UDim2.new(0.476, 0, 0.452, 0)
 				Meta.Size = UDim2.new(0.05,0,0.05,0)
 				Meta.Font = Enum.Font.SourceSansBold
 				Meta.Text = "Meta"
@@ -248,7 +248,7 @@ function autoBoss()
 				Hub.BackgroundTransparency = 1.000
 				Hub.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				Hub.BorderSizePixel = 0
-				Hub.Position = UDim2.new(0.525, 0, 0.452026457, 0)
+				Hub.Position = UDim2.new(0.519, 0, 0.452, 0)
 				Hub.Size = UDim2.new(0.05,0,0.05,0)
 				Hub.Font = Enum.Font.SourceSansBold
 				Hub.Text = "Hub"
@@ -266,7 +266,7 @@ function autoBoss()
 				RaidFarm.Position = UDim2.new(0.5, 0, 0.479999989, 0)
 				RaidFarm.Size = UDim2.new(0, 116, 0, 23)
 				RaidFarm.Font = Enum.Font.SourceSansBold
-				RaidFarm.Text = "Raid farm"
+				RaidFarm.Text = "Raid Farm"
 				RaidFarm.TextColor3 = Color3.fromRGB(194, 194, 194)
 				RaidFarm.TextSize = 23.000
 				RaidFarm.TextWrapped = true
