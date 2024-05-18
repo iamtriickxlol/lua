@@ -376,6 +376,7 @@ function Library:CreateWindow()
 				Draggable.Name = "Draggable"
 				Draggable.Parent = SliderBack
 				Draggable.BackgroundColor3 = Color3.fromRGB(180, 163, 185)
+				Draggable.BorderSizePixel = 0
 				Draggable.Size = UDim2.fromScale(((start-min)/(max-min)), 1)
 
 				Amount.Name = "Amount"
