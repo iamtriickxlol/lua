@@ -20,6 +20,8 @@ getgenv().settings = {
 	webhookUrl = "";
 	boss = false;
 	antivoid = false;
+	sprint = nil;
+	perf = false
 }
 
 
@@ -157,12 +159,12 @@ function autoBoss()
 
 	if game.PlaceId == 17047374266 then
 		local plr = game.Players.LocalPlayer
-		local boss
-		local lapse = tick()
+		_G.boss = nil
+		
 		_G.a = true
 		_G.win = false
 		game.Workspace.Entities.ChildAdded:Connect(function(v)
-						
+
 			if string.find(v.Name, "Sunny") then
 				httpservice = game:GetService("HttpService")
 				local response = request({
@@ -184,7 +186,7 @@ function autoBoss()
 						}}
 					})
 				})
-				
+
 				local args = {
 					[1] = "Karakura Town",	
 				}
@@ -192,92 +194,146 @@ function autoBoss()
 				game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
 				return
 			end
-			
-			if v.Name ~= plr.Name and v:GetAttribute("EntityType") and v.Name ~= "Wolf" or string.find(v.Name, "_") or v:GetAttribute("EntityType") == "Shinigami" or v:GetAttribute("EntityType") == "Quincy"  then
-				
-				boss = v
 
-				local hum = boss:WaitForChild("Humanoid")
+			if v.Name ~= plr.Name and v:GetAttribute("EntityType") and v.Name ~= "Wolf" and v:GetAttribute("EntityType") == "Shinigami" or v:GetAttribute("EntityType") == "Quincy"  then
+				local lapse = tick()
+				_G.boss = v
+
+				local hum = _G.boss:WaitForChild("Humanoid")
 				local c 
-				
-				
-				local ScreenGui = Instance.new("ScreenGui")
+
+
+				local boss = Instance.new("ScreenGui")
+				local background = Instance.new("Frame")
+				local Meta = Instance.new("TextLabel")
+				local Hub = Instance.new("TextLabel")
+				local RaidFarm = Instance.new("TextLabel")
+				local Timer = Instance.new("TextLabel")
 				local back = Instance.new("Frame")
 				local back_2 = Instance.new("Frame")
 
 				--Properties:
 
-				ScreenGui.Parent = gethui() or game.CoreGui
-				ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+				boss.Name = "boss"
+				boss.Parent = gethui() or game.CoreGui
+				boss.DisplayOrder = 5
+				boss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+				boss.ResetOnSpawn = true
+
+				background.Name = "background"
+				background.Parent = boss
+				background.AnchorPoint = Vector2.new(0.5, 0.5)
+				background.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
+				background.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				background.BorderSizePixel = 0
+				background.Position = UDim2.new(0.5, 0, 0.5, 0)
+				background.Size = UDim2.new(1.5, 0, 1.5, 0)
+
+				Meta.Name = "Meta"
+				Meta.Parent = background
+				Meta.AnchorPoint = Vector2.new(0.5, 0.5)
+				Meta.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Meta.BackgroundTransparency = 1.000
+				Meta.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				Meta.BorderSizePixel = 0
+				Meta.Position = UDim2.new(0.476, 0, 0.445, 0)
+				Meta.Size = UDim2.new(0.05,0,0.05,0)
+				Meta.Font = Enum.Font.SourceSansBold
+				Meta.Text = "Meta"
+				Meta.TextColor3 = Color3.fromRGB(234, 169, 255)
+				Meta.TextSize = 44.000
+
+				Hub.Name = "Hub"
+				Hub.Parent = background
+				Hub.AnchorPoint = Vector2.new(0.5, 0.5)
+				Hub.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Hub.BackgroundTransparency = 1.000
+				Hub.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				Hub.BorderSizePixel = 0
+				Hub.Position = UDim2.new(0.52, 0, 0.445, 0)
+				Hub.Size = UDim2.new(0.05,0,0.05,0)
+				Hub.Font = Enum.Font.SourceSansBold
+				Hub.Text = "Hub"
+				Hub.TextColor3 = Color3.fromRGB(255, 255, 255)
+				Hub.TextSize = 44.000
+				Hub.TextWrapped = true
+
+				RaidFarm.Name = "RaidFarm"
+				RaidFarm.Parent = background
+				RaidFarm.AnchorPoint = Vector2.new(0.5, 0.5)
+				RaidFarm.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				RaidFarm.BackgroundTransparency = 1.000
+				RaidFarm.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				RaidFarm.BorderSizePixel = 0
+				RaidFarm.Position = UDim2.new(0.5, 0, 0.477, 0)
+				RaidFarm.Size = UDim2.new(0, 116, 0, 23)
+				RaidFarm.Font = Enum.Font.SourceSansBold
+				RaidFarm.Text = "Raid Farm"
+				RaidFarm.TextColor3 = Color3.fromRGB(194, 194, 194)
+				RaidFarm.TextSize = 23.000
+				RaidFarm.TextWrapped = true
+
+				Timer.Name = "Timer"
+				Timer.Parent = background
+				Timer.AnchorPoint = Vector2.new(0.5, 0.5)
+				Timer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Timer.BackgroundTransparency = 1.000
+				Timer.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				Timer.BorderSizePixel = 0
+				Timer.Position = UDim2.new(0.499781132, 0, 0.520529449, 0)
+				Timer.Size = UDim2.new(0, 83, 0, 23)
+				Timer.Font = Enum.Font.SourceSansBold
+				Timer.Text = "0m 0s"
+				Timer.TextColor3 = Color3.fromRGB(168, 168, 168)
+				Timer.TextSize = 18.000
+				Timer.TextWrapped = true
 
 				back.Name = "back"
-				back.Parent = ScreenGui
-				back.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
+				back.Parent = boss
+				back.AnchorPoint = Vector2.new(0.5, 0.5)
+				back.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 				back.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				back.BorderSizePixel = 0
-				back.Position = UDim2.new(0.241335049, 0, 0.0461783446, 0)
-				back.Size = UDim2.new(0.5, 0, 0.07, 0)
-				
+				back.Position = UDim2.new(0.5, 0, 0.5, 0)
+				back.Size = UDim2.new(0.146749809, 0, 0.0131730186, 0)
+
 				back_2.Name = "back"
 				back_2.Parent = back
-				back_2.BackgroundColor3 = Color3.fromRGB(79, 80, 103)
+				back_2.BackgroundColor3 = Color3.fromRGB(180, 113, 114)
 				back_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				back_2.BorderSizePixel = 0
-				back_2.Size = UDim2.new(0.503105581, 0, 1, 0)
-				
+				back_2.Size = UDim2.new(0.5, 0, 1, 0)
+
 				local function health()
-					local bar = math.clamp(boss.Humanoid.Health/boss.Humanoid.MaxHealth,0,1)
+					local bar = math.clamp(_G.boss.Humanoid.Health/_G.boss.Humanoid.MaxHealth,0,1)
 					back_2.Size  = UDim2.new(bar,0,1,0)
 				end
 				health()
-				boss.Humanoid:GetPropertyChangedSignal("Health"):Connect(health)
-				boss.Humanoid:GetPropertyChangedSignal("MaxHealth"):Connect(health)
+				_G.boss.Humanoid:GetPropertyChangedSignal("Health"):Connect(health)
+				_G.boss.Humanoid:GetPropertyChangedSignal("MaxHealth"):Connect(health)
 				c = game:GetService("RunService").Heartbeat:Connect(function()
 					if getgenv().settings.boss == true then
-						if boss:GetAttribute("CurrentState") == "Unconscious" then
+						Timer.Text = math.floor((tick()-lapse)/60).."m "..math.floor((tick()-lapse)%60).."s"
+						if _G.boss:GetAttribute("CurrentState") == "Unconscious" then
 							print("Boss is dead")
 							c:Disconnect()
 							c = nil
-
+							
+							wait(1)
+							_G.boss.HumanoidRootPart.Anchored = true
 							wait(.5)
-							plr.Character.HumanoidRootPart.CFrame =  boss.HumanoidRootPart.CFrame
+							plr.Character.HumanoidRootPart.CFrame =  _G.boss.HumanoidRootPart.CFrame
 							wait(.5)
-							boss.HumanoidRootPart.Anchored = true
+							plr.Character.HumanoidRootPart.CFrame =  _G.boss.HumanoidRootPart.CFrame
+							wait(.5)
+							plr.Character.HumanoidRootPart.CFrame =  _G.boss.HumanoidRootPart.CFrame			
 							wait(1)
 							game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Execute:FireServer()
 							return	
 						end
 
-						if boss:GetAttribute("CurrentState") or boss:GetAtribute("BankaiMeter") then
-							boss:SetAttribute("CurrentState", "Action")
-							boss:SetAttribute("SkillRange", 0)
-							boss:SetAttribute("Posture", 50)
-							boss:SetAttribute("BankaiMeter", 0)
-							boss:SetAttribute("MaxBankaiMeter", 0)
-							boss:SetAttribute("Reiatsu", 0)
-							boss:SetAttribute("MaxReiatsu", 0)
-							boss:SetAttribute("DeflectFrames", false)
-							boss:SetAttribute("BlockFrames", false)
-							boss:SetAttribute("EvasiveFrames", false)
-							boss:SetAttribute("HyperArmor", false)
-							boss:SetAttribute("IFrames", false)
-							boss:SetAttribute("ShikaiCD", true)
-							boss:SetAttribute("SkillCD", true)
-							boss:SetAttribute("One", false)
-							boss:SetAttribute("Two", false)
-							boss:SetAttribute("Three", false)
-							boss:SetAttribute("Four", false)
-							boss:SetAttribute("Five", false)
-							boss:SetAttribute("Six", false)
-							boss:SetAttribute("Seven", false)
-							boss:SetAttribute("Seven", false)
 
-							boss:SetAttribute("CriticalCooldown", true)
-
-							boss.Humanoid.WalkSpeed = 0
-							boss.Humanoid.JumpHeight = 0
-						end
-						plr.Character.HumanoidRootPart.CFrame =  boss.HumanoidRootPart.CFrame* CFrame.new(0,11,0) *CFrame.Angles(math.rad(-90),0,math.rad(90))
+						plr.Character.HumanoidRootPart.CFrame =  _G.boss.HumanoidRootPart.CFrame* CFrame.new(0,11,0) *CFrame.Angles(math.rad(-90),0,math.rad(90))
 
 						if plr.Character:GetAttribute("One") ~= true then
 							-- Script generated by SimpleSpy - credits to exx#9394
@@ -305,39 +361,42 @@ function autoBoss()
 						game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
 
 					end
-
+		
 					wait()
 				end)
-							
-					if (tick()-lapse) >= 200 and boss.Humanoid.Health == 900 then
-								
-								httpservice = game:GetService("HttpService")
+				
 
-								local response = request({
-									Url = getgenv().settings.webhookURL,
-									Method = "POST",
-									Headers = {
-										["Content-Type"] = 'application/json'
-									},
-									Body = httpservice:JSONEncode({
-										["content"] = "",
-										["embeds"] = {{
-											["title"] = "ERROR",
-											["description"] = "Boss system has encountered an issue.",
-											["type"] = "rich",
-											["color"] = tonumber(0xeb4034),
-											["footer"] = {
-												["text"] = "Type Soul - Meta Hub",
-											}
-										}}
-									})
-								})
-								
+				if (tick()-lapse) >= 30 and _G.boss.Humanoid.Health == 900 then
+
+					httpservice = game:GetService("HttpService")
+
+					local response = request({
+						Url = getgenv().settings.webhookURL,
+						Method = "POST",
+						Headers = {
+							["Content-Type"] = 'application/json'
+						},
+						Body = httpservice:JSONEncode({
+							["content"] = "",
+							["embeds"] = {{
+								["title"] = "ERROR",
+								["description"] = "Boss system has encountered an issue.",
+								["type"] = "rich",
+								["color"] = tonumber(0xeb4034),
+								["footer"] = {
+									["text"] = "Type Soul - Meta Hub",
+								}
+							}}
+						})
+					})
+
 					local args = {
 						[1] = "Karakura Town",
 					}
 
 					game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
+					
+					
 				end
 			end
 
@@ -351,8 +410,40 @@ function autoBoss()
 					if v2:IsA("TextLabel") then
 						if string.find(v2.Text, "obtained.") then
 							_G.win = true
+							local itemhold = Instance.new("Frame")
+							local itemLabel = Instance.new("TextLabel")
+							local gui = Instance.new("ScreenGui")
 							local nitem = string.gsub(v2.Text,"obtained.", "")
 							item = nitem
+							
+							gui.Name = "boss"
+							gui.Parent = gethui() or game.CoreGui
+							gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+							gui.DisplayOrder = 10
+							
+							itemhold.Name = "itemhold"
+							itemhold.Parent = gui
+							itemhold.AnchorPoint = Vector2.new(0.5, 0.5)
+							itemhold.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+							itemhold.BackgroundTransparency = 1.000
+							itemhold.BorderColor3 = Color3.fromRGB(0, 0, 0)
+							itemhold.BorderSizePixel = 0
+							itemhold.Position = UDim2.new(0.493745118, 0, 0.143055573, 0)
+							itemhold.Size = UDim2.new(0.400000006, 0, 0.0399999991, 0)
+
+							itemLabel.Name = "itemLabel"
+							itemLabel.Parent = itemhold
+							itemLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+							itemLabel.BackgroundTransparency = 1.000
+							itemLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+							itemLabel.BorderSizePixel = 0
+							itemLabel.Size = UDim2.new(1, 0, 1, 0)
+							itemLabel.Font = Enum.Font.SourceSansBold
+							itemLabel.Text = "Item Obtained: "..item
+							itemLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+							itemLabel.TextSize = 29.000
+							
+							
 							httpservice = game:GetService("HttpService")						
 							local response = request({
 								Url = getgenv().settings.webhookURL,
@@ -364,7 +455,7 @@ function autoBoss()
 									["content"] = "@everyone",
 									["embeds"] = {{
 										["title"] = "Raid Notifier",
-										["description"] = "**User:** "..game.Players.LocalPlayer.DisplayName.." \n **Item:** "..item,
+										["description"] = "**User:** ||"..game.Players.LocalPlayer.DisplayName.."|| \n **Item:** "..item,
 										["type"] = "rich",
 										["color"] = tonumber(0xd9abd7),
 										["footer"] = {
@@ -382,8 +473,8 @@ function autoBoss()
 		end)
 
 		game.Workspace.Entities.ChildRemoved:Connect(function(v)
-			wait(3)
-			if v.Name == boss.Name then
+			if v.Name == _G.boss.Name and v.Name ~= plr.Name then
+				wait(2)
 				if getgenv().settings.webhook ~= false and getgenv().settings.webhookURL ~= "" and _G.win == false then
 					httpservice = game:GetService("HttpService")
 
@@ -397,7 +488,7 @@ function autoBoss()
 							["content"] = "",
 							["embeds"] = {{
 								["title"] = "ERROR",
-								["description"] = "Boss was bugged",
+								["description"] = _G.boss,
 								["type"] = "rich",
 								["color"] = tonumber(0xeb4034),
 								["footer"] = {
@@ -407,18 +498,35 @@ function autoBoss()
 						})
 					})
 
-				local args = {
-					[1] = "Karakura Town",
-				}
+					local args = {
+						[1] = "Karakura Town",
+					}
 
 					game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
 				else
-					print("Webhook not found.")
+					print(_G.boss)
 					return
 				end
 			end
 		end)
 	end
+end
+
+function sprint(a)
+	if (not a) then		
+		getgenv().settings.sprint:Disconnect()
+		getgenv().settings.sprint = nil;
+		return
+	end
+	
+	getgenv().settings.sprint = RunService.Heartbeat:Connect(function()
+		local args = {
+			[1] = "Pressed"
+		}
+
+		game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Sprint:FireServer(unpack(args))
+
+	end)
 end
 
 function sendTrade(a)
@@ -519,9 +627,9 @@ function redeemcode(a)
 		"tradehub",
 		"happyhalloween",
 		"newclanwargame",
-		
+
 	}
-	
+
 	for i,v in pairs(codes) do	
 		local args = {
 			[1] = v
@@ -533,6 +641,30 @@ function redeemcode(a)
 
 end
 
+function perfmode()
+	for i,v in pairs(game.Workspace:GetDescendants()) do
+		if v:IsA("MeshPart") or v:IsA("BasePart") or v:IsA("Part") then
+			v.Material = Enum.Material.Plastic
+			
+		end
+	end
+
+	for i,v in pairs(game.Workspace:GetDescendants()) do
+		if v:IsA("Texture") then
+			v:Destroy()
+			
+		end
+	end
+	
+
+	for i,v in pairs(game.Lighting:GetDescendants()) do
+		if v:IsA("SunRaysEffect") or v:IsA("BloomEffect") or v:IsA("DepthOfFieldEffect") or v:IsA("BlurEffect") or v:IsA("ColorCorrectionEffect") then
+			v:Destroy()
+
+		end
+	end
+end
+
 loadsettings()
 
 for i,v in pairs(getgenv().settings) do
@@ -541,6 +673,15 @@ end
 
 if getgenv().settings.boss then
 	autoBoss()
+end
+
+if getgenv().settings.perf then
+	perfmode()
+end
+
+
+if getgenv().settings.sprint then
+	sprint(getgenv().settings.sprint)
 end
 
 local main = Library:CreateWindow()
@@ -568,9 +709,6 @@ sub:CreateToggle("Walkspeed",getgenv().settings.ws, function(a)
 	end
 end)
 
-sub:CreateSlider("Walkspeed Amount",10,120,16, function(a)
-	getgenv().settings.wsa = a
-end)
 
 sub:CreateToggle("Fly", getgenv().settings.Fly, function(a)	
 
@@ -582,14 +720,24 @@ end)
 sub:CreateToggle("No Clip", getgenv().settings.Clip, function(a)
 	noclip(a)
 end)
+
+sub:CreateToggle("Auto Sprint", getgenv().settings.sprint, function(a)
+	sprint(a)
+	saveSettings()
+end)
 sub:CreateSlider("Fly Speed",50,200,70, function(a)
 	getgenv().settings.flys = a
+end)
+
+sub:CreateSlider("Walkspeed Amount",10,120,16, function(a)
+	getgenv().settings.wsa = a
 end)
 
 
 
 
-farm:CreateToggle("Auto Farm Boss", getgenv().settings.boss, function(a)
+
+farm:CreateToggle("Raid Farm", getgenv().settings.boss, function(a)
 	getgenv().settings.boss = a
 	autoBoss()
 	saveSettings()
@@ -608,6 +756,12 @@ sub3:CreateToggle("Webhook",getgenv().settings.webhook, function(a)
 	saveSettings()
 end)
 
+
+sub3:CreateToggle("Performance Mode",getgenv().settings.perf, function(a)
+	getgenv().settings.perf = a
+	saveSettings()
+end)
+
 sub3:CreateTextbox("Webhook URL", getgenv().settings.webhookURL, function(a)
 	getgenv().settings.webhookURL = a
 	saveSettings()
@@ -623,6 +777,3 @@ end)
 sub4:CreateButton("Accept", function(a)
 	tradeAccept()
 end)
-			
-
-
