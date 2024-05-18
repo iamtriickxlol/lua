@@ -21,6 +21,7 @@ getgenv().settings = {
 	boss = false;
 	antivoid = false;
 	sprint = nil;
+	perf = false
 }
 
 
@@ -234,7 +235,7 @@ function autoBoss()
 				Meta.BackgroundTransparency = 1.000
 				Meta.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				Meta.BorderSizePixel = 0
-				Meta.Position = UDim2.new(0.476, 0, 0.452, 0)
+				Meta.Position = UDim2.new(0.476, 0, 0.445, 0)
 				Meta.Size = UDim2.new(0.05,0,0.05,0)
 				Meta.Font = Enum.Font.SourceSansBold
 				Meta.Text = "Meta"
@@ -248,7 +249,7 @@ function autoBoss()
 				Hub.BackgroundTransparency = 1.000
 				Hub.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				Hub.BorderSizePixel = 0
-				Hub.Position = UDim2.new(0.519, 0, 0.452, 0)
+				Hub.Position = UDim2.new(0.52, 0, 0.445, 0)
 				Hub.Size = UDim2.new(0.05,0,0.05,0)
 				Hub.Font = Enum.Font.SourceSansBold
 				Hub.Text = "Hub"
@@ -263,7 +264,7 @@ function autoBoss()
 				RaidFarm.BackgroundTransparency = 1.000
 				RaidFarm.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				RaidFarm.BorderSizePixel = 0
-				RaidFarm.Position = UDim2.new(0.5, 0, 0.479999989, 0)
+				RaidFarm.Position = UDim2.new(0.5, 0, 0.477, 0)
 				RaidFarm.Size = UDim2.new(0, 116, 0, 23)
 				RaidFarm.Font = Enum.Font.SourceSansBold
 				RaidFarm.Text = "Raid Farm"
@@ -283,8 +284,7 @@ function autoBoss()
 				Timer.Font = Enum.Font.SourceSansBold
 				Timer.Text = "0m 0s"
 				Timer.TextColor3 = Color3.fromRGB(168, 168, 168)
-				Timer.TextScaled = true
-				Timer.TextSize = 16.000
+				Timer.TextSize = 18.000
 				Timer.TextWrapped = true
 
 				back.Name = "back"
@@ -320,10 +320,12 @@ function autoBoss()
 							
 							wait(1)
 							_G.boss.HumanoidRootPart.Anchored = true
-							wait(1)
+							wait(.5)
 							plr.Character.HumanoidRootPart.CFrame =  _G.boss.HumanoidRootPart.CFrame
-							
-							
+							wait(.5)
+							plr.Character.HumanoidRootPart.CFrame =  _G.boss.HumanoidRootPart.CFrame
+							wait(.5)
+							plr.Character.HumanoidRootPart.CFrame =  _G.boss.HumanoidRootPart.CFrame			
 							wait(1)
 							game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Execute:FireServer()
 							return	
@@ -606,6 +608,30 @@ function redeemcode(a)
 
 end
 
+function perfmode()
+	for i,v in pairs(game.Workspace:GetDescendants()) do
+		if v:IsA("MeshPart") or v:IsA("BasePart") or v:IsA("Part") then
+			v.Material = Enum.Material.Plastic
+			
+		end
+	end
+
+	for i,v in pairs(game.Workspace:GetDescendants()) do
+		if v:IsA("Texture") then
+			v:Destroy()
+			
+		end
+	end
+	
+
+	for i,v in pairs(game.Lighting:GetDescendants()) do
+		if v:IsA("SunRaysEffect") or v:IsA("BloomEffect") or v:IsA("DepthOfFieldEffect") or v:IsA("BlurEffect") or v:IsA("ColorCorrectionEffect") then
+			v:Destroy()
+
+		end
+	end
+end
+
 loadsettings()
 
 for i,v in pairs(getgenv().settings) do
@@ -615,6 +641,11 @@ end
 if getgenv().settings.boss then
 	autoBoss()
 end
+
+if getgenv().settings.perf then
+	perfmode()
+end
+
 
 if getgenv().settings.sprint then
 	sprint(getgenv().settings.sprint)
@@ -673,7 +704,7 @@ end)
 
 
 
-farm:CreateToggle("Auto Farm Boss", getgenv().settings.boss, function(a)
+farm:CreateToggle("Raid Farm", getgenv().settings.boss, function(a)
 	getgenv().settings.boss = a
 	autoBoss()
 	saveSettings()
@@ -689,6 +720,12 @@ end)
 
 sub3:CreateToggle("Webhook",getgenv().settings.webhook, function(a)
 	getgenv().settings.webhook = a
+	saveSettings()
+end)
+
+
+sub3:CreateToggle("Performance Mode",getgenv().settings.perf, function(a)
+	getgenv().settings.perf = a
 	saveSettings()
 end)
 
