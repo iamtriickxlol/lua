@@ -717,7 +717,7 @@ function missionfarm(a)
 	local c
 	c	= game.Workspace.Entities.ChildAdded:Connect(function(v)
 		print(v)
-		if string.find(v.Name, "Fishbone") or string.find(v.Name, "Frisker") then
+		if string.find(v.Name, "Fishbone") or string.find(v.Name, "Frisker") or string.find(v.Name, "Shinigami") then
 
 			repeat
 				local hrp = v:WaitForChild("HumanoidRootPart")
@@ -736,10 +736,6 @@ function missionfarm(a)
 
 			c:Disconnect()
 			c = nil
-		elseif string.find(v.Name, "Shinigami") then
-			c:Disconnect()
-			c = nil
-			game.Players.LocalPlayer.Character.Humanoid.Health = 0
 		end
 	end)
 end
