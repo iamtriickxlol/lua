@@ -188,6 +188,12 @@ function autoBoss()
 							}}
 						})
 					})
+					local args = {
+						[1] = "Karakura Town",	
+					}
+
+					game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
+
 					return
 				else
 					local args = {
