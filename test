@@ -165,42 +165,38 @@ function autoBoss()
 		_G.win = false
 		game.Workspace.Entities.ChildAdded:Connect(function(v)
 
-			if string.find(v.Name, "Sunny") and getgenv().settings.webhook then
-				httpservice = game:GetService("HttpService")
-				local response = request({
-					Url = getgenv().settings.webhookURL,
-					Method = "POST",
-					Headers = {
-						["Content-Type"] = 'application/json'
-					},
-					Body = httpservice:JSONEncode({
-						["content"] = "",
-						["embeds"] = {{
-							["title"] = "Warning",
-							["description"] = "Teleported back due to low win percentage.",
-							["type"] = "rich",
-							["color"] = tonumber(0xffba70),
-							["footer"] = {
-								["text"] = "Type Soul - Meta Hub",
-							}
-						}}
+			if string.find(v.Name, "Sunny") then
+				
+				if getgenv().settings.webhook then
+					httpservice = game:GetService("HttpService")
+					local response = request({
+						Url = getgenv().settings.webhookURL,
+						Method = "POST",
+						Headers = {
+							["Content-Type"] = 'application/json'
+						},
+						Body = httpservice:JSONEncode({
+							["content"] = "",
+							["embeds"] = {{
+								["title"] = "Warning",
+								["description"] = "Teleported back due to low win percentage.",
+								["type"] = "rich",
+								["color"] = tonumber(0xffba70),
+								["footer"] = {
+									["text"] = "Type Soul - Meta Hub",
+								}
+							}}
+						})
 					})
-				})
+					return
+				else
+					local args = {
+						[1] = "Karakura Town",	
+					}
 
-				local args = {
-					[1] = "Karakura Town",	
-				}
-
-				game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
-				return
-					
-			else
-				local args = {
-					[1] = "Karakura Town",	
-				}
-
-				game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
-				return
+					game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
+					return
+				end
 			end
 
 			if v.Name ~= plr.Name and v:GetAttribute("EntityType") and v.Name ~= "Wolf" and v:GetAttribute("EntityType") == "Shinigami" or v:GetAttribute("EntityType") == "Quincy"  then
