@@ -669,10 +669,6 @@ function division12(a)
 end
 
 function missionfarm(a)
-	
-	if (not a) then
-		return;
-	end;
 	local range = 5000
 	local closest
 	local boards = workspace.NPCs.MissionNPC
@@ -847,6 +843,7 @@ farm:CreateToggle("Division 12 Farm", getgenv().settings.division12, function(a)
 end)
 
 farm:CreateButton("Missions Farm", function(a)
+	print(a)
 	missionfarm(a)
 end)
 
