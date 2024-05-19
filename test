@@ -223,7 +223,7 @@ function autoBoss()
 				--Properties:
 
 				boss.Name = "boss"
-				boss.Parent = gethui() or game.CoreGui
+				boss.Parent = game.Players.LocalPlayer.PlayerGui
 				boss.DisplayOrder = 0
 				boss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 				boss.ResetOnSpawn = true
