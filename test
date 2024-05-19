@@ -21,7 +21,10 @@ getgenv().settings = {
 	boss = false;
 	antivoid = false;
 	sprint = nil;
-	perf = false
+	perf = false;
+	serverdetails = false;
+	division12 = false;
+	missionfarm = nil;
 }
 
 
@@ -73,6 +76,7 @@ local function Fly(toggle)
 		getgenv().settings.FlyBV:Destroy()
 		getgenv().settings.Fly = nil;
 		getgenv().settings.FlyBV = nil;
+		print(getgenv().settings.Fly)
 		return;
 	end;
 
@@ -83,7 +87,7 @@ local function Fly(toggle)
 		local rootPart, camera = Player.Character.HumanoidRootPart, workspace.CurrentCamera;
 		if (not rootPart or not camera) then return end;
 
-
+		print('flying')
 		getgenv().settings.FlyBV.Parent = rootPart;
 		getgenv().settings.FlyBV.Velocity = camera.CFrame:VectorToWorldSpace(ControlModule:GetMoveVector() * getgenv().settings.flys);
 	end);
@@ -160,13 +164,13 @@ function autoBoss()
 	if game.PlaceId == 17047374266 then
 		local plr = game.Players.LocalPlayer
 		_G.boss = nil
-		
+
 		_G.a = true
 		_G.win = false
 		game.Workspace.Entities.ChildAdded:Connect(function(v)
 
 			if string.find(v.Name, "Sunny") then
-				
+
 				if getgenv().settings.webhook then
 					httpservice = game:GetService("HttpService")
 					local response = request({
@@ -328,7 +332,7 @@ function autoBoss()
 							print("Boss is dead")
 							c:Disconnect()
 							c = nil
-							
+
 							wait(1)
 							_G.boss.HumanoidRootPart.Anchored = true
 							wait(.5)
@@ -371,10 +375,10 @@ function autoBoss()
 						game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
 
 					end
-		
+
 					wait()
 				end)
-				
+
 
 				if (tick()-lapse) >= 30 and _G.boss.Humanoid.Health == 900 then
 
@@ -405,8 +409,8 @@ function autoBoss()
 					}
 
 					game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
-					
-					
+
+
 				end
 			end
 
@@ -425,12 +429,12 @@ function autoBoss()
 							local gui = Instance.new("ScreenGui")
 							local nitem = string.gsub(v2.Text,"obtained.", "")
 							item = nitem
-							
+
 							gui.Name = "boss"
 							gui.Parent = gethui() or game.CoreGui
 							gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 							gui.DisplayOrder = 10
-							
+
 							itemhold.Name = "itemhold"
 							itemhold.Parent = gui
 							itemhold.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -452,8 +456,8 @@ function autoBoss()
 							itemLabel.Text = "Item Obtained: "..item
 							itemLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 							itemLabel.TextSize = 29.000
-							
-							
+
+
 							httpservice = game:GetService("HttpService")						
 							local response = request({
 								Url = getgenv().settings.webhookURL,
@@ -528,7 +532,7 @@ function sprint(a)
 		getgenv().settings.sprint = nil;
 		return
 	end
-	
+
 	getgenv().settings.sprint = RunService.Heartbeat:Connect(function()
 		local args = {
 			[1] = "Pressed"
@@ -651,21 +655,110 @@ function redeemcode(a)
 
 end
 
+function division12(a)
+	if (not a) then
+		getgenv().settings.division12:Disconnect()
+		getgenv().settings.division12 = nil;
+		return;
+	end;
+	getgenv().settings.division12 = game.Players.LocalPlayer.Character.ChildAdded:Connect(function(v)
+		if string.find(v.Name, 'Minigame') then
+			v:FireServer()
+		end
+	end)
+end
+
+function missionfarm(a)
+	
+	if (not a) then
+		return;
+	end;
+	local range = 5000
+	local closest
+	local boards = workspace.NPCs.MissionNPC
+	for _,board in pairs(boards:GetChildren()) do
+		for i2,v2 in pairs(board:GetDescendants()) do
+			if v2.Name == "ClickDetector" then
+				local d = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - board.Board.Union.Position).Magnitude
+
+				if d < range then
+					range = d
+
+					closest = board
+
+				end
+			end
+		end
+	end
+
+	for _,part in next, game.Players.LocalPlayer.Character:GetChildren() do
+		if part:IsA("BasePart") or part:IsA("MeshPart") or part:IsA("Part") then
+			part.CanCollide = false
+		end
+	end
+	local a = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart, TweenInfo.new(3), {CFrame = closest.Board.Union.CFrame})
+	a:Play()
+	a.Completed:connect(function()
+		for _,part in next, game.Players.LocalPlayer.Character:GetChildren() do
+			if part:IsA("BasePart") or part:IsA("MeshPart") or part:IsA("Part") then
+				part.CanCollide = true
+			end
+		end
+		fireclickdetector(closest:FindFirstChild("Board").Union.ClickDetector)
+		wait()
+
+		local args = {
+			[1] = "Yes"
+		}
+		print(closest)
+		game:GetService("Players").LocalPlayer:WaitForChild(closest.Name):FireServer(unpack(args))
+	end)
+
+	local c
+	c	= game.Workspace.Entities.ChildAdded:Connect(function(v)
+		print(v)
+		if string.find(v.Name, "Fishbone") or string.find(v.Name, "Frisker") then
+
+			repeat
+				local hrp = v:WaitForChild("HumanoidRootPart")
+				if v:WaitForChild("Humanoid").Health == 0 then wait(.1) c:Disconnect() c= nil v:Destroy() break; end
+				local a = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(.1), {CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,5,0) * CFrame.Angles(math.rad(-90),0,math.rad(90)) })
+				a:Play()
+
+				local args = {
+					[1] = "LightAttack"
+				}
+
+				game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
+				wait()
+			until game.Workspace.Entities:FindFirstChild(v) ~= game.Workspace.Entities:FindFirstChild(v)
+
+
+			c:Disconnect()
+			c = nil
+		elseif string.find(v.Name, "Shinigami") then
+			c:Disconnect()
+			c = nil
+			game.Players.LocalPlayer.Character.Humanoid.Health = 0
+		end
+	end)
+end
+
 function perfmode()
 	for i,v in pairs(game.Workspace:GetDescendants()) do
 		if v:IsA("MeshPart") or v:IsA("BasePart") or v:IsA("Part") then
 			v.Material = Enum.Material.Plastic
-			
+
 		end
 	end
 
 	for i,v in pairs(game.Workspace:GetDescendants()) do
 		if v:IsA("Texture") then
 			v:Destroy()
-			
+
 		end
 	end
-	
+
 
 	for i,v in pairs(game.Lighting:GetDescendants()) do
 		if v:IsA("SunRaysEffect") or v:IsA("BloomEffect") or v:IsA("DepthOfFieldEffect") or v:IsA("BlurEffect") or v:IsA("ColorCorrectionEffect") then
@@ -753,6 +846,14 @@ farm:CreateToggle("Raid Farm", getgenv().settings.boss, function(a)
 	saveSettings()
 end)
 
+farm:CreateToggle("Division 12 Farm", getgenv().settings.division12, function(a)
+	division12(a)
+end)
+
+farm:CreateToggle("Missions Farm", getgenv().settings.missionfarm, function(a)
+	missionfarm(a)
+end)
+
 sub2:CreateButton("Redeem All Codes", function(a)
 	redeemcode()
 end)
@@ -769,6 +870,11 @@ end)
 
 sub3:CreateToggle("Performance Mode",getgenv().settings.perf, function(a)
 	getgenv().settings.perf = a
+	saveSettings()
+end)
+
+sub3:CreateToggle("Hide server details",getgenv().settings.serverdetails, function(a)
+	getgenv().settings.serverdetails = a
 	saveSettings()
 end)
 
