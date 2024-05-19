@@ -846,7 +846,7 @@ farm:CreateToggle("Division 12 Farm", getgenv().settings.division12, function(a)
 	division12(a)
 end)
 
-farm:CreateButton("Missions Farm", getgenv().settings.missionfarm, function(a)
+farm:CreateButton("Missions Farm", function(a)
 	missionfarm(a)
 end)
 
