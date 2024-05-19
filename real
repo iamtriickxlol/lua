@@ -1,3 +1,5 @@
+
+print(getgenv().key)
 URI = "https://server-u214.onrender.com/" 
 
 local URI_Data = game:HttpGet(URI..'?key='..getgenv().key)
