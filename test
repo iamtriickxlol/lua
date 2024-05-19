@@ -710,44 +710,76 @@ function missionfarm(a)
 		game:GetService("Players").LocalPlayer:WaitForChild(closest.Name):FireServer(unpack(args))
 	end)
 
-	local c
-	c	= game.Workspace.Entities.ChildAdded:Connect(function(v)
-		print(v)
-		if string.find(v.Name, "Fishbone") or string.find(v.Name, "Frisker") then
+	
+	if game.Players.LocalPlayer.Character:GetAttribute("BankaiMeter") then
+		print('character is a shinigami')
+		local c
+		c	= game.Workspace.Entities.ChildAdded:Connect(function(v)
+			print(v)
+			if string.find(v.Name, "Fishbone") or string.find(v.Name, "Frisker") then
 
-			repeat
-				local hrp = v:WaitForChild("HumanoidRootPart")
-				if v:WaitForChild("Humanoid").Health == 0 then wait(.1) c:Disconnect() c= nil v:Destroy() break; end
-				local a = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(.1), {CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,5,0) * CFrame.Angles(math.rad(-90),0,math.rad(90)) })
-				a:Play()
+				repeat
+					local hrp = v:WaitForChild("HumanoidRootPart")
+					if v:WaitForChild("Humanoid").Health == 0 then wait(.1) c:Disconnect() c= nil v:Destroy() break; end
+					local a = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(.1), {CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,5,0) * CFrame.Angles(math.rad(-90),0,math.rad(90)) })
+					a:Play()
 
-				local args = {
-					[1] = "LightAttack"
-				}
+					local args = {
+						[1] = "LightAttack"
+					}
 
-				game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
-				wait()
-			until game.Workspace.Entities:FindFirstChild(v) ~= game.Workspace.Entities:FindFirstChild(v)
+					game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
+					wait()
+				until game.Workspace.Entities:FindFirstChild(v) ~= game.Workspace.Entities:FindFirstChild(v)
 
 
-			c:Disconnect()
-			c = nil
-		elseif string.find(v.Name, "Shinigami") then
-			repeat
-				local hrp = v:WaitForChild("HumanoidRootPart")
-				if v:WaitForChild("Humanoid").Health <= 1 then wait(.1) game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Execute:FireServer() c:Disconnect() c= nil v:Destroy() continue end
-				local a = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(.1), {CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,5,0) * CFrame.Angles(math.rad(-90),0,math.rad(90)) })
-				a:Play()
+				c:Disconnect()
+				c = nil
+			elseif string.find(v.Name, "Shinigami") then
+				game.Players.LocalPlayer.Character.Humanoid.Health = 0
+				c:Disconnect()
+			end
+		end)
+	elseif game.Players.LocalPlayer.Character:GetAttribute("SegundaMeter") or game.Players.LocalPlayer.Character:GetAttribute("VoltMeter") then
+		local c
+		c	= game.Workspace.Entities.ChildAdded:Connect(function(v)
+			print(v)
+			if string.find(v.Name, "Fishbone") or string.find(v.Name, "Frisker") then
 
-				local args = {
-					[1] = "LightAttack"
-				}
+				repeat
+					local hrp = v:WaitForChild("HumanoidRootPart")
+					if v:WaitForChild("Humanoid").Health == 0 then wait(.1) c:Disconnect() c= nil v:Destroy() break; end
+					local a = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(.1), {CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,5,0) * CFrame.Angles(math.rad(-90),0,math.rad(90)) })
+					a:Play()
 
-				game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
-				wait()
-			until game.Workspace.Entities:FindFirstChild(v) ~= game.Workspace.Entities:FindFirstChild(v)
-		end
-	end)
+					local args = {
+						[1] = "LightAttack"
+					}
+
+					game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
+					wait()
+				until game.Workspace.Entities:FindFirstChild(v) ~= game.Workspace.Entities:FindFirstChild(v)
+
+
+				c:Disconnect()
+				c = nil
+			elseif string.find(v.Name, "Shinigami") then
+				repeat
+					local hrp = v:WaitForChild("HumanoidRootPart")
+					if v:WaitForChild("Humanoid").Health <= 1 then wait(.1) game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Execute:FireServer() c:Disconnect() c= nil v:Destroy() continue end
+					local a = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(.1), {CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,5,0) * CFrame.Angles(math.rad(-90),0,math.rad(90)) })
+					a:Play()
+
+					local args = {
+						[1] = "LightAttack"
+					}
+
+					game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
+					wait()
+				until game.Workspace.Entities:FindFirstChild(v) ~= game.Workspace.Entities:FindFirstChild(v)
+			end
+		end)
+	end
 end
 
 function perfmode()
@@ -772,6 +804,10 @@ function perfmode()
 
 		end
 	end
+end
+
+function hideservdetails(a)
+	game:GetService("Players").LocalPlayer.PlayerGui.Settings.Frame.Visible = not a
 end
 
 loadsettings()
@@ -882,6 +918,7 @@ end)
 
 sub3:CreateToggle("Hide server details",getgenv().settings.serverdetails, function(a)
 	getgenv().settings.serverdetails = a
+	hideservdetails(a)
 	saveSettings()
 end)
 
