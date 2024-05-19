@@ -1,0 +1,10 @@
+URI = "https://server-u214.onrender.com/" 
+
+local URI_Data = game:HttpGet(URI..'?key='..getgenv().key)
+if URI_Data and string.find(URI_Data, "invalid") then
+	print("invalid")
+  game:GetService('Players').LocalPlayer:Kick('invalid key')
+return end
+
+print('Whitelisted') 
+loadstring(game:HttpGet("https://raw.githubusercontent.com/metauser08/lua/main/test"))()
