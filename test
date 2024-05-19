@@ -165,7 +165,7 @@ function autoBoss()
 		_G.win = false
 		game.Workspace.Entities.ChildAdded:Connect(function(v)
 
-			if string.find(v.Name, "Sunny") then
+			if string.find(v.Name, "Sunny") and getgenv().settings.webhook then
 				httpservice = game:GetService("HttpService")
 				local response = request({
 					Url = getgenv().settings.webhookURL,
@@ -187,6 +187,14 @@ function autoBoss()
 					})
 				})
 
+				local args = {
+					[1] = "Karakura Town",	
+				}
+
+				game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
+				return
+					
+			else
 				local args = {
 					[1] = "Karakura Town",	
 				}
