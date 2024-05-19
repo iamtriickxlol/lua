@@ -713,7 +713,7 @@ function missionfarm(a)
 	local c
 	c	= game.Workspace.Entities.ChildAdded:Connect(function(v)
 		print(v)
-		if string.find(v.Name, "Fishbone") or string.find(v.Name, "Frisker") or string.find(v.Name, "Shinigami") then
+		if string.find(v.Name, "Fishbone") or string.find(v.Name, "Frisker") then
 
 			repeat
 				local hrp = v:WaitForChild("HumanoidRootPart")
@@ -732,6 +732,20 @@ function missionfarm(a)
 
 			c:Disconnect()
 			c = nil
+		elseif string.find(v.Name, "Shinigami") then
+			repeat
+				local hrp = v:WaitForChild("HumanoidRootPart")
+				if v:WaitForChild("Humanoid").Health <= 1 then wait(.1) game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Execute:FireServer() c:Disconnect() c= nil v:Destroy() continue end
+				local a = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(.1), {CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0,5,0) * CFrame.Angles(math.rad(-90),0,math.rad(90)) })
+				a:Play()
+
+				local args = {
+					[1] = "LightAttack"
+				}
+
+				game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
+				wait()
+			until game.Workspace.Entities:FindFirstChild(v) ~= game.Workspace.Entities:FindFirstChild(v)
 		end
 	end)
 end
