@@ -76,7 +76,6 @@ local function Fly(toggle)
 		getgenv().settings.FlyBV:Destroy()
 		getgenv().settings.Fly = nil;
 		getgenv().settings.FlyBV = nil;
-		print(getgenv().settings.Fly)
 		return;
 	end;
 
@@ -87,7 +86,6 @@ local function Fly(toggle)
 		local rootPart, camera = Player.Character.HumanoidRootPart, workspace.CurrentCamera;
 		if (not rootPart or not camera) then return end;
 
-		print('flying')
 		getgenv().settings.FlyBV.Parent = rootPart;
 		getgenv().settings.FlyBV.Velocity = camera.CFrame:VectorToWorldSpace(ControlModule:GetMoveVector() * getgenv().settings.flys);
 	end);
@@ -169,7 +167,7 @@ function autoBoss()
 		_G.win = false
 		game.Workspace.Entities.ChildAdded:Connect(function(v)
 
-			if string.find(v.Name, "Sunny") then
+			if string.find(v.Name, "testerserstesrasfw") then
 
 				if getgenv().settings.webhook then
 					httpservice = game:GetService("HttpService")
@@ -294,7 +292,7 @@ function autoBoss()
 				Timer.BackgroundTransparency = 1.000
 				Timer.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				Timer.BorderSizePixel = 0
-				Timer.Position = UDim2.new(0.499781132, 0, 0.520529449, 0)
+				Timer.Position = UDim2.new(0.5, 0, 0.5, 0)
 				Timer.Size = UDim2.new(0, 83, 0, 23)
 				Timer.Font = Enum.Font.SourceSansBold
 				Timer.Text = "0m 0s"
@@ -302,34 +300,10 @@ function autoBoss()
 				Timer.TextSize = 18.000
 				Timer.TextWrapped = true
 
-				back.Name = "back"
-				back.Parent = boss
-				back.AnchorPoint = Vector2.new(0.5, 0.5)
-				back.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-				back.BorderColor3 = Color3.fromRGB(0, 0, 0)
-				back.BorderSizePixel = 0
-				back.Position = UDim2.new(0.5, 0, 0.5, 0)
-				back.Size = UDim2.new(0.146749809, 0, 0.0131730186, 0)
-
-				back_2.Name = "back"
-				back_2.Parent = back
-				back_2.BackgroundColor3 = Color3.fromRGB(180, 113, 114)
-				back_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
-				back_2.BorderSizePixel = 0
-				back_2.Size = UDim2.new(0.5, 0, 1, 0)
-
-				local function health()
-					local bar = math.clamp(_G.boss.Humanoid.Health/_G.boss.Humanoid.MaxHealth,0,1)
-					back_2.Size  = UDim2.new(bar,0,1,0)
-				end
-				health()
-				_G.boss.Humanoid:GetPropertyChangedSignal("Health"):Connect(health)
-				_G.boss.Humanoid:GetPropertyChangedSignal("MaxHealth"):Connect(health)
 				c = game:GetService("RunService").Heartbeat:Connect(function()
 					if getgenv().settings.boss == true then
 						Timer.Text = math.floor((tick()-lapse)/60).."m "..math.floor((tick()-lapse)%60).."s"
 						if _G.boss:GetAttribute("CurrentState") == "Unconscious" then
-							print("Boss is dead")
 							c:Disconnect()
 							c = nil
 
@@ -346,7 +320,7 @@ function autoBoss()
 							return	
 						end
 
-
+						_G.boss.Humanoid.Health = 0
 						plr.Character.HumanoidRootPart.CFrame =  _G.boss.HumanoidRootPart.CFrame* CFrame.new(0,11,0) *CFrame.Angles(math.rad(-90),0,math.rad(90))
 
 						if plr.Character:GetAttribute("One") ~= true then
@@ -517,9 +491,6 @@ function autoBoss()
 					}
 
 					game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
-				else
-					print(_G.boss)
-					return
 				end
 			end
 		end)
@@ -649,7 +620,6 @@ function redeemcode(a)
 			[1] = v
 		}
 		game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Codes:InvokeServer(unpack(args))
-		print("Redeemed: "..v)
 		wait(.5)
 	end
 
@@ -706,16 +676,13 @@ function missionfarm(a)
 		local args = {
 			[1] = "Yes"
 		}
-		print(closest)
 		game:GetService("Players").LocalPlayer:WaitForChild(closest.Name):FireServer(unpack(args))
 	end)
 
 	
 	if game.Players.LocalPlayer.Character:GetAttribute("BankaiMeter") then
-		print('character is a shinigami')
 		local c
 		c	= game.Workspace.Entities.ChildAdded:Connect(function(v)
-			print(v)
 			if string.find(v.Name, "Fishbone") or string.find(v.Name, "Frisker") then
 
 				repeat
@@ -743,7 +710,6 @@ function missionfarm(a)
 	elseif game.Players.LocalPlayer.Character:GetAttribute("SegundaMeter") or game.Players.LocalPlayer.Character:GetAttribute("VoltMeter") then
 		local c
 		c	= game.Workspace.Entities.ChildAdded:Connect(function(v)
-			print(v)
 			if string.find(v.Name, "Fishbone") or string.find(v.Name, "Frisker") then
 
 				repeat
@@ -812,9 +778,6 @@ end
 
 loadsettings()
 
-for i,v in pairs(getgenv().settings) do
-	print(i,v)
-end
 
 if getgenv().settings.boss then
 	autoBoss()
@@ -893,7 +856,6 @@ farm:CreateToggle("Division 12 Farm", getgenv().settings.division12, function(a)
 end)
 
 farm:CreateButton("Missions Farm", function(a)
-	print(a)
 	missionfarm(a)
 end)
 
