@@ -303,22 +303,6 @@ function autoBoss()
 				c = game:GetService("RunService").Heartbeat:Connect(function()
 					if getgenv().settings.boss == true then
 						Timer.Text = math.floor((tick()-lapse)/60).."m "..math.floor((tick()-lapse)%60).."s"
-						if _G.boss:GetAttribute("CurrentState") == "Unconscious" then
-							c:Disconnect()
-							c = nil
-
-							wait(1)
-							_G.boss.HumanoidRootPart.Anchored = true
-							wait(.5)
-							plr.Character.HumanoidRootPart.CFrame =  _G.boss.HumanoidRootPart.CFrame
-							wait(.5)
-							plr.Character.HumanoidRootPart.CFrame =  _G.boss.HumanoidRootPart.CFrame
-							wait(.5)
-							plr.Character.HumanoidRootPart.CFrame =  _G.boss.HumanoidRootPart.CFrame			
-							wait(1)
-							game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Execute:FireServer()
-							return	
-						end
 
 						_G.boss.Humanoid.Health = 0
 						plr.Character.HumanoidRootPart.CFrame =  _G.boss.HumanoidRootPart.CFrame* CFrame.new(0,11,0) *CFrame.Angles(math.rad(-90),0,math.rad(90))
