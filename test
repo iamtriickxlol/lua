@@ -139,7 +139,7 @@ function autoBoss()
 	repeat wait() until game:IsLoaded()
 	if  game.PlaceId == 14069678431 then
 		wait(3)
-		game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.PartyCreate:FireServer()
+		game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.PartyCreate:FireServer()
 
 
 		fireclickdetector(workspace.NPCs.RaidBoss.Kisuke.ClickDetector)
