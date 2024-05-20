@@ -837,6 +837,10 @@ sub:CreateSlider("Walkspeed Amount",10,120,16, function(a)
 	getgenv().settings.wsa = a
 end)
 
+sub:CreateButton("Reset", function()
+	game.Players.LocalPlayer.Character.Humanoid.Health = 0
+end)
+
 
 
 
