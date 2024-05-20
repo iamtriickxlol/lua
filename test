@@ -859,6 +859,7 @@ end)
 
 sub3:CreateToggle("Performance Mode",getgenv().settings.perf, function(a)
 	getgenv().settings.perf = a
+	perfmode()
 	saveSettings()
 end)
 
