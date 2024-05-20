@@ -762,14 +762,6 @@ function perfmode()
 
 		end
 	end
-
-
-	for i,v in pairs(game.Lighting:GetDescendants()) do
-		if v:IsA("SunRaysEffect") or v:IsA("BloomEffect") or v:IsA("DepthOfFieldEffect") or v:IsA("BlurEffect") or v:IsA("ColorCorrectionEffect") then
-			v:Destroy()
-
-		end
-	end
 end
 
 function hideservdetails(a)
@@ -790,6 +782,10 @@ end
 
 if getgenv().settings.sprint then
 	sprint(getgenv().settings.sprint)
+end
+
+if getgenv().settings.serverdetails then
+	hideservdetails(getgenv().settings.serverdetails)
 end
 
 local main = Library:CreateWindow()
