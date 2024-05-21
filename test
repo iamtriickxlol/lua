@@ -161,6 +161,40 @@ function autoBoss()
 	end
 
 	if game.PlaceId == 17047374266 then
+		local lapse = tick()
+
+				if (tick()-lapse) >= 500 then
+					
+					httpservice = game:GetService("HttpService")
+
+					local response = request({
+						Url = getgenv().settings.webhookURL,
+						Method = "POST",
+						Headers = {
+							["Content-Type"] = 'application/json'
+						},
+						Body = httpservice:JSONEncode({
+							["content"] = "",
+							["embeds"] = {{
+								["title"] = "ERROR",
+								["description"] = "Boss system has encountered an issue.",
+								["type"] = "rich",
+								["color"] = tonumber(0xeb4034),
+								["footer"] = {
+									["text"] = "Type Soul - Meta Hub",
+								}
+							}}
+						})
+					})
+
+					local args = {
+						[1] = "Karakura Town",
+					}
+
+					game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.ServerListTeleport:FireServer(unpack(args))
+
+
+				end
 		local plr = game.Players.LocalPlayer
 		_G.boss = nil
 
@@ -321,39 +355,6 @@ function autoBoss()
 					wait()
 				end)
 
-
-				if (tick()-lapse) >= 400 then
-					
-					httpservice = game:GetService("HttpService")
-
-					local response = request({
-						Url = getgenv().settings.webhookURL,
-						Method = "POST",
-						Headers = {
-							["Content-Type"] = 'application/json'
-						},
-						Body = httpservice:JSONEncode({
-							["content"] = "",
-							["embeds"] = {{
-								["title"] = "ERROR",
-								["description"] = "Boss system has encountered an issue.",
-								["type"] = "rich",
-								["color"] = tonumber(0xeb4034),
-								["footer"] = {
-									["text"] = "Type Soul - Meta Hub",
-								}
-							}}
-						})
-					})
-
-					local args = {
-						[1] = "Karakura Town",
-					}
-
-					game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.ServerListTeleport:FireServer(unpack(args))
-
-
-				end
 			end
 
 		end)
