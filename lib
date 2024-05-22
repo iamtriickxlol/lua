@@ -683,6 +683,7 @@ function Library:CreateWindow()
 					Option.Text = id
 					
 					Option.MouseButton1Click:Connect(function()
+						pcall(callback, id)
 						OptionName.Text = id
 						Holder_2.Visible = false
 					end)
