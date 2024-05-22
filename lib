@@ -266,7 +266,6 @@ function Library:CreateWindow()
 				toggled = toggled or false
 				text = text or "New Toggle"
 				callback = callback or function() end
-				print(toggled)
 				local Toggled = toggled or false
 				local Toggle = Instance.new("Frame")
 				local Button = Instance.new("TextButton")
@@ -418,7 +417,6 @@ function Library:CreateWindow()
 				end
 
 				function slider:getValue()
-					print(slider.val)
 					return slider.val
 				end
 
@@ -656,7 +654,6 @@ function Library:CreateWindow()
 							c +=1
 						end
 					end
-					print(c)
 					Holder_2.Size = UDim2.new(1,0,0,48)
 					Holder_2.CanvasSize = UDim2.new(1,0,0,(c * 24))
 					Holder_2.Visible = not Holder_2.Visible
@@ -686,7 +683,6 @@ function Library:CreateWindow()
 					Option.Text = id
 					
 					Option.MouseButton1Click:Connect(function()
-						print(id)
 						OptionName.Text = id
 						Holder_2.Visible = false
 					end)
