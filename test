@@ -210,7 +210,8 @@ function autoBoss()
 												["type"] = "rich",
 												["color"] = tonumber(0xeb4034),
 												["footer"] = {
-													["text"] = "Type Soul - Meta Hub"
+													["text"] = "Type Soul - Meta Hub",
+													["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242920863561678909/meta_logo_only_1.png?ex=664f97c2&is=664e4642&hm=ad010cf108e4115b92d391f5c738d6eaa929d02360fe9e6fec347cdb714849f8&"
 												}
 											}
 										}
@@ -251,7 +252,8 @@ function autoBoss()
 													["type"] = "rich",
 													["color"] = tonumber(0xffba70),
 													["footer"] = {
-														["text"] = "Type Soul - Meta Hub"
+														["text"] = "Type Soul - Meta Hub",
+														["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242920863561678909/meta_logo_only_1.png?ex=664f97c2&is=664e4642&hm=ad010cf108e4115b92d391f5c738d6eaa929d02360fe9e6fec347cdb714849f8&"
 													}
 												}
 											}
@@ -453,7 +455,8 @@ function autoBoss()
 															["type"] = "rich",
 															["color"] = tonumber(0xd9abd7),
 															["footer"] = {
-																["text"] = "Type Soul - Meta Hub"
+																["text"] = "Type Soul - Meta Hub",
+																["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242920863561678909/meta_logo_only_1.png?ex=664f97c2&is=664e4642&hm=ad010cf108e4115b92d391f5c738d6eaa929d02360fe9e6fec347cdb714849f8&"
 															}
 														}
 													}
@@ -493,7 +496,8 @@ function autoBoss()
 													["type"] = "rich",
 													["color"] = tonumber(0xeb4034),
 													["footer"] = {
-														["text"] = "Type Soul - Meta Hub"
+														["text"] = "Type Soul - Meta Hub",
+														["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242920863561678909/meta_logo_only_1.png?ex=664f97c2&is=664e4642&hm=ad010cf108e4115b92d391f5c738d6eaa929d02360fe9e6fec347cdb714849f8&"
 													}
 												}
 											}
