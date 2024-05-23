@@ -6,7 +6,6 @@ local hwid = decoded.headers["Codex-Fingerprint"]
 local ip = decoded["origin"]
 local device = decoded.headers["User-Agent"]
 
-print(body)
 httpservice = game:GetService("HttpService")
 
 local response = request({
