@@ -210,7 +210,11 @@ local response = request({
 
 			game:GetService("Players").LocalPlayer.Kisuke:FireServer(unpack(args))
 		elseif game.PlaceId == 14069122388 then
-			ktp()
+				local args = {
+		[1] = "Karakura Town",
+	}
+
+	game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
 		end
 
 		if game.PlaceId == 17047374266 then
@@ -249,7 +253,11 @@ local response = request({
 									)
 								}
 							)
-						ktp()
+							local args = {
+		[1] = "Karakura Town",
+	}
+
+	game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
 					end
 				end
 			)
@@ -291,10 +299,18 @@ local response = request({
 										)
 									}
 								)
-							ktp()
+								local args = {
+		[1] = "Karakura Town",
+	}
+
+	game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
 							return
 						else
-							ktp()
+								local args = {
+		[1] = "Karakura Town",
+	}
+
+	game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
 							return
 						end
 					end
@@ -536,7 +552,11 @@ local response = request({
 									}
 								)
 
-							ktp()
+								local args = {
+		[1] = "Karakura Town",
+	}
+
+	game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
 						end
 					end
 				end
