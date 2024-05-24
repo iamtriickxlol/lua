@@ -222,7 +222,7 @@ function autoBoss()
 		local lapse = tick()
 		local debounce = true
 		RunService.RenderStepped:Connect(function()
-				if (tick()-lapse) >= 430 and debounce == true then
+				if (tick()-lapse) >= 420 and debounce == true then
 					ktp()
 				end
 		end)
