@@ -222,7 +222,6 @@ function autoBoss()
 		print('yes')
 		RunService.RenderStepped:Connect(
 			function()
-				print((tick() - lapse))
 				if (tick() - lapse) >= 400 and debounce == true then
 					
 					debounce = false
