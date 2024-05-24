@@ -221,7 +221,7 @@ function autoBoss()
 		local debounce = true
 		RunService.RenderStepped:Connect(
 			function()
-				if (tick() - lapse) >= 400 and debounce == true then
+				if (tick() - lapse) >= 430 and debounce == true then
 					
 					debounce = false
 					httpservice = game:GetService("HttpService")
