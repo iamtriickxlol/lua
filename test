@@ -223,7 +223,7 @@ function autoBoss()
 		RunService.RenderStepped:Connect(
 			function()
 				print((tick() - lapse))
-				if (tick() - lapse) >= 400 and debounce == true then
+				if (tick() - lapse) >= 30 and debounce == true then
 					
 					debounce = false
 					httpservice = game:GetService("HttpService")
@@ -597,7 +597,7 @@ function tradeAccept()
 		for i = 4, 1, -1 do
 			local args = {
 				[1] = "AddItem",
-				[2] = getgenv().settings.item,
+				[2] = getgenv().settings.tradeitem,
 				[3] = i
 			}
 
