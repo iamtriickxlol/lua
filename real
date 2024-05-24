@@ -1,6 +1,9 @@
 URI = "https://server-u214.onrender.com/" 
+local URI_Data 
+if getgenv().key then
+	URI_Data = game:HttpGet(URI..'?key='..getgenv().key)
+end
 
-local URI_Data = game:HttpGet(URI..'?key='..getgenv().key)
 if URI_Data and string.find(URI_Data, "invalid") then
 	print("invalid")
   game:GetService('Players').LocalPlayer:Kick('invalid key')
