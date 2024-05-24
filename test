@@ -256,6 +256,8 @@ function autoBoss()
 								}
 							)
 						ktp()
+						debounce =true
+						task.wait(5)
 					else
 						ktp()
 					end
