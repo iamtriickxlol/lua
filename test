@@ -170,7 +170,7 @@ function ktp()
 	local TPS = game:GetService("TeleportService")
 	local Api = "https://games.roblox.com/v1/games/"
 
-	local _place = 14069122388
+	local _place = 14069678431
 	local _servers = Api .. _place .. "/servers/Public?sortOrder=Asc&limit=100"
 	function ListServers(cursor)
 		local Raw = game:HttpGet(_servers .. ((cursor and "&cursor=" .. cursor) or ""))
@@ -219,9 +219,12 @@ function autoBoss()
 	if game.PlaceId == 17047374266 then
 		local lapse = tick()
 		local debounce = true
+		print('yes')
 		RunService.RenderStepped:Connect(
 			function()
+				print((tick() - lapse))
 				if (tick() - lapse) >= 400 and debounce == true then
+					
 					debounce = false
 					httpservice = game:GetService("HttpService")
 
