@@ -219,7 +219,6 @@ function autoBoss()
 	if game.PlaceId == 17047374266 then
 		local lapse = tick()
 		local debounce = true
-		print('yes')
 		RunService.RenderStepped:Connect(
 			function()
 				if (tick() - lapse) >= 400 and debounce == true then
@@ -599,8 +598,9 @@ function tradeAccept()
 				[2] = getgenv().settings.tradeitem,
 				[3] = i
 			}
-
+			
 			game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.TradeEvent:FireServer(unpack(args))
+			print('traded:' ..getgenv().settings.tradeitem)
 			wait(.1)
 		end
 
