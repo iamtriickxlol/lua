@@ -207,7 +207,7 @@ function autoBoss()
 			[1] = "Yes"
 		}
 
-		game:GetService("Players").LocalPlayer.Kisuke:FireServer(unpack(args))
+		game:GetService("Players").LocalPlayer:WaitForChild("Kisuke"):FireServer(unpack(args))
 	elseif game.PlaceId == 14069122388 then
 		local args = {
 			[1] = "Karakura Town",
