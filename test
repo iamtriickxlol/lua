@@ -782,7 +782,9 @@
 						end
 					)
 
-					if game.Players.LocalPlayer.Character:GetAttribute("ShinigamiPants1") then
+	if game.Players.LocalPlayer.Character:FindFirstChild("ShinigamiPants1") or game.Players.LocalPlayer.Character:GetAttribute("BlutVene") then
+		game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Weapon:FireServer()
+
 						local c
 						local r = 200
 						local mobs = 0
