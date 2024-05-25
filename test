@@ -499,7 +499,7 @@
 												item = nitem
 
 												gui.Name = "boss"
-												gui.Parent = game.Players.LocalPlayer.PlayerGui
+												gui.Parent = gethui() or game.CoreGui
 												gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 												gui.DisplayOrder = 10
 
@@ -1518,7 +1518,7 @@ end
 				slot:Add("A")
 				slot:Add("B")
 				slot:Add("C")
-				slot:Add("D")
+				slot:Add("D") 
 
 				local d =
 					sub4:CreateDropdown(
@@ -1583,3 +1583,4 @@ end
 				if getgenv().settings.slot ~= "None" then
 					autoSlot()
 				end
+
