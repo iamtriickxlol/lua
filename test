@@ -1258,28 +1258,45 @@
 						sprint(a)
 						saveSettings()
 					end
-				)
-				sub:CreateSlider(
-					"Fly Speed",
-					50,
-					200,
-					getgenv().settings.flys,
-					function(a)
-						getgenv().settings.flys = a
-						saveSettings()
-					end
-				)
+)
 
-				sub:CreateSlider(
-					"Walkspeed Amount",
-					10,
-					120,
-					getgenv().settings.wsa,
-					function(a)
-						getgenv().settings.wsa = a
-						saveSettings()
-					end
-				)
+if game:GetService("UserInputService").TouchEnabled and not game:GetService("UserInputService").MouseEnabled  then
+	print('on mobile')
+	sub:CreateTextbox("Fly Speed", getgenv().settings.flys, function(a)
+		getgenv().settings.flys = a
+		saveSettings()
+	end)
+	
+	sub:CreateTextbox("Walkspeed Amount", getgenv().settings.wsa, function(a)
+		getgenv().settings.wsa = a
+		saveSettings()
+	end)
+	
+elseif game:GetService("UserInputService").MouseEnabled and UserInputService.KeyboardEnabled then
+	print("on pc")
+	sub:CreateSlider(
+		"Fly Speed",
+		50,
+		200,
+		getgenv().settings.flys,
+		function(a)
+			getgenv().settings.flys = a
+			saveSettings()
+		end
+	)
+	
+	sub:CreateSlider(
+		"Walkspeed Amount",
+		10,
+		120,
+		getgenv().settings.wsa,
+		function(a)
+			getgenv().settings.wsa = a
+			saveSettings()
+		end
+	)
+end
+
 
 				sub:CreateButton(
 					"Reset",
