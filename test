@@ -52,6 +52,7 @@
 					"Shattered Comet Essence",
 					"Dimensional Shard",
 					"Formless Manual",
+					"Black Flash Dust",
 				}
 
 				getgenv().avoidbosses = {
