@@ -647,6 +647,8 @@ function Library:CreateWindow()
 				UIListLayout_2.Parent = Holder_2
 				UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
 				UIListLayout_2.Padding = UDim.new(0, 0)
+				
+				
 
 				OptionName.MouseButton1Click:Connect(function()
 					local c = 0
@@ -694,17 +696,14 @@ function Library:CreateWindow()
 				return dropdown
 			end
 			
-			function content:CreateMultiDropdown(name, last, layer,callback)
+			function content:CreateMultiDropdown(name, last, layer, items,callback)
 				name = name or "New Dropdown"
 				last = last or ""
 				layer = layer or 10
 				callback = callback or function() end
-				local multidropdown = {
-					items = {
-						
-					}
-				}
-
+				local multidropdown = {}
+				items = items or {}
+				print(items)
 				local Dropdown = Instance.new("Frame")
 				local OptionLabel = Instance.new("Frame")
 				local Holder_2 = Instance.new("ScrollingFrame")
@@ -762,7 +761,7 @@ function Library:CreateWindow()
 				Holder_2.ScrollingDirection = Enum.ScrollingDirection.Y
 				Holder_2.ScrollBarThickness = 1
 
-				OptionName.Name = "OptionName"
+				OptionName.Name = name
 				OptionName.Parent = OptionLabel
 				OptionName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 				OptionName.BackgroundTransparency = 1.000
@@ -771,7 +770,7 @@ function Library:CreateWindow()
 				OptionName.Position = UDim2.new(0.0250000004, 0, 0, 0)
 				OptionName.Size = UDim2.new(0.975000024, 0, 1, 0)
 				OptionName.Font = Enum.Font.SourceSansBold
-				OptionName.Text = last
+				OptionName.Text = #items > 0 and table.concat(items, ", ") or "Select"
 				OptionName.TextColor3 = Color3.fromRGB(180, 163, 185)
 				OptionName.TextSize = 16.000
 				OptionName.TextXAlignment = Enum.TextXAlignment.Left
@@ -780,7 +779,9 @@ function Library:CreateWindow()
 				UIListLayout_2.Parent = Holder_2
 				UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
 				UIListLayout_2.Padding = UDim.new(0, 0)
+				
 
+				
 				OptionName.MouseButton1Click:Connect(function()
 					local c = 0
 					for i,v in pairs(Holder_2:GetChildren()) do
@@ -796,7 +797,7 @@ function Library:CreateWindow()
 				function multidropdown:Add(id)
 					local OptionHolder = Instance.new("Frame")
 					local Option = Instance.new("TextButton")
-					OptionHolder.Name = "OptionHolder"
+					OptionHolder.Name = id
 					OptionHolder.Parent = Holder_2
 					OptionHolder.BackgroundColor3 = Color3.fromRGB(54, 48, 61)
 					OptionHolder.BorderColor3 = Color3.fromRGB(180, 163, 185)
@@ -817,19 +818,23 @@ function Library:CreateWindow()
 					Option.Text = id
 
 					Option.MouseButton1Click:Connect(function()
-						if not table.find(multidropdown.items, id) then
-							table.insert(multidropdown.items, id)
-							Option.TextColor3 = Color3.fromRGB(248, 225, 255)
-							OptionName.Text = table.concat(multidropdown.items, ", ")
-							callback(id)
-						else
-							table.remove(multidropdown.items, table.find(multidropdown.items, id))
+						if not table.find(items, id) then
+							table.insert(items, id)
 							Option.TextColor3 = Color3.fromRGB(180, 163, 185)
-							OptionName.Text = #multidropdown.items > 0 and table.concat(multidropdown.items, ", ") or "Select"
-							callback(id)
+							OptionName.Text = table.concat(items, ", ")
+							callback(items)
+						else
+							table.remove(items, table.find(items, id))
+							Option.TextColor3 = Color3.fromRGB(180, 163, 185)
+							OptionName.Text = #items > 0 and table.concat(items, ", ") or "Select"
+							callback(items)
+							
 						end
+						
 						Holder_2.Visible = false
 					end)
+					
+
 				end
 
 				return multidropdown
