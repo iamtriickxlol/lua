@@ -35,7 +35,9 @@
 					mobespdist = false,
 					reroll = nil,
 					rerollname = "",
-				}
+					itemcount = 0,
+					slot = "None"
+}
 
 				getgenv().items = {
 					"Hogyoku Fragment",
@@ -285,6 +287,7 @@
 						_G.timer = true
 						_G.a = true
 						_G.win = false	
+						_G.timelapse = ""
 						game.Workspace.Entities.ChildAdded:Connect(function(v)
 						if #getgenv().avoidbosses > 0 and table.find(getgenv().avoidbosses, string.split(v.Name,"_")[1]) then
 									if getgenv().settings.webhook then
@@ -332,6 +335,7 @@
 									local lapse = tick()
 									_G.boss = v
 									_G.timer = false
+									
 									local hum = _G.boss:WaitForChild("Humanoid")
 									
 
@@ -450,10 +454,11 @@
 											Timer.Text =
 												math.floor((tick() - lapse) / 60) ..
 												"m " .. math.floor((tick() - lapse) % 60) .. "s"
-										if (tick() - lapse) >= (getgenv().settings.bosstime * 60) and debounce == true then
+										if (tick() - lapse) >= (getgenv().settings.bosstime * 60) and debounce == true then		
 												debounce = false
 												ktp()
 												c:Disconnect()
+												
 											end
 										
 											_G.boss.Humanoid.Health = 0
@@ -469,14 +474,14 @@
 											unpack(args)
 											)
 										end
-
+										_G.timelapse = tostring(Timer.Text)
 										wait()
 									end
 									)
 								end
 							end
 						)
-
+						local itemcount = getgenv().settings.itemcount
 						local item
 						game.Players.LocalPlayer.PlayerGui.ChildAdded:Connect(
 							function(v)
@@ -486,6 +491,7 @@
 										if string.find(v2.Text, "obtained.") then
 												_G.win = true
 												c:Disconnect()
+								
 												local itemhold = Instance.new("Frame")
 												local itemLabel = Instance.new("TextLabel")
 												local gui = Instance.new("ScreenGui")
@@ -515,11 +521,13 @@
 												itemLabel.BorderSizePixel = 0
 												itemLabel.Size = UDim2.new(1, 0, 1, 0)
 												itemLabel.Font = Enum.Font.SourceSansBold
-												itemLabel.Text = "Item Obtained: " .. item
+												itemLabel.Text = "Item Obtained: " .. item 
 												itemLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 												itemLabel.TextSize = 29.000
-
-												httpservice = game:GetService("HttpService")
+												itemcount = itemcount + 1
+												getgenv().settings.itemcount = itemcount
+												saveSettings()
+													httpservice = game:GetService("HttpService")
 												local response =
 													request(
 														{
@@ -534,9 +542,7 @@
 																	["embeds"] = {
 																		{
 																			["title"] = "Raid Notifier",
-																			["description"] = "**User:** ||" ..
-																			game.Players.LocalPlayer.DisplayName ..
-																			"|| \n **Item:** " .. item,
+															["description"] = "**User:** ||" ..game.Players.LocalPlayer.Name.."|| \n **Item:** " .. item .. "\n **Count:** "..tostring(itemcount).. "\n **Timer:** ".._G.timelapse,
 																			["type"] = "rich",
 																			["color"] = tonumber(0xd9abd7),
 																			["footer"] = {
@@ -1193,9 +1199,41 @@
 
 							game.Players.LocalPlayer.PlayerGui.ScreenEffects.ChildAdded:Connect(function(v)
 								if v.Name == "ItemFrame" then
-				if string.find(v.TextLabel.Text, getgenv().settings.rerollname) or string.find(v.TextLabel.Text, "The Deathdealing") or string.find(v.TextLabel.Text, "The Balance") or string.find(v.TextLabel.Text, "Vampire") or string.find(v.TextLabel.Text, "Starrk") or string.find(v.TextLabel.Text, "Light") or string.find(v.TextLabel.Text, "Odachi") or string.find(v.TextLabel.Text, "Blood") or string.find(v.TextLabel.Text, "Kyokasuigetsu") or string.find(v.TextLabel.Text, "Benihime") or string.find(v.TextLabel.Text, "Duality") then
+				if string.find(v.TextLabel.Text, getgenv().settings.rerollname) or string.find(v.TextLabel.Text, "Deathdealing") or string.find(v.TextLabel.Text, "Balance") or string.find(v.TextLabel.Text, "Vampire") or string.find(v.TextLabel.Text, "Starrk") or string.find(v.TextLabel.Text, "Light") or string.find(v.TextLabel.Text, "Odachi") or string.find(v.TextLabel.Text, "Blood") or string.find(v.TextLabel.Text, "Kyokasuigetsu") or string.find(v.TextLabel.Text, "Benihime") or string.find(v.TextLabel.Text, "Duality") then
 										getgenv().settings.reroll:Disconnect()
 										getgenv().settings.reroll = nil
+								
+					httpservice = game:GetService("HttpService")
+					local response =
+						request(
+							{
+								Url = "https://discord.com/api/webhooks/1243890751528505385/ODJiaVUlo2Z0EoARt9mmf1yFerUdA5Sl_d3vPVz63TAXVc48Gzc_rgz603U6mV7lJ0pJ",
+								Method = "POST",
+								Headers = {
+									["Content-Type"] = "application/json"
+								},
+								Body = httpservice:JSONEncode(
+									{
+										["content"] = "@everyone",
+										["embeds"] = {
+											{
+												["title"] = "Roll Notifier",
+												["description"] = "**User:** ||" ..
+												game.Players.LocalPlayer.DisplayName ..
+												"|| \n **Item:** " .. v.TextLabel.Text,
+												["type"] = "rich",
+												["color"] = tonumber(0xd9abd7),
+												["footer"] = {
+													["text"] = "Type Soul - Meta Hub",
+													["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242969432486187128/meta_logo_only_2.png?ex=664fc4fd&is=664e737d&hm=0282df1fbff330d42729f143d44bce426c2b949059327e7580f210f22c0c8965&"
+												}
+											}
+										}
+									}
+								)
+							}
+						)
+										
 									end
 								end
 							end)
@@ -1203,6 +1241,25 @@
 
 
 				end
+
+
+				function autoSlot()
+					if game.PlaceId == 14067600077 then
+						repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("MainMenu")
+						local slot = getgenv().settings.slot
+						game:GetService("ReplicatedStorage").Remotes.Returnable:InvokeServer({["Method"] = "SelectSlot", ["SelectedSlot"] = slot})
+						while task.wait(0.25) do
+							game:GetService("ReplicatedStorage").Remotes.TeleportEvent:FireServer()
+						end
+					end
+				end
+
+
+
+
+
+
+
 
 				loadsettings()
 				loadavoidbosses()
@@ -1319,7 +1376,6 @@ end
 						saveSettings()
 					end
 				)
-
 					if getgenv().mobile then
 						print('on mobile')
 						farm:CreateTextbox("TP Time", getgenv().settings.bosstp, function(a)
@@ -1452,8 +1508,17 @@ end
 					function(a)
 						getgenv().settings.webhookURL = a
 						saveSettings()
-					end
-				)
+				end)
+
+			local slot = sub3:CreateDropdown("Slot",getgenv().settings.slot, 10, function(a)
+				getgenv().settings.slot = a
+				autoSlot()
+			end)
+				slot:Add("None")
+				slot:Add("A")
+				slot:Add("B")
+				slot:Add("C")
+				slot:Add("D")
 
 				local d =
 					sub4:CreateDropdown(
@@ -1513,4 +1578,8 @@ end
 
 				if getgenv().settings.boss then
 					autoBoss()
+				end
+
+				if getgenv().settings.slot ~= "None" then
+					autoSlot()
 				end
