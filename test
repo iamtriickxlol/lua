@@ -499,7 +499,7 @@
 												item = nitem
 
 												gui.Name = "boss"
-												gui.Parent = gethui() or game.CoreGui
+												gui.Parent = game.Players.LocalPlayer.PlayerGui
 												gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 												gui.DisplayOrder = 10
 
