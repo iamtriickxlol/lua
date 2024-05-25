@@ -561,7 +561,7 @@
 			end
 
 			function tradeAccept()
-				if getgenv().settings.tradename  then
+				if getgenv().settings.tradename then
 					print(getgenv().settings.tradename, getgenv().settings.tradeitem )
 					local args = {
 						[1] = getgenv().settings.tradename
@@ -582,7 +582,7 @@
 						unpack(args)
 						)
 						wait(.1)
-			print("trade: "..getgenv().settings.tradeitem)
+					print("trade: "..getgenv().settings.tradeitem)
 					end
 
 					local args = {
