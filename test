@@ -1,3 +1,4 @@
+
 				local UserInputService = game:GetService("UserInputService")
 				local Players = game:GetService("Players")
 				local UIS = game:GetService("UserInputService")
@@ -1260,7 +1261,8 @@
 					end
 )
 
-if game:GetService("UserInputService").TouchEnabled and not game:GetService("UserInputService").MouseEnabled  then
+
+if getgenv().mobile == true  then
 	print('on mobile')
 	sub:CreateTextbox("Fly Speed", getgenv().settings.flys, function(a)
 		getgenv().settings.flys = a
@@ -1272,7 +1274,7 @@ if game:GetService("UserInputService").TouchEnabled and not game:GetService("Use
 		saveSettings()
 	end)
 	
-elseif game:GetService("UserInputService").MouseEnabled and UserInputService.KeyboardEnabled then
+elseif getgenv().mobile == nil then
 	print("on pc")
 	sub:CreateSlider(
 		"Fly Speed",
@@ -1316,22 +1318,43 @@ end
 					end
 				)
 
+					if getgenv().mobile then
+						print('on mobile')
+						farm:CreateTextbox("TP Time", getgenv().settings.bosstp, function(a)
+							getgenv().settings.bosstp = a
+												saveSettings()
+											end)
+
+						farm:CreateTextbox("Offset", getgenv().settings.bossoffset, function(a)
+							getgenv().settings.bossoffset = a
+												saveSettings()
+											end)
+											
+						farm:CreateTextbox("Max Time", getgenv().settings.bosstime, function(a)
+							getgenv().settings.bosstime = a
+												saveSettings()
+						end)
+
+					elseif getgenv().mobile == nil then
+						print("on pc")
+						farm:CreateSlider("TP Time", 0,60,getgenv().settings.bosstp, function(a)
+							getgenv().settings.bosstp = a
+							saveSettings()
+						end)
+
+						farm:CreateSlider("Offset", 0,20,getgenv().settings.bossoffset, function(a)
+							getgenv().settings.bossoffset = a
+							saveSettings()
+						end)
+
+						farm:CreateSlider("Max Time", 1,15,getgenv().settings.bosstime, function(a)
+							getgenv().settings.bosstime = a
+							saveSettings()
+						end)
+					end
 
 
-				farm:CreateSlider("TP Time", 0,60,getgenv().settings.bosstp, function(a)
-					getgenv().settings.bosstp = a
-					saveSettings()
-				end)
 
-				farm:CreateSlider("Offset", 0,20,getgenv().settings.bossoffset, function(a)
-					getgenv().settings.bossoffset = a
-					saveSettings()
-				end)
-
-				farm:CreateSlider("Max Time", 1,15,getgenv().settings.bosstime, function(a)
-					getgenv().settings.bosstime = a
-					saveSettings()
-				end)
 
 				local y = farm:CreateMultiDropdown("Avoid","Select",10,getgenv().avoidbosses , function(a)
 						getgenv().avoidbosses = a
