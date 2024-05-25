@@ -145,13 +145,13 @@ function Library:CreateWindow()
 	UIPadding_2.PaddingTop = UDim.new(0, 5)
 
 	MakeDraggable(TopBar,Main)
-	
+
 	UserInputService.InputBegan:Connect(function(input,gpe)
 		if input.KeyCode == Enum.KeyCode.Tab then
 			Main.Visible = not Main.Visible
 		end
 	end)
-	
+
 
 	local inLib = {}
 
@@ -306,7 +306,7 @@ function Library:CreateWindow()
 				Label_2.TextColor3 = Color3.fromRGB(180, 163, 185)
 				Label_2.TextSize = 16.000
 				Label_2.TextXAlignment = Enum.TextXAlignment.Left
-				
+
 				if toggled == false then
 					Button.BackgroundColor3 = Color3.fromRGB(64, 57, 72)
 
@@ -453,7 +453,7 @@ function Library:CreateWindow()
 					end
 				end)
 			end
-			
+
 			function content:CreateTextbox(name,text, callback)
 				name = name or "New Textbox"
 				text = text or "New Textbox"
@@ -462,7 +462,7 @@ function Library:CreateWindow()
 				local Label_17 = Instance.new("TextLabel")
 				local TextBox = Instance.new("TextBox")
 				local UICorner_10 = Instance.new("UICorner")
-				
+
 				WebhookURL.Name = "WebhookURL"
 				WebhookURL.Parent = Holder
 				WebhookURL.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -471,7 +471,7 @@ function Library:CreateWindow()
 				WebhookURL.BorderSizePixel = 0
 				WebhookURL.Position = UDim2.new(0, 0, 0.161904767, 0)
 				WebhookURL.Size = UDim2.new(1, 0, 0, 20)
-				
+
 				Label_17.Name = "Label"
 				Label_17.Parent = WebhookURL
 				Label_17.AnchorPoint = Vector2.new(0, 0.5)
@@ -486,7 +486,7 @@ function Library:CreateWindow()
 				Label_17.TextColor3 = Color3.fromRGB(180, 163, 185)
 				Label_17.TextSize = 16.000
 				Label_17.TextXAlignment = Enum.TextXAlignment.Left
-				
+
 				TextBox.Parent = WebhookURL
 				TextBox.BackgroundColor3 = Color3.fromRGB(30, 27, 34)
 				TextBox.BorderColor3 = Color3.fromRGB(0, 0, 0)
@@ -508,7 +508,7 @@ function Library:CreateWindow()
 					end
 				end)
 			end
-			
+
 			function content:CreateButton(name,callback)
 				name = name or "New Button"
 				callback = callback or function() end
@@ -553,15 +553,16 @@ function Library:CreateWindow()
 				TextButton.Text = ""
 
 				UICorner_6.Parent = TextButton
-				
+
 				TextButton.MouseButton1Click:Connect(function()
 					pcall(callback)
 				end)
 			end
 
-			function content:CreateDropdown(name, last,callback)
+			function content:CreateDropdown(name, last, layer,callback)
 				name = name or "New Dropdown"
 				last = last or ""
+				layer = layer or 10
 				callback = callback or function() end
 				local dropdown = {
 					items = {
@@ -570,7 +571,7 @@ function Library:CreateWindow()
 						}
 					}
 				}
-				
+
 				local Dropdown = Instance.new("Frame")
 				local OptionLabel = Instance.new("Frame")
 				local Holder_2 = Instance.new("ScrollingFrame")
@@ -582,7 +583,7 @@ function Library:CreateWindow()
 				local UIListLayout_2 = Instance.new("UIListLayout")
 				local OptionName = Instance.new("TextButton")
 				local Label_5 = Instance.new("TextLabel")
-				
+
 				Dropdown.Name = "Dropdown"
 				Dropdown.Parent = Holder
 				Dropdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -591,7 +592,7 @@ function Library:CreateWindow()
 				Dropdown.BorderSizePixel = 0
 				Dropdown.Position = UDim2.new(0, 0, 0.369552642, 0)
 				Dropdown.Size = UDim2.new(1.00000012, 0, 0.117952384, 20)
-				Dropdown.ZIndex = 10
+				Dropdown.ZIndex = layer
 
 				OptionLabel.Name = "OptionLabel"
 				OptionLabel.Parent = Dropdown
@@ -599,7 +600,7 @@ function Library:CreateWindow()
 				OptionLabel.BorderColor3 = Color3.fromRGB(180, 163, 185)
 				OptionLabel.Position = UDim2.new(0.0500000007, 0, 0.430000007, 0)
 				OptionLabel.Size = UDim2.new(0.899999976, 0, 0, 24)
-				
+
 				Label_5.Name = "Label"
 				Label_5.Parent = Dropdown
 				Label_5.AnchorPoint = Vector2.new(0, 0.5)
@@ -627,7 +628,7 @@ function Library:CreateWindow()
 				Holder_2.ZIndex= 10
 				Holder_2.ScrollingDirection = Enum.ScrollingDirection.Y
 				Holder_2.ScrollBarThickness = 1
-				
+
 				OptionName.Name = "OptionName"
 				OptionName.Parent = OptionLabel
 				OptionName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -646,7 +647,7 @@ function Library:CreateWindow()
 				UIListLayout_2.Parent = Holder_2
 				UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
 				UIListLayout_2.Padding = UDim.new(0, 0)
-				
+
 				OptionName.MouseButton1Click:Connect(function()
 					local c = 0
 					for i,v in pairs(Holder_2:GetChildren()) do
@@ -658,7 +659,7 @@ function Library:CreateWindow()
 					Holder_2.CanvasSize = UDim2.new(1,0,0,(c * 24))
 					Holder_2.Visible = not Holder_2.Visible
 				end)
-				
+
 				function dropdown:Add(id)
 					local OptionHolder = Instance.new("Frame")
 					local Option = Instance.new("TextButton")
@@ -681,15 +682,14 @@ function Library:CreateWindow()
 					Option.TextSize = 16.000
 					Option.TextXAlignment = Enum.TextXAlignment.Left
 					Option.Text = id
-					
+
 					Option.MouseButton1Click:Connect(function()
 						callback(id)
-						print("this"..id)
 						OptionName.Text = id
 						Holder_2.Visible = false
 					end)
 				end
-				
+
 				return dropdown
 			end
 			return content
