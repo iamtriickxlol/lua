@@ -654,7 +654,7 @@ function Library:CreateWindow()
 							c +=1
 						end
 					end
-					Holder_2.Size = UDim2.new(1,0,0,48)
+					Holder_2.Size = UDim2.new(1,0,0,72)
 					Holder_2.CanvasSize = UDim2.new(1,0,0,(c * 24))
 					Holder_2.Visible = not Holder_2.Visible
 				end)
