@@ -494,7 +494,7 @@
 												_G.boss.Humanoid.Health = 0
 										
 												_G.boss:BreakJoints()
-						plr.Character.HumanoidRootPart.CFrame = _G.boss.HumanoidRootPart.CFrame * CFrame.new(0, getgenv().settings.bossoffset, 2) * CFrame.Angles(math.rad(-90),0, math.rad(90))
+						plr.Character.HumanoidRootPart.CFrame = _G.boss.HumanoidRootPart.CFrame * CFrame.new(0, getgenv().settings.bossoffset, 1) * CFrame.Angles(math.rad(-90),0, math.rad(90))
 
 												local args = {
 													[1] = "LightAttack"
