@@ -355,7 +355,6 @@
 										boss.Parent = game.CoreGui
 										boss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 										boss.ResetOnSpawn = false
-										boss.Enabled = false
 
 										background.Name = "background"
 										background.Parent = boss
