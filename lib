@@ -240,7 +240,7 @@ function Library:CreateWindow()
 			Holder.BackgroundTransparency = 1
 			Holder.Size = UDim2.new(1,0,.91,0)
 			Holder.Position = UDim2.new(0,0,0.09,0)
-			Holder.CanvasSize = Udim2.new(1,0,1.7,0)
+			Holder.CanvasSize = UDim2.new(1,0,1.7,0)
 			Holder.ScrollBarThickness = 2
 
 			Label.Name = "Label"
