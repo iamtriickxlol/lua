@@ -1193,7 +1193,7 @@
 
 							game.Players.LocalPlayer.PlayerGui.ScreenEffects.ChildAdded:Connect(function(v)
 								if v.Name == "ItemFrame" then
-								if string.find(v.TextLabel.Text, getgenv().settings.rerollname) or string.find(v.TextLabel.Text, "Vampire") or string.find(v.TextLabel.Text, "Starrk") or string.find(v.TextLabel.Text, "Light") or string.find(v.TextLabel.Text, "Odachi") or string.find(v.TextLabel.Text, "Blood") or string.find(v.TextLabel.Text, "Kyokasuigetsu") or string.find(v.TextLabel.Text, "Benihime") or string.find(v.TextLabel.Text, "Duality") then
+				if string.find(v.TextLabel.Text, getgenv().settings.rerollname) or string.find(v.TextLabel.Text, "The Deathdealing") or string.find(v.TextLabel.Text, "The Balance") or string.find(v.TextLabel.Text, "Vampire") or string.find(v.TextLabel.Text, "Starrk") or string.find(v.TextLabel.Text, "Light") or string.find(v.TextLabel.Text, "Odachi") or string.find(v.TextLabel.Text, "Blood") or string.find(v.TextLabel.Text, "Kyokasuigetsu") or string.find(v.TextLabel.Text, "Benihime") or string.find(v.TextLabel.Text, "Duality") then
 										getgenv().settings.reroll:Disconnect()
 										getgenv().settings.reroll = nil
 									end
