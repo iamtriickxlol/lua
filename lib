@@ -159,7 +159,7 @@ function Library:CreateWindow()
 		text = text or "New Tab"
 		local ts = game:GetService("TweenService")
 		local Player_2 = Instance.new("TextButton")
-		local Player = Instance.new("ScrollingFrame")
+		local Player = Instance.new("Frame")
 		local UIPadding = Instance.new("UIPadding")
 		local UIGridLayout = Instance.new("UIGridLayout")
 
