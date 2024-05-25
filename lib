@@ -219,7 +219,7 @@ function Library:CreateWindow()
 
 		function insideTab:createSubTab(text)
 			text = text or "New SubTab"
-			local Movement = Instance.new("Frame")
+			local Movement = Instance.new("ScrollingFrame")
 			local UICorner_4 = Instance.new("UICorner")
 			local Label = Instance.new("TextLabel")
 			local Holder = Instance.new("Frame")
@@ -235,6 +235,8 @@ function Library:CreateWindow()
 			Movement.BorderSizePixel = 0
 			Movement.Position = UDim2.new(0.25413084, 0, 0.5, 0)
 			Movement.Size = UDim2.new(0.48300001, 0, 0.833000004, 40)
+			Movement.CanvasSize = Udim2.new(1,0,1.5,0)
+			Movement.ScrollBarThickness = 2
 
 			Holder.Name = "Holder"
 			Holder.Parent = Movement
