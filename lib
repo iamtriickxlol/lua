@@ -59,7 +59,7 @@ end
 
 function Library:CreateWindow()
 	local Meta = Instance.new("ScreenGui")
-	Meta.Parent = gethui() or game.CoreGui
+	Meta.Parent = game.Players.LocalPlayer.PlayerGui
 	Meta.DisplayOrder = 5
 	local Main = Instance.new("Frame")
 	local UICorner = Instance.new("UICorner")
@@ -685,12 +685,154 @@ function Library:CreateWindow()
 
 					Option.MouseButton1Click:Connect(function()
 						callback(id)
+						print("this"..id)
 						OptionName.Text = id
 						Holder_2.Visible = false
 					end)
 				end
 
 				return dropdown
+			end
+			
+			function content:CreateMultiDropdown(name, last, layer,callback)
+				name = name or "New Dropdown"
+				last = last or ""
+				layer = layer or 10
+				callback = callback or function() end
+				local multidropdown = {
+					items = {
+						
+					}
+				}
+
+				local Dropdown = Instance.new("Frame")
+				local OptionLabel = Instance.new("Frame")
+				local Holder_2 = Instance.new("ScrollingFrame")
+
+				local OptionHolder_2 = Instance.new("Frame")
+				local Option_2 = Instance.new("TextButton")
+				local OptionHolder_3 = Instance.new("Frame")
+				local Option_3 = Instance.new("TextButton")
+				local UIListLayout_2 = Instance.new("UIListLayout")
+				local OptionName = Instance.new("TextButton")
+				local Label_5 = Instance.new("TextLabel")
+
+				Dropdown.Name = "Dropdown"
+				Dropdown.Parent = Holder
+				Dropdown.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Dropdown.BackgroundTransparency = 1.000
+				Dropdown.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				Dropdown.BorderSizePixel = 0
+				Dropdown.Position = UDim2.new(0, 0, 0.369552642, 0)
+				Dropdown.Size = UDim2.new(1.00000012, 0, 0.117952384, 20)
+				Dropdown.ZIndex = layer
+
+				OptionLabel.Name = "OptionLabel"
+				OptionLabel.Parent = Dropdown
+				OptionLabel.BackgroundColor3 = Color3.fromRGB(54, 48, 61)
+				OptionLabel.BorderColor3 = Color3.fromRGB(180, 163, 185)
+				OptionLabel.Position = UDim2.new(0.0500000007, 0, 0.430000007, 0)
+				OptionLabel.Size = UDim2.new(0.899999976, 0, 0, 24)
+
+				Label_5.Name = "Label"
+				Label_5.Parent = Dropdown
+				Label_5.AnchorPoint = Vector2.new(0, 0.5)
+				Label_5.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Label_5.BackgroundTransparency = 1.000
+				Label_5.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				Label_5.BorderSizePixel = 0
+				Label_5.Position = UDim2.new(0.0500000007, 0, 0.150000006, 0)
+				Label_5.Size = UDim2.new(0.674982905, 0, 0.5, 0)
+				Label_5.Font = Enum.Font.SourceSansBold
+				Label_5.Text = name
+				Label_5.TextColor3 = Color3.fromRGB(180, 163, 185)
+				Label_5.TextSize = 16.000
+				Label_5.TextXAlignment = Enum.TextXAlignment.Left
+
+
+				Holder_2.Name = "Holder"
+				Holder_2.Parent = OptionLabel
+				Holder_2.BackgroundColor3 = Color3.fromRGB(54, 48, 61)
+				Holder_2.BorderColor3 = Color3.fromRGB(180, 163, 185)
+				Holder_2.ClipsDescendants = true
+				Holder_2.Position = UDim2.new(0, 0, 1, 3)
+				Holder_2.Size = UDim2.new(1, 0, 0, 78)
+				Holder_2.Visible = false
+				Holder_2.ZIndex= 10
+				Holder_2.ScrollingDirection = Enum.ScrollingDirection.Y
+				Holder_2.ScrollBarThickness = 1
+
+				OptionName.Name = "OptionName"
+				OptionName.Parent = OptionLabel
+				OptionName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				OptionName.BackgroundTransparency = 1.000
+				OptionName.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				OptionName.BorderSizePixel = 0
+				OptionName.Position = UDim2.new(0.0250000004, 0, 0, 0)
+				OptionName.Size = UDim2.new(0.975000024, 0, 1, 0)
+				OptionName.Font = Enum.Font.SourceSansBold
+				OptionName.Text = last
+				OptionName.TextColor3 = Color3.fromRGB(180, 163, 185)
+				OptionName.TextSize = 16.000
+				OptionName.TextXAlignment = Enum.TextXAlignment.Left
+
+
+				UIListLayout_2.Parent = Holder_2
+				UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
+				UIListLayout_2.Padding = UDim.new(0, 0)
+
+				OptionName.MouseButton1Click:Connect(function()
+					local c = 0
+					for i,v in pairs(Holder_2:GetChildren()) do
+						if v:IsA("Frame") then
+							c +=1
+						end
+					end
+					Holder_2.Size = UDim2.new(1,0,0,72)
+					Holder_2.CanvasSize = UDim2.new(1,0,0,(c * 24))
+					Holder_2.Visible = not Holder_2.Visible
+				end)
+
+				function multidropdown:Add(id)
+					local OptionHolder = Instance.new("Frame")
+					local Option = Instance.new("TextButton")
+					OptionHolder.Name = "OptionHolder"
+					OptionHolder.Parent = Holder_2
+					OptionHolder.BackgroundColor3 = Color3.fromRGB(54, 48, 61)
+					OptionHolder.BorderColor3 = Color3.fromRGB(180, 163, 185)
+					OptionHolder.Size = UDim2.new(1, 0, 0, 24)
+					OptionHolder.ZIndex = 10
+
+					Option.Name = "Option"
+					Option.Parent = OptionHolder
+					Option.BackgroundColor3 = Color3.fromRGB(54, 48, 61)
+					Option.BackgroundTransparency = 1.000
+					Option.BorderColor3 = Color3.fromRGB(180, 163, 185)
+					Option.Position = UDim2.new(0.0250000004, 0, 0, 0)
+					Option.Size = UDim2.new(0.975000024, 0, 0, 23)
+					Option.Font = Enum.Font.SourceSansBold
+					Option.TextColor3 = Color3.fromRGB(180, 163, 185)
+					Option.TextSize = 16.000
+					Option.TextXAlignment = Enum.TextXAlignment.Left
+					Option.Text = id
+
+					Option.MouseButton1Click:Connect(function()
+						if not table.find(multidropdown.items, id) then
+							table.insert(multidropdown.items, id)
+							Option.TextColor3 = Color3.fromRGB(248, 225, 255)
+							OptionName.Text = table.concat(multidropdown.items, ", ")
+							callback(id)
+						else
+							table.remove(multidropdown.items, table.find(multidropdown.items, id))
+							Option.TextColor3 = Color3.fromRGB(180, 163, 185)
+							OptionName.Text = #multidropdown.items > 0 and table.concat(multidropdown.items, ", ") or "Select"
+							callback(id)
+						end
+						Holder_2.Visible = false
+					end)
+				end
+
+				return multidropdown
 			end
 			return content
 		end
