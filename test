@@ -1260,6 +1260,9 @@
 					end
 )
 
+print("touch: " ..game:GetService("UserInputService").TouchEnabled)
+print('keyboard: '..UserInputService.KeyboardEnabled )
+print("mouse:" ..game:GetService("UserInputService").MouseEnabled)
 if game:GetService("UserInputService").TouchEnabled and not game:GetService("UserInputService").MouseEnabled  then
 	print('on mobile')
 	sub:CreateTextbox("Fly Speed", getgenv().settings.flys, function(a)
