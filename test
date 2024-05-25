@@ -615,7 +615,7 @@
 																["embeds"] = {
 																	{
 																		["title"] = "ERROR",
-																		["description"] = "Failed to kill:".._G.boss.Name,
+																		["description"] = "Failed to kill:"..string.split(_G.boss.Name, '_')[1],
 																		["type"] = "rich",
 																		["color"] = tonumber(0xeb4034),
 																		["footer"] = {
