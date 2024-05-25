@@ -482,7 +482,7 @@
 								if v:IsA("ScreenGui") then
 									for i2, v2 in pairs(v.Parent:GetDescendants()) do
 										if v2:IsA("TextLabel") then
-											if string.find(v2.Text, "obtained.") then
+										if string.find(v2.Text, "obtained.") then
 												_G.win = true
 												c:Disconnect()
 												local itemhold = Instance.new("Frame")
