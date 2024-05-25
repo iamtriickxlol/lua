@@ -187,7 +187,6 @@ function Library:CreateWindow()
 		Player.BorderSizePixel = 0
 		Player.Size = UDim2.new(1, 0, 1, 0)
 		Player.CanvasSize = UDim2.new(0, 0, 1.5, 0)
-		Player.ScrollBarThickness = 5
 		Player.Visible =false
 
 		UIPadding.Parent = Player
