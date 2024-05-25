@@ -16,7 +16,7 @@
 					flys = 70,
 					Clip = nil,
 					webhook = false,
-					webhookUrl = "",
+					webhookURL = "",
 					boss = false,
 					bosstp = 1,
 					bossoffset = 9,
