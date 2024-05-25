@@ -35,6 +35,14 @@
 				rerollname = "",
 			}
 
+			getgenv().items = {
+			"Hogyoku Fragment",
+			"Skill Box",
+			"True Hogyoku",
+			}
+
+			getgenv().avoidbosses = {}
+
 			local filename = game.Players.LocalPlayer.Name .. "-TypeSoul" .. "-settings.txt"
 
 			function loadsettings()
@@ -1353,7 +1361,7 @@
 			local d =
 				sub4:CreateDropdown(
 					"Player",
-					getgenv().settings.tradename,
+					getgenv().settings.tradename,10,
 					function(a)
 						getgenv().settings.tradename = a
 						
@@ -1372,13 +1380,18 @@
 				end
 			)
 
-			sub4:CreateTextbox(
+		local item =sub4:CreateDropdown(
 				"Item",
-				"Name",
+				"Select",9,
 				function(a)
 					getgenv().settings.tradeitem = a
 				end
-			)
+				)
+
+			for i, v in pairs(getgenv().items) do
+				item:Add(v)
+			end
+
 			sub4:CreateButton(
 				"Send",
 				function(a)
