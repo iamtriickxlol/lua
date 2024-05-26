@@ -1,4 +1,4 @@
-getgenv().version = '0.4.4d'
+getgenv().version = '0.4.4c'
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local UIS = game:GetService("UserInputService")
@@ -559,7 +559,7 @@ function autoBoss()
 							_G.boss.Humanoid.JumpHeight = 0
 						end
 
-						_G.boss.Humanoid:TakeDamage(999999)
+						_G.boss.Humanoid.Health = 0
 						plr.Character.HumanoidRootPart.CFrame =
 							_G.boss.HumanoidRootPart.CFrame * CFrame.new(0, getgenv().settings.bossoffset, 0) *
 							CFrame.Angles(math.rad(-90), 0, math.rad(90))
