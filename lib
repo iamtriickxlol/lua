@@ -58,6 +58,7 @@ local function MakeDraggable(topbarobject, object)
 end
 
 function Library:CreateWindow(vers)
+	print("loaded")
 	vers = vers or ""
 	print(vers)
 	local Meta = Instance.new("ScreenGui")
