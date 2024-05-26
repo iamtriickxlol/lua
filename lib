@@ -59,6 +59,7 @@ end
 
 function Library:CreateWindow(vers)
 	vers = vers or ""
+	print(vers)
 	local Meta = Instance.new("ScreenGui")
 	Meta.Parent = game.Players.LocalPlayer.PlayerGui
 	Meta.DisplayOrder = 5
