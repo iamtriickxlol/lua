@@ -264,6 +264,7 @@ function Library:CreateWindow(vers)
 			Holder.CanvasSize = UDim2.new(1,0,1.5,0)
 			Holder.ScrollingDirection = Enum.ScrollingDirection.Y
 			Holder.ScrollBarImageTransparency = 1
+			Holder.ClipDescendants = false
 
 			Label.Name = "Label"
 			Label.Parent = Movement
