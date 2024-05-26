@@ -1,4 +1,4 @@
-			getgenv().version = '0.4.4b'
+			getgenv().version = '0.4.4c'
 			local UserInputService = game:GetService("UserInputService")
 			local Players = game:GetService("Players")
 			local UIS = game:GetService("UserInputService")
@@ -490,10 +490,9 @@
 										print("Boss is dead")
 										c:Disconnect()
 										c = nil
-										for i = 5,0,-1 do
-											plr.Character.HumanoidRootPart.CFrame =  boss.HumanoidRootPart.CFrame
-										end
-										
+										plr.Character.HumanoidRootPart.CFrame =  boss.HumanoidRootPart.CFrame
+										plr.Character.HumanoidRootPart.CFrame =  boss.HumanoidRootPart.CFrame
+										plr.Character.HumanoidRootPart.CFrame =  boss.HumanoidRootPart.CFrame
 										wait(.3)
 										game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Execute:FireServer()
 							
