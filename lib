@@ -493,7 +493,7 @@ function Library:CreateWindow(vers)
 				WebhookURL.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				WebhookURL.BorderSizePixel = 0
 				WebhookURL.Position = UDim2.new(0, 0, 0.161904767, 0)
-				WebhookURL.Size = UDim2.new(.98, 0, 0, 20)
+				WebhookURL.Size = UDim2.new(.97, 0, 0, 20)
 
 				Label_17.Name = "Label"
 				Label_17.Parent = WebhookURL
@@ -547,7 +547,7 @@ function Library:CreateWindow(vers)
 				WebhookURL_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				WebhookURL_2.BorderSizePixel = 0
 				WebhookURL_2.Position = UDim2.new(0, 0, 0.161904767, 0)
-				WebhookURL_2.Size = UDim2.new(.98, 0, 0, 20)
+				WebhookURL_2.Size = UDim2.new(.97, 0, 0, 20)
 
 				Label_6.Name = "Label"
 				Label_6.Parent = WebhookURL_2
