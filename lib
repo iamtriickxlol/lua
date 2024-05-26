@@ -57,10 +57,10 @@ local function MakeDraggable(topbarobject, object)
 	)
 end
 
-function Library:CreateWindow(ver)
-	ver = ver or ""
+function Library:CreateWindow(vers)
+	vers = vers or ""
 	local Meta = Instance.new("ScreenGui")
-	Meta.Parent = game.CoreGui
+	Meta.Parent = game.Players.LocalPlayer.PlayerGui
 	Meta.DisplayOrder = 5
 	local Main = Instance.new("Frame")
 	local UICorner = Instance.new("UICorner")
@@ -135,10 +135,10 @@ function Library:CreateWindow(ver)
 	Tabs.BorderColor3 = Color3.fromRGB(0, 0, 0)
 	Tabs.BorderSizePixel = 0
 	Tabs.Position = UDim2.new(0.202925041, 0, 0, 0)
-	Tabs.Size = UDim2.new(0.666, 0, 0.1, 0)
+	Tabs.Size = UDim2.new(0.666, 0, 0.85, 0)
 	
 	ver.Name = "ver"
-	ver.Parent = game.StarterGui.Meta.Main.TopBar
+	ver.Parent = TopBar
 	ver.AnchorPoint = Vector2.new(0, 0.5)
 	ver.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 	ver.BackgroundTransparency = 1.000
@@ -147,7 +147,8 @@ function Library:CreateWindow(ver)
 	ver.Position = UDim2.new(0.174999997, 0, 0.519999981, 0)
 	ver.Size = UDim2.new(0.077726461, 0, 0.520000041, 0)
 	ver.Font = Enum.Font.SourceSansBold
-	ver.Text = "v"..ver
+	ver.Text = "v"..vers
+	
 	ver.TextColor3 = Color3.fromRGB(255, 255, 255)
 	ver.TextSize = 15.000
 	ver.TextWrapped = true
