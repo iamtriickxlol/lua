@@ -1413,6 +1413,7 @@ end
 
 
 function autoSlot()
+	
 	if game.PlaceId == 14067600077 then
 		repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("MainMenu")
 
@@ -1680,8 +1681,9 @@ sub3:CreateTextbox(
 
 local slot = sub3:CreateDropdown("Slot",getgenv().settings.slot, 10, function(a)
 	getgenv().settings.slot = a
-	autoSlot()
 	saveSettings()
+	wait(2)
+	autoSlot()
 end)
 slot:Add("None")
 slot:Add("A")
