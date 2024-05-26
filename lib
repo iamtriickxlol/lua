@@ -1,4 +1,4 @@
-			getgenv().version = '0.4.2b'
+			getgenv().version = '0.4.4b'
 			local UserInputService = game:GetService("UserInputService")
 			local Players = game:GetService("Players")
 			local UIS = game:GetService("UserInputService")
