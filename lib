@@ -62,7 +62,7 @@ function Library:CreateWindow(vers)
 	vers = vers or ""
 	print(vers)
 	local Meta = Instance.new("ScreenGui")
-	Meta.Parent = game.Players.LocalPlayer.PlayerGui
+	Meta.Parent = game.CoreGui
 	Meta.DisplayOrder = 5
 	local Main = Instance.new("Frame")
 	local UICorner = Instance.new("UICorner")
