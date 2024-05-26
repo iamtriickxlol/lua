@@ -1506,7 +1506,7 @@ sub:CreateToggle(
 	end
 )
 
-
+print(getgenv().mobile)
 if getgenv().mobile == true  then
 	print('on mobile')
 	sub:CreateTextbox("Fly Speed", getgenv().settings.flys, function(a)
