@@ -1,4 +1,4 @@
-		getgenv().version = '0.4'
+		getgenv().version = '0.4.1'
 		local UserInputService = game:GetService("UserInputService")
 		local Players = game:GetService("Players")
 		local UIS = game:GetService("UserInputService")
@@ -30,6 +30,7 @@
 			missionfarm = nil,
 			tradename = nil,
 			tradeitem = nil,
+			autotrade = false,
 			mobespenable = false,
 			mobespname = false,
 			mobespdist = false,
@@ -656,39 +657,47 @@
 				)
 		end
 
-		function tradeAccept()
-			if getgenv().settings.tradename then
-				print(getgenv().settings.tradename, getgenv().settings.tradeitem )
-				local args = {
-					[1] = getgenv().settings.tradename
-				}
+		function tradeAccept(a)
+	
+	
+			while a do
+				if getgenv().settings.autotrade == true then
+					if getgenv().settings.tradename then
+						print(getgenv().settings.tradename, getgenv().settings.tradeitem )
+						local args = {
+							[1] = getgenv().settings.tradename
+						}
 
-				game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.Trade:InvokeServer(
-				unpack(args)
-				)
+						game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.Trade:InvokeServer(
+						unpack(args)
+						)
 
-				for i = 4, 1, -1 do
-					local args = {
-						[1] = "AddItem",
-						[2] = getgenv().settings.tradeitem,
-						[3] = i
-					}
+						for i = 4, 1, -1 do
+							local args = {
+								[1] = "AddItem",
+								[2] = getgenv().settings.tradeitem,
+								[3] = i
+							}
 
-					game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.TradeEvent:FireServer(
-					unpack(args)
-					)
-					wait(.1)
-					print("trade: "..getgenv().settings.tradeitem)
+							game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.TradeEvent:FireServer(
+							unpack(args)
+							)
+							wait(.1)
+							print("trade: "..getgenv().settings.tradeitem)
+						end
+
+						local args = {
+							[1] = "Accepted"
+						}
+
+						game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.TradeEvent:FireServer(
+						unpack(args)
+						)
+					end
 				end
-
-				local args = {
-					[1] = "Accepted"
-				}
-
-				game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.TradeEvent:FireServer(
-				unpack(args)
-				)
+				wait(10)
 			end
+			
 		end
 
 		function redeemcode(a)
@@ -1597,10 +1606,10 @@ local main = Library:CreateWindow(getgenv().version)
 			item:Add(v)
 		end
 
-		sub4:CreateButton(
+		sub4:CreateToggle(
 			"Send",
 			function(a)
-				tradeAccept()
+				tradeAccept(a)
 			end
 		)
 
