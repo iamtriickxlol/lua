@@ -1,4 +1,4 @@
-		getgenv().version = '0.4.1'
+		getgenv().version = '0.4'
 		local UserInputService = game:GetService("UserInputService")
 		local Players = game:GetService("Players")
 		local UIS = game:GetService("UserInputService")
@@ -1607,7 +1607,7 @@ local main = Library:CreateWindow(getgenv().version)
 		end
 
 		sub4:CreateToggle(
-			"Send",
+			"Send",false,
 			function(a)
 				tradeAccept(a)
 			end
