@@ -26,7 +26,7 @@
 						sprint = nil,
 						perf = false,
 						serverdetails = false,
-						division12 = false,
+						division12	 = false,
 						missionfarm = nil,
 						tradename = nil,
 						tradeitem = nil,
@@ -490,7 +490,12 @@
 													c:Disconnect()
 													
 												end
-											
+													if _G.boss.HumanoidRootPart.Velocity.Magnitude < 0.1 then
+													wait(.5)
+													plr.Character.HumanoidRootPart.CFrame = _G.boss.HumanoidRootPart.CFrame
+													wait(1)
+													game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Execute:FireServer()
+												end											
 												_G.boss.Humanoid.Health = 0
 										
 												_G.boss:BreakJoints()
