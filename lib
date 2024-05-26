@@ -496,7 +496,9 @@
 										
 										wait(.3)
 										game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Execute:FireServer()
-								
+							
+							
+										wait(5)
 										httpservice = game:GetService("HttpService")
 										local response =
 											request(
