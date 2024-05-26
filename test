@@ -1,4 +1,4 @@
-		getgenv().version = '0.4.2'
+		getgenv().version = '0.4.3'
 		local UserInputService = game:GetService("UserInputService")
 		local Players = game:GetService("Players")
 		local UIS = game:GetService("UserInputService")
@@ -451,7 +451,7 @@
 						waiting:Destroy()
 						c = game:GetService("RunService").Heartbeat:Connect(function()
 							if getgenv().settings.boss == true then
-								Timer.Text =math.floor((tick() - lapse) / 60) .. math.floor((tick() - lapse) % 60) .. "s"
+								Timer.Text = math.floor((tick() - lapse) / 60)..'m ' .. math.floor((tick() - lapse) % 60) .. "s"
 								if (tick() - lapse) >= (getgenv().settings.bosstime * 60) and debounce == true then		
 									debounce = false
 									httpservice = game:GetService("HttpService")
@@ -552,8 +552,8 @@
 				)
 				local itemcount = getgenv().settings.itemcount
 				local item
-				game.Players.LocalPlayer.PlayerGui.ChildAdded:Connect(
-					function(v)
+				game.Players.LocalPlayer.PlayerGui.ChildAdded:Connect(function(v)
+					local bossname = _G.boss.Name
 						if v:IsA("ScreenGui") then
 							for i2, v2 in pairs(v.Parent:GetDescendants()) do
 								if v2:IsA("TextLabel") then
@@ -611,7 +611,7 @@
 															["embeds"] = {
 																{
 																	["title"] = "Raid Notifier",
-																	["description"] = "**User:** ||" ..game.Players.LocalPlayer.Name.."|| \n **Item:** " .. item .. "\n **Count:** "..tostring(itemcount).. "\n **Timer:** ".._G.timelapse,
+															["description"] = "**User:** ||" ..game.Players.LocalPlayer.Name.."|| \n **Item:** " .. item .. "\n **Count:** "..tostring(itemcount).. "\n **Timer:** ".._G.timelapse.. '\n **Boss:** '..string.split(_G.boss.Name,"_")[1] or string.split(bossname,"_")[1],
 																	["type"] = "rich",
 																	["color"] = tonumber(0xd9abd7),
 																	["footer"] = {
@@ -709,10 +709,45 @@
 				)
 		end
 
-		function tradeAccept(a)
-	
-	
-			while a do
+
+			function tradeAccept()
+				if getgenv().settings.tradename then
+					print(getgenv().settings.tradename, getgenv().settings.tradeitem )
+					local args = {
+						[1] = getgenv().settings.tradename
+					}
+
+					game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.Trade:InvokeServer(
+					unpack(args)
+					)
+
+					for i = 4, 1, -1 do
+						local args = {
+							[1] = "AddItem",
+							[2] = getgenv().settings.tradeitem,
+							[3] = i
+						}
+
+						game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.TradeEvent:FireServer(
+						unpack(args)
+						)
+						wait(.1)
+						print("trade: "..getgenv().settings.tradeitem)
+					end
+
+					local args = {
+						[1] = "Accepted"
+					}
+
+					game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.TradeEvent:FireServer(
+					unpack(args)
+					)
+				end
+			end
+			function autotrade()
+
+		
+			while true do
 				if getgenv().settings.autotrade == true then
 					if getgenv().settings.tradename then
 						print(getgenv().settings.tradename, getgenv().settings.tradeitem )
@@ -1658,10 +1693,16 @@ local main = Library:CreateWindow(getgenv().version)
 			item:Add(v)
 		end
 
-		sub4:CreateToggle(
-			"Send",false,
+		sub4:CreateButton(
+			"Send",
 			function(a)
-				tradeAccept(a)
+				tradeAccept()
+			end
+		)
+		sub4:CreateToggle(
+			"Auto Trade",false,
+			function(a)
+				autotrade()
 			end
 		)
 
