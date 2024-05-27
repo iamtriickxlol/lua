@@ -218,7 +218,16 @@ function Library:CreateWindow(vers)
 	UIPadding_2.PaddingTop = UDim.new(0, 5)
 
 	MakeDraggable(TopBar,Main)
-	
+
+	UserInputService.InputBegan:Connect(function(input,gpe)
+		if input.KeyCode == Enum.KeyCode.Tab then
+			Main.Visible = not Main.Visible
+		elseif input.KeyCode == Enum.KeyCode.P then
+			Logs.Visible = not Logs.Visible
+		end
+		
+	end)
+
 	console.FocusLost:Connect(function(a)
 		if a then
 			if #console.Text > 0 then
@@ -237,14 +246,6 @@ function Library:CreateWindow(vers)
 		end
 	end)
 	
-	UserInputService.InputBegan:Connect(function(input,gpe)
-		if input.KeyCode == Enum.KeyCode.Tab then
-			Main.Visible = not Main.Visible
-		elseif input.KeyCode == Enum.KeyCode.P then
-			Logs.Visible = not Logs.Visible
-		end
-		
-	end)
 
 
 	local inLib = {}
