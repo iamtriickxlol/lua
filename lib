@@ -84,8 +84,8 @@ function Library:CreateWindow(vers)
 
 	--Properties:
 
-	
-	
+
+
 	Logs.Name = "Logs"
 	Logs.Parent = Meta
 	Logs.BackgroundColor3 = Color3.fromRGB(72, 53, 64)
@@ -107,7 +107,7 @@ function Library:CreateWindow(vers)
 	ScrollingFrame.Size = UDim2.new(1, 0, 1.035, 0)
 	ScrollingFrame.Position = UDim2.new(0,0,0.2,0)
 	ScrollingFrame.ScrollBarThickness = 2
-	
+
 	console.Name = "console"
 	console.Parent = Logs
 	console.BackgroundColor3 = Color3.fromRGB(48, 37, 48)
@@ -123,8 +123,8 @@ function Library:CreateWindow(vers)
 	console.TextSize = 14.000
 	console.TextXAlignment = Enum.TextXAlignment.Left
 	console.Position =UDim2.new(0,0,0.165,0)
-	
-	
+
+
 	UIListLayout_4.Parent = ScrollingFrame
 	UIListLayout_4.SortOrder = Enum.SortOrder.LayoutOrder
 
@@ -220,14 +220,16 @@ function Library:CreateWindow(vers)
 	MakeDraggable(TopBar,Main)
 
 	UserInputService.InputBegan:Connect(function(input,gpe)
+		if gpe then return end
+		
 		if input.KeyCode == Enum.KeyCode.Tab then
 			print('pressing tab')
 			Main.Visible = not Main.Visible
-		elseif input.KeyCode == Enum.KeyCode.P then
-			print('pressing p')
+		elseif input.KeyCode == Enum.KeyCode.O then
+			print('pressing O')
 			Logs.Visible = not Logs.Visible
 		end
-		
+
 	end)
 
 	console.FocusLost:Connect(function(a)
@@ -239,15 +241,15 @@ function Library:CreateWindow(vers)
 							v:Destroy()
 						end
 					end
-					
-					if console.Text == "/hide" then
-						game.CoreGui:FindFirstChild("boss").Visible = false
-					end
+
+				elseif console.Text == "/hide" then
+					game.CoreGui:FindFirstChild("boss").Visible = false
+				
 				end
 			end
 		end
 	end)
-	
+
 
 
 	local inLib = {}
