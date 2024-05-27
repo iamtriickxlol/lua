@@ -1,4 +1,4 @@
-getgenv().version = '0.0.1'
+getgenv().vers = '0.0.1'
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local UIS = game:GetService("UserInputService")
@@ -651,7 +651,7 @@ if getgenv().settings.sprint then
 	sprint(getgenv().settings.sprint)
 end
 
-local main = Library:CreateWindow()
+local main = Library:CreateWindow(getgenv().vers)
 local tab =	main:CreateTab("Player")
 local tab2 = main:CreateTab("Misc")
 local tab3 = main:CreateTab("Settings")
