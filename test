@@ -517,8 +517,8 @@ function autoBoss()
 							ktp()
 							c:Disconnect()
 						end
-
-						if boss:GetAttribute("CurrentState") == "Unconscious" then
+							log(_G.boss:GetAttribute("CurrentState"))
+							if _G.boss:GetAttribute("CurrentState") == "Unconscious" then
 							log("Boss is dead")
 							c:Disconnect()
 							c = nil
