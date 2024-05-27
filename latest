@@ -9,8 +9,8 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 
 local Player = Players.LocalPlayer
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/metauser08/lua/main/lib"))()
-local ControlModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/metauser08/lua/main/cm"))()
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtriickxlol/lua/main/lib"))()
+local ControlModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtriickxlol/lua/main/cm"))()
 
 getgenv().settings = {
 	ws = nil,
