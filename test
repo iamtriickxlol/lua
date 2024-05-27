@@ -501,7 +501,7 @@ function autoBoss()
 												["embeds"] = {
 													{
 														["title"] = "ERROR",
-														["description"] = "Max time has reached limit. \n **Boss**: ".._G.boss.name,
+													["description"] = "Max time has reached limit. \n **Boss**: "..string.split(_G.boss.Name,"_")[1] or string.split(bossname,"_")[1],
 														["type"] = "rich",
 														["color"] = tonumber(0xeb4034),
 														["footer"] = {
