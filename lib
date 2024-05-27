@@ -223,6 +223,7 @@ function Library:CreateWindow(vers)
 		if input.KeyCode == Enum.KeyCode.Tab then
 			Main.Visible = not Main.Visible
 		elseif input.KeyCode == Enum.KeyCode.P then
+			print('pressing p')
 			Logs.Visible = not Logs.Visible
 		end
 		
