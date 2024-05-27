@@ -491,139 +491,139 @@ function autoBoss()
 				BossName.TextXAlignment = Enum.TextXAlignment.Left
 				waiting:Destroy()
 				c = game:GetService("RunService").Heartbeat:Connect(function()
-						Timer.Text = math.floor((tick() - lapse) / 60)..'m ' .. math.floor((tick() - lapse) % 60) .. "s"
-						if (tick() - lapse) >= (getgenv().settings.bosstime * 60) and debounce == true then		
-							debounce = false
-							httpservice = game:GetService("HttpService")
-							local response =
-								request(
-									{
-										Url = getgenv().settings.webhookURL,
-										Method = "POST",
-										Headers = {
-											["Content-Type"] = "application/json"
-										},
-										Body = httpservice:JSONEncode(
-											{	
-												["content"] = "",
-												["embeds"] = {
-													{
-														["title"] = "ERROR",
+					Timer.Text = math.floor((tick() - lapse) / 60)..'m ' .. math.floor((tick() - lapse) % 60) .. "s"
+					if (tick() - lapse) >= (getgenv().settings.bosstime * 60) and debounce == true then		
+						debounce = false
+						httpservice = game:GetService("HttpService")
+						local response =
+							request(
+								{
+									Url = getgenv().settings.webhookURL,
+									Method = "POST",
+									Headers = {
+										["Content-Type"] = "application/json"
+									},
+									Body = httpservice:JSONEncode(
+										{	
+											["content"] = "",
+											["embeds"] = {
+												{
+													["title"] = "ERROR",
 													["description"] = "Max time has reached limit. \n **Boss**: "..string.split(_G.boss.Name,"_")[1],
-														["type"] = "rich",
-														["color"] = tonumber(0xeb4034),
-														["footer"] = {
-															["text"] = "Type Soul - Meta Hub",
-															["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242920863561678909/meta_logo_only_1.png?ex=664f97c2&is=664e4642&hm=ad010cf108e4115b92d391f5c738d6eaa929d02360fe9e6fec347cdb714849f8&"
-														}
+													["type"] = "rich",
+													["color"] = tonumber(0xeb4034),
+													["footer"] = {
+														["text"] = "Type Soul - Meta Hub",
+														["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242920863561678909/meta_logo_only_1.png?ex=664f97c2&is=664e4642&hm=ad010cf108e4115b92d391f5c738d6eaa929d02360fe9e6fec347cdb714849f8&"
 													}
 												}
 											}
-										)
-									}
-								)
-							ktp()
-							c:Disconnect()
-						end
-							
-							if _G.boss:GetAttribute("CurrentState") == "Unconscious" then
-							log("Boss is dead")
-							c:Disconnect()
-							c = nil
-							plr.Character.HumanoidRootPart.CFrame =  _G.boss.HumanoidRootPart.CFrame CFrame.new(0, 7, 0)
-							wait(1)
-							game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Execute:FireServer()
+										}
+									)
+								}
+							)
+						ktp()
+						c:Disconnect()
+					end
+
+					if _G.boss:GetAttribute("CurrentState") == "Unconscious" then
+						log("Boss is dead")
+						c:Disconnect()
+						c = nil
+						plr.Character.HumanoidRootPart.CFrame =  _G.boss.HumanoidRootPart.CFrame CFrame.new(0, 7, 0)
+						wait(1)
+						game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Execute:FireServer()
 
 
-							wait(5)
-							httpservice = game:GetService("HttpService")
-							local response =
-								request(
-									{
-										Url = getgenv().settings.webhookURL,
-										Method = "POST",
-										Headers = {
-											["Content-Type"] = "application/json"
-										},
-										Body = httpservice:JSONEncode(
-											{	
-												["content"] = "",
-												["embeds"] = {
-													{
-														["title"] = "ERROR",
-														["description"] = "Failed to grip the boss.",
-														["type"] = "rich",
-														["color"] = tonumber(0xeb4034),
-														["footer"] = {
-															["text"] = "Type Soul - Meta Hub",
-															["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242920863561678909/meta_logo_only_1.png?ex=664f97c2&is=664e4642&hm=ad010cf108e4115b92d391f5c738d6eaa929d02360fe9e6fec347cdb714849f8&"
-														}
+						wait(5)
+						httpservice = game:GetService("HttpService")
+						local response =
+							request(
+								{
+									Url = getgenv().settings.webhookURL,
+									Method = "POST",
+									Headers = {
+										["Content-Type"] = "application/json"
+									},
+									Body = httpservice:JSONEncode(
+										{	
+											["content"] = "",
+											["embeds"] = {
+												{
+													["title"] = "ERROR",
+													["description"] = "Failed to grip the boss.",
+													["type"] = "rich",
+													["color"] = tonumber(0xeb4034),
+													["footer"] = {
+														["text"] = "Type Soul - Meta Hub",
+														["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242920863561678909/meta_logo_only_1.png?ex=664f97c2&is=664e4642&hm=ad010cf108e4115b92d391f5c738d6eaa929d02360fe9e6fec347cdb714849f8&"
 													}
 												}
 											}
-										)
-									}
-								)
-							return	
-						end
+										}
+									)
+								}
+							)
+						return	
+					end
 
-						if _G.boss:GetAttribute("CurrentState") or _G.boss:GetAtribute("BankaiMeter") then
-							_G.boss:SetAttribute("CurrentState", "Action")
-							_G.boss:SetAttribute("SkillRange", 0)
-							_G.boss:SetAttribute("Posture", 999999999)
-							_G.boss:SetAttribute("BankaiMeter", 0)
-							_G.boss:SetAttribute("MaxBankaiMeter", 0)
-							_G.boss:SetAttribute("Reiatsu", 0)
-							_G.boss:SetAttribute("MaxReiatsu", 0)
-							_G.boss:SetAttribute("DeflectFrames", false)
-							_G.boss:SetAttribute("BlockFrames", false)
-							_G.boss:SetAttribute("EvasiveFrames", false)
-							_G.boss:SetAttribute("HyperArmor", false)
-							_G.boss:SetAttribute("IFrames", false)
-							_G.boss:SetAttribute("ShikaiCD", true)
-							_G.boss:SetAttribute("SkillCD", true)
-							_G.boss:SetAttribute("One", false)
-							_G.boss:SetAttribute("Two", false)
-							_G.boss:SetAttribute("Three", false)
-							_G.boss:SetAttribute("Four", false)
-							_G.boss:SetAttribute("Five", false)
-							_G.boss:SetAttribute("Six", false)
-							_G.boss:SetAttribute("Seven", false)
-							_G.boss:SetAttribute("Seven", false)
+					if _G.boss:GetAttribute("CurrentState") or _G.boss:GetAtribute("BankaiMeter") then
+						_G.boss:SetAttribute("CurrentState", "Action")
+						_G.boss:SetAttribute("SkillRange", 0)
+						_G.boss:SetAttribute("Posture", 999999999)
+						_G.boss:SetAttribute("BankaiMeter", 0)
+						_G.boss:SetAttribute("MaxBankaiMeter", 0)
+						_G.boss:SetAttribute("Reiatsu", 0)
+						_G.boss:SetAttribute("MaxReiatsu", 0)
+						_G.boss:SetAttribute("DeflectFrames", false)
+						_G.boss:SetAttribute("BlockFrames", false)
+						_G.boss:SetAttribute("EvasiveFrames", false)
+						_G.boss:SetAttribute("HyperArmor", false)
+						_G.boss:SetAttribute("IFrames", false)
+						_G.boss:SetAttribute("ShikaiCD", true)
+						_G.boss:SetAttribute("SkillCD", true)
+						_G.boss:SetAttribute("One", false)
+						_G.boss:SetAttribute("Two", false)
+						_G.boss:SetAttribute("Three", false)
+						_G.boss:SetAttribute("Four", false)
+						_G.boss:SetAttribute("Five", false)
+						_G.boss:SetAttribute("Six", false)
+						_G.boss:SetAttribute("Seven", false)
+						_G.boss:SetAttribute("Seven", false)
 
-							_G.boss:SetAttribute("CriticalCooldown", true)
+						_G.boss:SetAttribute("CriticalCooldown", true)
 
-							_G.boss.Humanoid.WalkSpeed = 0
-							_G.boss.Humanoid.JumpHeight = 0
-						end
-						_G.boss.Humanoid.Health = 0
-						plr.Character.HumanoidRootPart.CFrame =
-							_G.boss.HumanoidRootPart.CFrame * CFrame.new(0, getgenv().settings.bossoffset, 0) * t[getgenv().settings.bosspos]
+						_G.boss.Humanoid.WalkSpeed = 0
+						_G.boss.Humanoid.JumpHeight = 0
+					end
+					_G.boss.Humanoid.Health = 0
+					plr.Character.HumanoidRootPart.CFrame =
+						_G.boss.HumanoidRootPart.CFrame * CFrame.new(0, getgenv().settings.bossoffset, 0) * t[getgenv().settings.bosspos]
 
-						if plr.Character:GetAttribute("One") ~= true then
-							-- Script generated by SimpleSpy - credits to exx#9394
+					if plr.Character:GetAttribute("One") ~= true then
+						-- Script generated by SimpleSpy - credits to exx#9394
 
-							local args = {
-								[1] = "Skill",
-								[2] = "One",
-								[3] = "Pressed"
-							}
+						local args = {
+							[1] = "Skill",
+							[2] = "One",
+							[3] = "Pressed"
+						}
 
-							game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
-						else
-							local args = {
-								[1] = "LightAttack"
-							}
-
-							game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
-						end
-
-
+						game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
+					else
 						local args = {
 							[1] = "LightAttack"
 						}
 
 						game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
+					end
+
+
+					local args = {
+						[1] = "LightAttack"
+					}
+
+					game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
 					_G.timelapse = tostring(Timer.Text)
 					wait()
 				end
@@ -715,6 +715,7 @@ function autoBoss()
 
 		game.Workspace.Entities.ChildRemoved:Connect(
 			function(v)
+				print(v)
 				if v.Name == _G.boss.Name and v.Name ~= plr.Name then
 					wait(2)
 					if _G.win == false then
@@ -1747,7 +1748,7 @@ slot:Add("C")
 slot:Add("D")
 
 local d = sub4:CreateDropdown("Player",getgenv().settings.tradename,10,function(a)
-			getgenv().settings.tradename = a
+	getgenv().settings.tradename = a
 end)
 
 for i, v in pairs(game.Players:GetChildren()) do
