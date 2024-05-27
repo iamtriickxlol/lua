@@ -236,11 +236,10 @@ function Library:CreateWindow(vers)
 	UserInputService.InputBegan:Connect(function(input,gpe)
 		if input.KeyCode == Enum.KeyCode.Tab then
 			Main.Visible = not Main.Visible
-		end
-		
-		if input.KeyCode == Enum.KeyCode.P then
+		elseif input.KeyCode == Enum.KeyCode.P then
 			Logs.Visible = not Logs.Visible
 		end
+		
 	end)
 
 
