@@ -62,7 +62,7 @@ function Library:CreateWindow(vers)
 	vers = vers or ""
 	print(vers)
 	local Meta = Instance.new("ScreenGui")
-	Meta.Parent = game.CoreGui
+	Meta.Parent = game.Players.LocalPlayer.PlayerGui
 	Meta.DisplayOrder = 5
 	local Main = Instance.new("Frame")
 	local UICorner = Instance.new("UICorner")
@@ -75,6 +75,58 @@ function Library:CreateWindow(vers)
 	local UIListLayout_2 = Instance.new("UIListLayout")
 	local UIPadding_2 = Instance.new("UIPadding")
 	local ver = Instance.new("TextLabel")
+	local Logs = Instance.new("Frame")
+	local ScrollingFrame = Instance.new("ScrollingFrame")
+	local log = Instance.new("Frame")
+	local TextLabel = Instance.new("TextLabel")
+	local UIListLayout_4 = Instance.new("UIListLayout")
+	local console = Instance.new("TextBox")
+
+	--Properties:
+
+	
+	
+	Logs.Name = "Logs"
+	Logs.Parent = Meta
+	Logs.BackgroundColor3 = Color3.fromRGB(72, 53, 64)
+	Logs.BackgroundTransparency = 0.200
+	Logs.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	Logs.BorderSizePixel = 0
+	Logs.Size = UDim2.new(1, 0, 1.5, 0)
+	Logs.Visible = false
+	Logs.AnchorPoint = Vector2.new(0,.5)
+	Logs.Position = UDim2.new(0,0,0.5,0)
+
+
+	ScrollingFrame.Parent = Logs
+	ScrollingFrame.Active = true
+	ScrollingFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+	ScrollingFrame.BackgroundTransparency = 1.000
+	ScrollingFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	ScrollingFrame.BorderSizePixel = 0
+	ScrollingFrame.Size = UDim2.new(1, 0, 1.035, 0)
+	ScrollingFrame.Position = UDim2.new(0,0,0.2,0)
+	ScrollingFrame.ScrollBarThickness = 2
+	
+	console.Name = "console"
+	console.Parent = Logs
+	console.BackgroundColor3 = Color3.fromRGB(48, 37, 48)
+	console.BackgroundTransparency = 0.400
+	console.BorderColor3 = Color3.fromRGB(0, 0, 0)
+	console.BorderSizePixel = 0
+	console.Size = UDim2.new(1, 0, 0.035, 0)
+	console.ZIndex = 2
+	console.Font = Enum.Font.SourceSansBold
+	console.Text = ""
+	console.PlaceholderText = "Type here"
+	console.TextColor3 = Color3.fromRGB(255, 255, 255)
+	console.TextSize = 14.000
+	console.TextXAlignment = Enum.TextXAlignment.Left
+	console.Position =UDim2.new(0,0,0.165,0)
+	
+	
+	UIListLayout_4.Parent = ScrollingFrame
+	UIListLayout_4.SortOrder = Enum.SortOrder.LayoutOrder
 
 	Meta.Name = "Meta"
 
@@ -166,10 +218,28 @@ function Library:CreateWindow(vers)
 	UIPadding_2.PaddingTop = UDim.new(0, 5)
 
 	MakeDraggable(TopBar,Main)
-
+	
+	console.FocusLost:Connect(function(a)
+		if a then
+			if #console.Text > 0 then
+				if console.Text == '/clear' then
+					for i,v in pairs(ScrollingFrame:GetChildren()) do
+						if v:IsA("Frame")then
+							v:Destroy()
+						end
+					end
+				end
+			end
+		end
+	end)
+	
 	UserInputService.InputBegan:Connect(function(input,gpe)
 		if input.KeyCode == Enum.KeyCode.Tab then
 			Main.Visible = not Main.Visible
+		end
+		
+		if input.KeyCode == Enum.KeyCode.P then
+			Logs.Visible = not Logs.Visible
 		end
 	end)
 
@@ -493,7 +563,7 @@ function Library:CreateWindow(vers)
 				WebhookURL.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				WebhookURL.BorderSizePixel = 0
 				WebhookURL.Position = UDim2.new(0, 0, 0.161904767, 0)
-				WebhookURL.Size = UDim2.new(.97, 0, 0, 20)
+				WebhookURL.Size = UDim2.new(.98, 0, 0, 20)
 
 				Label_17.Name = "Label"
 				Label_17.Parent = WebhookURL
@@ -547,7 +617,7 @@ function Library:CreateWindow(vers)
 				WebhookURL_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				WebhookURL_2.BorderSizePixel = 0
 				WebhookURL_2.Position = UDim2.new(0, 0, 0.161904767, 0)
-				WebhookURL_2.Size = UDim2.new(.97, 0, 0, 20)
+				WebhookURL_2.Size = UDim2.new(.98, 0, 0, 20)
 
 				Label_6.Name = "Label"
 				Label_6.Parent = WebhookURL_2
@@ -867,5 +937,40 @@ function Library:CreateWindow(vers)
 		return insideTab
 	end
 	return inLib
+end
+
+
+local function log(text)
+	print(text)
+	local meta = game.Players.LocalPlayer.PlayerGui:FindFirstChild("Meta")
+	local frame = meta.Logs:FindFirstChild("ScrollingFrame")
+	if meta and text then
+		print('found')
+		local log = Instance.new("Frame")
+		local TextLabel = Instance.new("TextLabel")
+
+		log.Name = "log"
+		log.Parent = frame
+		log.BackgroundColor3 = Color3.fromRGB(63, 49, 62)
+		log.BackgroundTransparency = 0.700
+		log.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		log.BorderSizePixel = 0
+		log.Position = UDim2.new(0, 0, 0.147754133, 0)
+		log.Size = UDim2.new(1, 0, 0.02, 0)
+
+		TextLabel.Parent = log
+		TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		TextLabel.BackgroundTransparency = 1.000
+		TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		TextLabel.BorderSizePixel = 0
+		TextLabel.Position = UDim2.new(0.00999999978, 0, 0, 0)
+		TextLabel.Size = UDim2.new(0.99000001, 0, 1, 0)
+		TextLabel.Font = Enum.Font.SourceSansBold
+		TextLabel.Text = text
+		TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+		TextLabel.TextSize = 14.000
+		TextLabel.TextWrapped = true
+		TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+	end
 end
 return Library
