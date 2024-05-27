@@ -129,7 +129,7 @@ local function log(text)
 		TextLabel.Position = UDim2.new(0.00999999978, 0, 0, 0)
 		TextLabel.Size = UDim2.new(0.99000001, 0, 1, 0)
 		TextLabel.Font = Enum.Font.SourceSansBold
-		TextLabel.Text = text
+		TextLabel.Text = "> "..text
 		TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 		TextLabel.TextSize = 14.000
 		TextLabel.TextWrapped = true
@@ -1791,6 +1791,11 @@ mobesp:CreateToggle("Enable", false, function(a)
 	mob()	
 end)
 
+log("You are on version "..getgenv().version)
+log("webhook is " ..tostring(getgenv().settings.webhook))
+log("webhook url: "..getgenv().settings.webhookURL)
+log("Auto raid is "..tostring(getgenv().settings.boss))
+
 
 if getgenv().settings.perf then
 	perfmode()
@@ -1809,7 +1814,3 @@ if getgenv().settings.slot ~= "None" then
 	autoSlot()
 end
 
-log("You are on version "..getgenv().version)
-log("webhook is " ..tostring(getgenv().settings.webhook))
-log("webhook url: "..getgenv().settings.webhookURL)
-log("Auto raid is "..tostring(getgenv().settings.boss))
