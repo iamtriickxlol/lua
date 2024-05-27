@@ -483,7 +483,6 @@ function autoBoss()
 				BossName.TextXAlignment = Enum.TextXAlignment.Left
 				waiting:Destroy()
 				c = game:GetService("RunService").Heartbeat:Connect(function()
-					if getgenv().settings.boss == true then
 						Timer.Text = math.floor((tick() - lapse) / 60)..'m ' .. math.floor((tick() - lapse) % 60) .. "s"
 						if (tick() - lapse) >= (getgenv().settings.bosstime * 60) and debounce == true then		
 							debounce = false
@@ -621,7 +620,6 @@ function autoBoss()
 						}
 
 						game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
-					end
 					_G.timelapse = tostring(Timer.Text)
 					wait()
 				end
@@ -1812,6 +1810,6 @@ if getgenv().settings.slot ~= "None" then
 end
 
 log("You are on version "..getgenv().version)
-log("webhook is "..getgenv().settings.webhook)
+log("webhook is " ..tostring(getgenv().settings.webhook))
 log("webhook url: "..getgenv().settings.webhookURL)
-log("Auto raid is "..getgenv().settings.boss)
+log("Auto raid is "..tostring(getgenv().settings.boss))
