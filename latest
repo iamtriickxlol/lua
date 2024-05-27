@@ -1,5 +1,5 @@
 
-getgenv().version = '0.4.6b'
+getgenv().vers = '0.4.6b'
 
 repeat wait() until game:IsLoaded()
 local UserInputService = game:GetService("UserInputService")
@@ -1487,7 +1487,7 @@ loadsettings()
 loadavoidbosses()
 
 
-local main = Library:CreateWindow(getgenv().version)
+local main = Library:CreateWindow(getgenv().vers)
 local tab = main:CreateTab("Player")
 local visuals = main:CreateTab("Visuals")
 local tab2 = main:CreateTab("Misc")
