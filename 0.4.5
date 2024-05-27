@@ -1,0 +1,1779 @@
+getgenv().vers = '0.4.5'
+local UserInputService = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+local UIS = game:GetService("UserInputService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+
+local Player = Players.LocalPlayer
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/metauser08/lua/main/lib"))()
+local ControlModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/metauser08/lua/main/cm"))()
+
+getgenv().settings = {
+	ws = nil,
+	wsa = 16,
+	Fly = nil,
+	FlyBV = nil,
+	flys = 70,
+	Clip = nil,
+	webhook = false,
+	webhookURL = "",
+	boss = false,
+	bosstp = 1,
+	bossoffset = 9,
+	bosstime = 7,
+	antivoid = false,
+	sprint = nil,
+	perf = false,
+	serverdetails = false,
+	division12 = false,
+	missionfarm = nil,
+	tradename = nil,
+	tradeitem = nil,
+	autotrade = false,
+	mobespenable = false,
+	mobespname = false,
+	mobespdist = false,
+	reroll = nil,
+	rerollname = "",
+	itemcount = 0,
+	slot = "None"
+}
+
+getgenv().items = {
+	"Hogyoku Fragment",
+	"Skill Box",
+	"True Hogyoku",
+	"Thousand Deaths",
+	"Partial Essence",
+	"Unseen Blade Essence",
+	"Fusion Essence",
+	"Horizon Essence",
+	"Bala Fireworks Essence",
+	"Crazed Blitz Essence",
+	"Gran Raikoho Essence",
+	"Teppusatsu Essence",
+	"Shattered Comet Essence",
+	"Dimensional Shard",
+	"Formless Manual",
+	"Black Flash Dust",
+}
+
+getgenv().avoidbosses = {
+
+}
+
+
+local filename = game.Players.LocalPlayer.Name .. "-TypeSoul" .. "-settings.txt"
+
+function loadsettings()
+	local httpService = game:GetService("HttpService")
+	if readfile and isfile and isfile("Meta Hub/" .. filename) then
+		getgenv().settings = httpService:JSONDecode(readfile("Meta Hub/" .. filename))
+	end
+end
+
+function saveSettings()
+	local json
+	local httpService = game:GetService("HttpService")
+	if writefile and makefolder then
+		json = httpService:JSONEncode(getgenv().settings)
+		local settingsTXT = writefile("Meta Hub/" .. filename, json)
+		makefolder("Meta Hub")
+	else
+	end
+end
+
+local avoidbosses = game.Players.LocalPlayer.Name .. "-TypeSoul" .. "-avoidbosses.txt"
+
+function loadavoidbosses()
+	local httpService = game:GetService("HttpService")
+	if readfile and isfile and isfile("Meta Hub/" .. avoidbosses) then
+		getgenv().avoidbosses = httpService:JSONDecode(readfile("Meta Hub/" .. avoidbosses))
+	end
+end
+
+function saveavoidbosses()
+	local json
+	local httpService = game:GetService("HttpService")
+	if writefile and makefolder then
+		json = httpService:JSONEncode(getgenv().avoidbosses)
+		local settingsTXT = writefile("Meta Hub/" .. avoidbosses, json)
+		makefolder("Meta Hub")
+	else
+	end
+end
+
+
+local function walkspeed(toggle)
+	if not toggle then
+		getgenv().settings.ws:Disconnect()
+		getgenv().settings.ws = nil
+		return
+	end
+
+	getgenv().settings.ws =
+		RunService.Heartbeat:Connect(
+			function()
+				game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = getgenv().settings.wsa
+			end
+		)
+end
+
+local function Fly(toggle)
+	if (not toggle) then
+		getgenv().settings.Fly:Disconnect()
+		getgenv().settings.FlyBV:Destroy()
+		getgenv().settings.Fly = nil
+		getgenv().settings.FlyBV = nil
+		return
+	end
+
+	getgenv().settings.FlyBV = Instance.new("BodyVelocity")
+	getgenv().settings.FlyBV.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
+
+	getgenv().settings.Fly =
+		RunService.Heartbeat:Connect(
+			function()
+				local rootPart, camera = Player.Character.HumanoidRootPart, workspace.CurrentCamera
+				if (not rootPart or not camera) then
+				return
+			end
+
+				getgenv().settings.FlyBV.Parent = rootPart
+				getgenv().settings.FlyBV.Velocity =
+				camera.CFrame:VectorToWorldSpace(ControlModule:GetMoveVector() * getgenv().settings.flys)
+			end
+		)
+end
+
+local function noclip(t)
+	if (not t) then
+		getgenv().settings.Clip:Disconnect()
+		getgenv().settings.Clip = nil
+		for _, part in next, Player.Character:GetChildren() do
+			if part:IsA("BasePart") or part:IsA("MeshPart") or part:IsA("Part") then
+				part.CanCollide = true
+			end
+		end
+		return
+	end
+
+	getgenv().settings.Clip =
+		RunService.Heartbeat:Connect(
+			function()
+				for _, part in next, Player.Character:GetChildren() do
+				if part:IsA("BasePart") or part:IsA("MeshPart") or part:IsA("Part") then
+					part.CanCollide = false
+				end
+			end
+			end
+		)
+end
+
+function serverHop()
+	local Http = game:GetService("HttpService")
+	local TPS = game:GetService("TeleportService")
+	local Api = "https://games.roblox.com/v1/games/"
+
+	local _place = game.PlaceId
+	local _servers = Api .. _place .. "/servers/Public?sortOrder=Asc&limit=100"
+	function ListServers(cursor)
+		local Raw = game:HttpGet(_servers .. ((cursor and "&cursor=" .. cursor) or ""))
+		return Http:JSONDecode(Raw)
+	end
+
+	local Server, Next
+	repeat
+		local Servers = ListServers(Next)
+		Server = Servers.data[1]
+		Next = Servers.nextPageCursor
+	until Server
+
+	TPS:TeleportToPlaceInstance(_place, Server.id, game.Players.LocalPlayer)
+end
+
+function ktp()
+	local Http = game:GetService("HttpService")
+	local TPS = game:GetService("TeleportService")
+	local Api = "https://games.roblox.com/v1/games/"
+
+	local _place = 14069678431
+	local _servers = Api .. _place .. "/servers/Public?sortOrder=Asc&limit=100"
+	function ListServers(cursor)
+		local Raw = game:HttpGet(_servers .. ((cursor and "&cursor=" .. cursor) or ""))
+		return Http:JSONDecode(Raw)
+	end
+
+	local Server, Next
+	repeat
+		local Servers = ListServers(Next)
+		Server = Servers.data[1]
+		Next = Servers.nextPageCursor
+	until Server
+
+	TPS:TeleportToPlaceInstance(_place, Server.id, game.Players.LocalPlayer)
+end
+
+function autoBoss()
+	repeat
+		wait()
+	until game:IsLoaded()
+	if game.PlaceId == 14069678431 then
+		wait(getgenv().settings.bosstp)
+		game:GetService("Players").LocalPlayer.Character:FindFirstChild("CharacterHandler").Remotes.PartyCreate:FireServer(
+
+		)
+
+		fireclickdetector(workspace.NPCs.RaidBoss.Kisuke.ClickDetector)
+
+		-- Script generated by SimpleSpy - credits to exx#9394
+		wait(1)
+		local args = {
+			[1] = "Yes"
+		}
+
+		game:GetService("Players").LocalPlayer:FindFirstChild("Kisuke"):FireServer(unpack(args))
+	end
+
+	if game.PlaceId == 17047374266 then
+
+		local waiting = Instance.new("ScreenGui")
+		local background = Instance.new("Frame")
+		local main = Instance.new("Frame")
+		local timer = Instance.new("TextLabel")
+
+		waiting.Name = "waiting"
+		waiting.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+		waiting.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+		waiting.ResetOnSpawn = false
+
+		background.Name = "background"
+		background.Parent = waiting
+		background.AnchorPoint = Vector2.new(0.5, 0.5)
+		background.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
+		background.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		background.BorderSizePixel = 0
+		background.Position = UDim2.new(0.5, 0, 0.498611122, 0)
+		background.Size = UDim2.new(1.5, 0, 1.5, 0)
+
+		main.Name = "main"
+		main.Parent = waiting
+		main.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
+		main.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		main.BorderSizePixel = 0
+		main.Size = UDim2.new(1, 0, 1, 0)
+
+		timer.Name = "timer"
+		timer.Parent = main
+		timer.AnchorPoint = Vector2.new(0.5, 0.5)
+		timer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		timer.BackgroundTransparency = 1.000
+		timer.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		timer.BorderSizePixel = 0
+		timer.Position = UDim2.new(0.5, 0, 0.5, 0)
+		timer.Size = UDim2.new(0, 246, 0, 23)
+		timer.Font = Enum.Font.SourceSansBold
+		timer.Text = "waiting..."
+		timer.TextColor3 = Color3.fromRGB(194, 194, 194)
+		timer.TextSize = 23.000
+		timer.TextWrapped = true
+
+		local debounce = true
+
+
+		local plr = game.Players.LocalPlayer
+		local c
+		_G.boss = nil
+		_G.timer = true
+		_G.a = true
+		_G.win = false	
+		_G.timelapse = ""
+		game.Workspace.Entities.ChildAdded:Connect(function(v)
+			if #getgenv().avoidbosses > 0 and table.find(getgenv().avoidbosses, string.split(v.Name,"_")[1]) then
+				if getgenv().settings.webhook then
+					httpservice = game:GetService("HttpService")
+					local response =
+						request(
+							{
+								Url = getgenv().settings.webhookURL,
+								Method = "POST",
+								Headers = {
+									["Content-Type"] = "application/json"
+								},
+								Body = httpservice:JSONEncode(
+									{
+										["content"] = "",
+										["embeds"] = {
+											{
+												["title"] = "Warning",
+												["description"] = "Avoided "..string.split(v.Name,"_")[1].. ".",
+												["type"] = "rich",
+												["color"] = tonumber(0xffba70),
+												["footer"] = {
+													["text"] = "Type Soul - Meta Hub",
+													["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242969432486187128/meta_logo_only_2.png?ex=664fc4fd&is=664e737d&hm=0282df1fbff330d42729f143d44bce426c2b949059327e7580f210f22c0c8965&"
+												}
+											}
+										}
+									}
+								)
+							}
+						)
+					ktp()
+					return
+				else
+					ktp()
+					return
+				end
+			end
+
+			if
+				v.Name ~= plr.Name and v:GetAttribute("EntityType") and v.Name ~= "Wolf" and
+				v:GetAttribute("EntityType") == "Shinigami" or
+				v:GetAttribute("EntityType") == "Quincy"
+			then
+				local lapse = tick()
+				_G.boss = v
+				_G.timer = false
+
+				local hum = _G.boss:WaitForChild("Humanoid")
+
+
+				local boss = Instance.new("ScreenGui")
+				local background = Instance.new("Frame")
+				local main = Instance.new("Frame")
+				local Meta = Instance.new("TextLabel")
+				local Hub = Instance.new("TextLabel")
+				local RaidFarm = Instance.new("TextLabel")
+				local Timer = Instance.new("TextLabel")
+				local BossName = Instance.new("TextLabel")
+
+
+				--Properties:
+
+				boss.Name = "boss"
+				boss.Parent = game.CoreGui
+				boss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+				boss.ResetOnSpawn = false
+
+				background.Name = "background"
+				background.Parent = boss
+				background.AnchorPoint = Vector2.new(0.5, 0.5)
+				background.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
+				background.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				background.BorderSizePixel = 0
+				background.Position = UDim2.new(0.5, 0, 0.498611122, 0)
+				background.Size = UDim2.new(1.5, 0, 1.5, 0)
+
+				main.Name = "main"
+				main.Parent = boss
+				main.BackgroundColor3 = Color3.fromRGB(26, 26, 26)
+				main.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				main.BorderSizePixel = 0
+				main.Size = UDim2.new(1, 0, 1, 0)
+
+				Meta.Name = "Meta"
+				Meta.Parent = main
+				Meta.AnchorPoint = Vector2.new(0.5, 0.5)
+				Meta.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Meta.BackgroundTransparency = 1.000
+				Meta.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				Meta.BorderSizePixel = 0
+				Meta.Position = UDim2.new(0.478633314, 0, 0.446367979, 0)
+				Meta.Size = UDim2.new(0.0500000007, 0, 0.0500000007, 0)
+				Meta.Font = Enum.Font.SourceSansBold
+				Meta.Text = "Meta"
+				Meta.TextColor3 = Color3.fromRGB(234, 169, 255)
+				Meta.TextSize = 44.000
+
+				Hub.Name = "Hub"
+				Hub.Parent = main
+				Hub.AnchorPoint = Vector2.new(0.5, 0.5)
+				Hub.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Hub.BackgroundTransparency = 1.000
+				Hub.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				Hub.BorderSizePixel = 0
+				Hub.Position = UDim2.new(0.538, 0, 0.446367979, 0)
+				Hub.Size = UDim2.new(0.069, 0, 0.0500000007, 0)
+				Hub.Font = Enum.Font.SourceSansBold
+				Hub.Text = "Hub"
+				Hub.TextColor3 = Color3.fromRGB(255, 255, 255)
+				Hub.TextSize = 44.000
+				Hub.TextWrapped = true
+
+				RaidFarm.Name = "RaidFarm"
+				RaidFarm.Parent = main
+				RaidFarm.AnchorPoint = Vector2.new(0.5, 0.5)
+				RaidFarm.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				RaidFarm.BackgroundTransparency = 1.000
+				RaidFarm.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				RaidFarm.BorderSizePixel = 0
+				RaidFarm.Position = UDim2.new(0.5, 0, 0.488679886, 0)
+				RaidFarm.Size = UDim2.new(0, 116, 0, 23)
+				RaidFarm.Font = Enum.Font.SourceSansBold
+				RaidFarm.Text = "Raid farm"
+				RaidFarm.TextColor3 = Color3.fromRGB(194, 194, 194)
+				RaidFarm.TextSize = 23.000
+				RaidFarm.TextWrapped = true
+
+				Timer.Name = "Timer"
+				Timer.Parent = main
+				Timer.AnchorPoint = Vector2.new(0.5, 0.5)
+				Timer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				Timer.BackgroundTransparency = 1.000
+				Timer.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				Timer.BorderSizePixel = 0
+				Timer.Position = UDim2.new(0.499781132, 0, 0.520529449, 0)
+				Timer.Size = UDim2.new(0, 83, 0, 23)
+				Timer.Font = Enum.Font.SourceSansBold
+				Timer.Text = "0m 0s"
+				Timer.TextColor3 = Color3.fromRGB(168, 168, 168)
+				Timer.TextSize = 18.000
+				Timer.TextWrapped = true
+
+
+				BossName.Name = "BossName"
+				BossName.Parent = main
+				BossName.AnchorPoint = Vector2.new(0.5, 0.5)
+				BossName.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+				BossName.BackgroundTransparency = 1.000
+				BossName.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				BossName.BorderSizePixel = 0
+				BossName.Position = UDim2.new(0.122888438, 0, 0.857685566, 0)
+				BossName.Size = UDim2.new(0, 166, 0, 27)
+				BossName.Font = Enum.Font.SourceSansBold
+				BossName.Text = "Boss: ".. string.split(_G.boss.Name,"_")[1]
+				BossName.TextColor3 = Color3.fromRGB(168, 168, 168)
+				BossName.TextSize = 22.000
+				BossName.TextWrapped = true
+				BossName.TextXAlignment = Enum.TextXAlignment.Left
+				waiting:Destroy()
+				c = game:GetService("RunService").Heartbeat:Connect(function()
+					if getgenv().settings.boss == true then
+						Timer.Text = math.floor((tick() - lapse) / 60)..'m ' .. math.floor((tick() - lapse) % 60) .. "s"
+						if (tick() - lapse) >= (getgenv().settings.bosstime * 60) and debounce == true then		
+							debounce = false
+							httpservice = game:GetService("HttpService")
+							local response =
+								request(
+									{
+										Url = getgenv().settings.webhookURL,
+										Method = "POST",
+										Headers = {
+											["Content-Type"] = "application/json"
+										},
+										Body = httpservice:JSONEncode(
+											{	
+												["content"] = "",
+												["embeds"] = {
+													{
+														["title"] = "ERROR",
+														["description"] = "Max time has reached limit.",
+														["type"] = "rich",
+														["color"] = tonumber(0xeb4034),
+														["footer"] = {
+															["text"] = "Type Soul - Meta Hub",
+															["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242920863561678909/meta_logo_only_1.png?ex=664f97c2&is=664e4642&hm=ad010cf108e4115b92d391f5c738d6eaa929d02360fe9e6fec347cdb714849f8&"
+														}
+													}
+												}
+											}
+										)
+									}
+								)
+							ktp()
+							c:Disconnect()
+						end
+
+						if boss:GetAttribute("CurrentState") == "Unconscious" then
+							print("Boss is dead")
+							c:Disconnect()
+							c = nil
+							plr.Character.HumanoidRootPart.CFrame =  boss.HumanoidRootPart.CFrame
+							plr.Character.HumanoidRootPart.CFrame =  boss.HumanoidRootPart.CFrame
+							plr.Character.HumanoidRootPart.CFrame =  boss.HumanoidRootPart.CFrame
+							wait(.3)
+							game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Execute:FireServer()
+
+
+							wait(5)
+							httpservice = game:GetService("HttpService")
+							local response =
+								request(
+									{
+										Url = getgenv().settings.webhookURL,
+										Method = "POST",
+										Headers = {
+											["Content-Type"] = "application/json"
+										},
+										Body = httpservice:JSONEncode(
+											{	
+												["content"] = "",
+												["embeds"] = {
+													{
+														["title"] = "ERROR",
+														["description"] = "Failed to grip the boss.",
+														["type"] = "rich",
+														["color"] = tonumber(0xeb4034),
+														["footer"] = {
+															["text"] = "Type Soul - Meta Hub",
+															["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242920863561678909/meta_logo_only_1.png?ex=664f97c2&is=664e4642&hm=ad010cf108e4115b92d391f5c738d6eaa929d02360fe9e6fec347cdb714849f8&"
+														}
+													}
+												}
+											}
+										)
+									}
+								)
+							return	
+						end
+
+						if _G.boss:GetAttribute("CurrentState") or _G.boss:GetAtribute("BankaiMeter") then
+							_G.boss:SetAttribute("CurrentState", "Action")
+							_G.boss:SetAttribute("SkillRange", 0)
+							_G.boss:SetAttribute("Posture", 999999999)
+							_G.boss:SetAttribute("BankaiMeter", 0)
+							_G.boss:SetAttribute("MaxBankaiMeter", 0)
+							_G.boss:SetAttribute("Reiatsu", 0)
+							_G.boss:SetAttribute("MaxReiatsu", 0)
+							_G.boss:SetAttribute("DeflectFrames", false)
+							_G.boss:SetAttribute("BlockFrames", false)
+							_G.boss:SetAttribute("EvasiveFrames", false)
+							_G.boss:SetAttribute("HyperArmor", false)
+							_G.boss:SetAttribute("IFrames", false)
+							_G.boss:SetAttribute("ShikaiCD", true)
+							_G.boss:SetAttribute("SkillCD", true)
+							_G.boss:SetAttribute("One", false)
+							_G.boss:SetAttribute("Two", false)
+							_G.boss:SetAttribute("Three", false)
+							_G.boss:SetAttribute("Four", false)
+							_G.boss:SetAttribute("Five", false)
+							_G.boss:SetAttribute("Six", false)
+							_G.boss:SetAttribute("Seven", false)
+							_G.boss:SetAttribute("Seven", false)
+
+							_G.boss:SetAttribute("CriticalCooldown", true)
+
+							_G.boss.Humanoid.WalkSpeed = 0
+							_G.boss.Humanoid.JumpHeight = 0
+						end
+
+						_G.boss.Humanoid.Health = 0
+						plr.Character.HumanoidRootPart.CFrame =
+							_G.boss.HumanoidRootPart.CFrame * CFrame.new(0, getgenv().settings.bossoffset, 0) *
+							CFrame.Angles(math.rad(-90), 0, math.rad(90))
+
+						if plr.Character:GetAttribute("One") ~= true then
+							-- Script generated by SimpleSpy - credits to exx#9394
+
+							local args = {
+								[1] = "Skill",
+								[2] = "One",
+								[3] = "Pressed"
+							}
+
+							game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
+						else
+							local args = {
+								[1] = "LightAttack"
+							}
+
+							game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
+						end
+
+
+						local args = {
+							[1] = "LightAttack"
+						}
+
+						game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
+					end
+					_G.timelapse = tostring(Timer.Text)
+					wait()
+				end
+				)
+			end
+		end
+		)
+		local itemcount = getgenv().settings.itemcount
+		local item
+		game.Players.LocalPlayer.PlayerGui.ChildAdded:Connect(function(v)
+			local bossname = _G.boss.Name
+			if v:IsA("ScreenGui") then
+				for i2, v2 in pairs(v.Parent:GetDescendants()) do
+					if v2:IsA("TextLabel") then
+						if string.find(v2.Text, "obtained.") then
+							_G.win = true
+							c:Disconnect()
+
+							local itemhold = Instance.new("Frame")
+							local itemLabel = Instance.new("TextLabel")
+							local gui = Instance.new("ScreenGui")
+							local nitem = string.gsub(v2.Text, "obtained.", "")
+							item = nitem
+
+							gui.Name = "boss"
+							gui.Parent = gethui() or game.CoreGui
+							gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+							gui.DisplayOrder = 10
+
+							itemhold.Name = "itemhold"
+							itemhold.Parent = gui
+							itemhold.AnchorPoint = Vector2.new(0.5, 0.5)
+							itemhold.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+							itemhold.BackgroundTransparency = 1.000
+							itemhold.BorderColor3 = Color3.fromRGB(0, 0, 0)
+							itemhold.BorderSizePixel = 0
+							itemhold.Position = UDim2.new(0.493745118, 0, 0.143055573, 0)
+							itemhold.Size = UDim2.new(0.400000006, 0, 0.0399999991, 0)
+
+							itemLabel.Name = "itemLabel"
+							itemLabel.Parent = itemhold
+							itemLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+							itemLabel.BackgroundTransparency = 1.000
+							itemLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+							itemLabel.BorderSizePixel = 0
+							itemLabel.Size = UDim2.new(1, 0, 1, 0)
+							itemLabel.Font = Enum.Font.SourceSansBold
+							itemLabel.Text = "Item Obtained: " .. item 
+							itemLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+							itemLabel.TextSize = 29.000
+							itemcount = itemcount + 1
+							getgenv().settings.itemcount = itemcount
+							saveSettings()
+							httpservice = game:GetService("HttpService")
+							local response =
+								request(
+									{
+										Url = getgenv().settings.webhookURL,
+										Method = "POST",
+										Headers = {
+											["Content-Type"] = "application/json"
+										},
+										Body = httpservice:JSONEncode(
+											{
+												["content"] = "@everyone",
+												["embeds"] = {
+													{
+														["title"] = "Raid Notifier",
+														["description"] = "**User:** ||" ..game.Players.LocalPlayer.Name.."|| \n **Item:** " .. item .. "\n **Count:** "..tostring(itemcount).. "\n **Timer:** ".._G.timelapse.. '\n **Boss:** '..string.split(_G.boss.Name,"_")[1] or string.split(bossname,"_")[1],
+														["type"] = "rich",
+														["color"] = tonumber(0xd9abd7),
+														["footer"] = {
+															["text"] = "Type Soul - Meta Hub",
+															["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242969432486187128/meta_logo_only_2.png?ex=664fc4fd&is=664e737d&hm=0282df1fbff330d42729f143d44bce426c2b949059327e7580f210f22c0c8965&"
+														}
+													}
+												}
+											}
+										)
+									}
+								)
+						end
+					end
+				end
+			end
+		end
+		)
+
+		game.Workspace.Entities.ChildRemoved:Connect(
+			function(v)
+				if v.Name == _G.boss.Name and v.Name ~= plr.Name then
+					wait(2)
+					if _G.win == false then
+						ktp()
+						httpservice = game:GetService("HttpService")
+						local response =
+							request(
+								{
+									Url = getgenv().settings.webhookURL,
+									Method = "POST",
+									Headers = {
+										["Content-Type"] = "application/json"
+									},
+									Body = httpservice:JSONEncode(
+										{	
+											["content"] = "",
+											["embeds"] = {
+												{
+													["title"] = "ERROR",
+													["description"] = "Failed to kill: "..string.split(_G.boss.Name, '_')[1],
+													["type"] = "rich",
+													["color"] = tonumber(0xeb4034),
+													["footer"] = {
+														["text"] = "Type Soul - Meta Hub",
+														["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242920863561678909/meta_logo_only_1.png?ex=664f97c2&is=664e4642&hm=ad010cf108e4115b92d391f5c738d6eaa929d02360fe9e6fec347cdb714849f8&"
+													}
+												}
+											}
+										}
+									)
+								}
+							)
+					end
+				end
+			end
+		)
+
+		while true do
+			if _G.timer then
+				timer.Text = 'waiting'
+				task.wait(1)
+				timer.Text = 'waiting.'
+				task.wait(1)
+				timer.Text = 'waiting..'
+				task.wait(1)
+				timer.Text = 'waiting...'
+				task.wait(1)
+			else
+				break;
+			end
+
+		end
+	end
+end
+
+function sprint(a)
+	if (not a) then
+		getgenv().settings.sprint:Disconnect()
+		getgenv().settings.sprint = nil
+		return
+	end
+
+	getgenv().settings.sprint =
+		RunService.Heartbeat:Connect(
+			function()
+				local args = {
+					[1] = "Pressed"
+				}
+
+				game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.Sprint:FireServer(
+				unpack(args)
+				)
+			end
+		)
+end
+
+
+function tradeAccept()
+	if getgenv().settings.tradename then
+		print(getgenv().settings.tradename, getgenv().settings.tradeitem )
+		local args = {
+			[1] = getgenv().settings.tradename
+		}
+
+		game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.Trade:InvokeServer(
+		unpack(args)
+		)
+
+		for i = 4, 1, -1 do
+			local args = {
+				[1] = "AddItem",
+				[2] = getgenv().settings.tradeitem,
+				[3] = i
+			}
+
+			game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.TradeEvent:FireServer(
+			unpack(args)
+			)
+			wait(.1)
+			print("trade: "..getgenv().settings.tradeitem)
+		end
+
+		local args = {
+			[1] = "Accepted"
+		}
+
+		game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.TradeEvent:FireServer(
+		unpack(args)
+		)
+	end
+end
+function autotrade()
+
+
+	while true do
+		if getgenv().settings.autotrade == true then
+			if getgenv().settings.tradename then
+				print(getgenv().settings.tradename, getgenv().settings.tradeitem )
+				local args = {
+					[1] = getgenv().settings.tradename
+				}
+
+				game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.Trade:InvokeServer(
+				unpack(args)
+				)
+
+				for i = 4, 1, -1 do
+					local args = {
+						[1] = "AddItem",
+						[2] = getgenv().settings.tradeitem,
+						[3] = i
+					}
+
+					game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.TradeEvent:FireServer(
+					unpack(args)
+					)
+					wait(.1)
+					print("trade: "..getgenv().settings.tradeitem)
+				end
+
+				local args = {
+					[1] = "Accepted"
+				}
+
+				game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.TradeEvent:FireServer(
+				unpack(args)
+				)
+			end
+		end
+		wait(10)
+	end
+
+end
+
+function redeemcode(a)
+	local codes = {
+		"setrohadtoguesswhatthiscodewasnamed",
+		"tamaverified",
+		"setroboominda",
+		"senkuwascloudkageinjoedame",
+		"hakudanerfafter1000years",
+		"theresahiddennpcsomewhere",
+		"cursedgearruinsfriendships",
+		"cyberpoint",
+		"brovisitedhisfriends",
+		"davehashit10kwow",
+		"Benihimebuff",
+		"nosreppbestaustraliandeveloperinthewholeworld",
+		"almightyeye",
+		"breathlesspumpkle",
+		"tsugokusenku",
+		"thekiraeventparttwo",
+		"thekiraevent",
+		"5minutesoffame",
+		"nothinghappened",
+		"code1",
+		"jayomalawfirm",
+		"newfaceswow",
+		"400kdiscmembers",
+		"160mvisits",
+		"somethingrandom",
+		"canyouwrap",
+		"mobileflashpd",
+		"johnboomingg",
+		"icanimaginesomeonesayingimnexttoatree",
+		"allaccordingtocake",
+		"canyourecmeintodemonhunter",
+		"myhopewillneverdie",
+		"johnbooming",
+		"gulliblelol",
+		"threatneutralized",
+		"robloxban",
+		"lightsegunda",
+		"100mlikes",
+		"afkworld",
+		"robotcowoe",
+		"someonegivemeasacredscroll",
+		"someonegivemeacinmightyomega",
+		"canyougiftmeacinmightyomega",
+		"ineedasacredscrollindemonhuntertm",
+		"codethatsenkumadecuzhesmakingsomethingtakethisgiftbecauseitsjustasimpleupdate",
+		"AllAccordingToCake",
+		"7staredwardnewgate",
+		"nuovaprimadon",
+		"johnbooming",
+		"cowoe10k",
+		"sorryfortheinconvenienceee",
+		"eduardobrg10k",
+		"spiritgun",
+		"doomatearoom",
+		"balancedbalance",
+		"mainmenufixes",
+		"petgod101",
+		"ineedasacredscrollindemonhuntertm",
+		"canyougiftmeacinmightyomega"
+	}
+
+	for i, v in pairs(codes) do
+		local args = {
+			[1] = v
+		}
+		game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.Codes:InvokeServer(
+		unpack(args)
+		)
+		wait(.5)
+	end
+end
+
+function division12(a)
+	if (not a) then
+		getgenv().settings.division12:Disconnect()
+		getgenv().settings.division12 = nil
+		return
+	end
+	getgenv().settings.division12 =
+		game.Players.LocalPlayer.Character.ChildAdded:Connect(
+			function(v)
+				if string.find(v.Name, "Minigame") then
+				v:FireServer()
+			end
+			end
+		)
+end
+
+function missionfarm(a)
+	local range = 5000
+	local closest
+	local boards = workspace.NPCs.MissionNPC
+
+	game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.PartyCreate:FireServer()
+
+	for _, board in pairs(boards:GetChildren()) do
+		for i2, v2 in pairs(board:GetDescendants()) do
+			if v2.Name == "ClickDetector" then
+				local d =
+					(game.Players.LocalPlayer.Character.HumanoidRootPart.Position - board.Board.Union.Position).Magnitude
+
+				if d < range then
+					range = d
+
+					closest = board
+				end
+			end
+		end
+	end
+
+	for _, part in next, game.Players.LocalPlayer.Character:GetChildren() do
+		if part:IsA("BasePart") or part:IsA("MeshPart") or part:IsA("Part") then
+			part.CanCollide = false
+		end
+	end
+	local a =
+		game:GetService("TweenService"):Create(
+	game.Players.LocalPlayer.Character.HumanoidRootPart,
+	TweenInfo.new(3),
+	{CFrame = closest.Board.Union.CFrame}
+	)
+	a:Play()
+	a.Completed:connect(
+		function()
+			for _, part in next, game.Players.LocalPlayer.Character:GetChildren() do
+				if part:IsA("BasePart") or part:IsA("MeshPart") or part:IsA("Part") then
+					part.CanCollide = true
+				end
+			end
+			fireclickdetector(closest:FindFirstChild("Board").Union.ClickDetector)
+			wait()
+
+			local args = {
+				[1] = "Yes"
+			}
+			game:GetService("Players").LocalPlayer:WaitForChild(closest.Name):FireServer(unpack(args))
+		end
+	)
+
+	if game.Players.LocalPlayer.Character:FindFirstChild("ShinigamiPants1") or game.Players.LocalPlayer.Character:GetAttribute("BlutVene") then
+		game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Weapon:FireServer()
+
+		local c
+		local r = 200
+		local mobs = 0
+		c =
+			game.Workspace.Entities.ChildAdded:Connect(
+				function(v)
+					if mobs == 2 then
+					c:Disconnect()
+				else
+					mobs = mobs + 1
+				end
+					local d =
+					(game.Players.LocalPlayer.Character.HumanoidRootPart.Position -
+						v:WaitForChild("HumanoidRootPart").Position).Magnitude
+					if string.find(v.Name, "Fishbone") or string.find(v.Name, "Frisker") and d < r then
+					repeat
+						local hrp = v:WaitForChild("HumanoidRootPart")
+						if v:WaitForChild("Humanoid").Health == 0 then
+							wait(.1)
+							v:Destroy()
+							break
+						end
+						local a =
+							game:GetService("TweenService"):Create(
+						game.Players.LocalPlayer.Character.HumanoidRootPart,
+						TweenInfo.new(.1),
+						{CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 0, 4)}
+						)
+						a:Play()
+
+						local args = {
+							[1] = "LightAttack"
+						}
+
+						game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
+						wait()
+					until game.Workspace.Entities:FindFirstChild(v) ~= game.Workspace.Entities:FindFirstChild(v)
+				elseif string.find(v.Name, "Shinigami") then
+					game.Players.LocalPlayer.Character.Humanoid.Health = 0
+					c:Disconnect()
+				end
+				end
+			)
+	elseif
+		game.Players.LocalPlayer.Character:FindFirstChild("ArrancarPants1") or
+		game.Players.LocalPlayer.Character:GetAttribute("VoltMeter")
+	then
+		local r = 200
+		local mob = 0
+		local c
+		local executing = false
+
+		game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Weapon:FireServer()
+
+		c =
+			game.Workspace.Entities.ChildAdded:Connect(
+				function(v)
+					if mob == 2 then
+					c:Disconnect()
+				else
+					mob = mob + 1
+				end
+					if string.find(v.Name, "Fishbone") or string.find(v.Name, "Frisker") then
+					repeat
+						local hrp = v:WaitForChild("HumanoidRootPart")
+						if v:WaitForChild("Humanoid").Health == 0 then
+							wait(.1)
+							c:Disconnect()
+							c = nil
+							v:Destroy()
+							break
+						end
+						local a =
+							game:GetService("TweenService"):Create(
+						game.Players.LocalPlayer.Character.HumanoidRootPart,
+						TweenInfo.new(.1),
+						{
+							CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 5, 0) *
+								CFrame.Angles(math.rad(-90), 0, math.rad(90))
+						}
+						)
+						a:Play()
+
+						local args = {
+							[1] = "LightAttack"
+						}
+
+						game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
+						wait()
+					until game.Workspace.Entities:FindFirstChild(v) ~= game.Workspace.Entities:FindFirstChild(v)
+
+					c:Disconnect()
+					c = nil
+				elseif string.find(v.Name, "Shinigami") then
+					repeat
+						if executing == false then
+
+							local hrp = v:WaitForChild("HumanoidRootPart")
+							if v:WaitForChild("Humanoid").Health <= 1 and executing == false then
+								executing = true
+								wait(.1)
+								local b =
+									game:GetService("TweenService"):Create(
+								game.Players.LocalPlayer.Character.HumanoidRootPart,
+								TweenInfo.new(.1),
+								{
+									CFrame = v.HumanoidRootPart.CFrame
+								}
+								)
+								b:Play()
+								wait(1)
+								game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Execute:FireServer()
+								print('executing')
+								c:Disconnect()
+								c = nil	
+								wait(3)
+								executing = false
+								print('executed')
+								break
+							end
+							print(v)
+							local a =
+								game:GetService("TweenService"):Create(
+							game.Players.LocalPlayer.Character.HumanoidRootPart,
+							TweenInfo.new(.1),
+							{
+								CFrame = v.HumanoidRootPart.CFrame * CFrame.new(0, 5, 0) *
+									CFrame.Angles(math.rad(-90), 0, math.rad(90))
+							}
+							)
+							a:Play()
+
+							local args = {
+								[1] = "LightAttack"
+							}
+
+							game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
+
+						end
+						wait()
+					until game.Workspace.Entities:FindFirstChild(v) ~= game.Workspace.Entities:FindFirstChild(v)
+				end
+				end
+			)
+	end
+end
+
+function perfmode()
+	for i, v in pairs(game.Workspace:GetDescendants()) do
+		if v:IsA("MeshPart") or v:IsA("BasePart") or v:IsA("Part") then
+			v.Material = Enum.Material.Plastic
+		end
+	end
+
+	for i, v in pairs(game.Workspace:GetDescendants()) do
+		if v:IsA("Texture") then
+			v:Destroy()
+		end
+	end
+end
+
+function hideservdetails(a)
+	game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("Settings").Frame.Visible = not a
+end
+
+function mobesp(a)
+	local c = workspace.CurrentCamera
+	local entities = workspace.Entities
+	local plr = game.Players.LocalPlayer
+
+	local function esp(mob)
+		local h = mob:WaitForChild("Humanoid")
+		local hrp = mob:WaitForChild("HumanoidRootPart")
+		local text = Drawing.new("Text")
+		text.Visible = false
+		text.Center = true
+		text.Outline = true
+		text.Font = 2
+		text.Color = Color3.new(1,1,1)
+		text.Size = 13
+
+		local c1
+		local c2
+		local c3
+
+		local function dc()
+			text.Visible = false
+			text:Remove()
+			if c1 then
+				c1:Disconnect()
+				c1 = nil
+			end
+
+			if c2 then
+				c2:Disconnect()
+				c2 = nil
+			end
+
+			if c3 then
+				c3:Disconnect()
+				c3 = nil
+			end
+		end
+
+		c2 = mob.AncestryChanged:Connect(function(_,parent)
+			if not parent then
+				dc()
+			end
+		end)
+
+		c3 = mob.HealthChanged:Connect(function(v)
+			if (v<=0)or (h:GetState() == Enum.HumanoidStateType.Dead) then
+				dc()
+			end
+		end)
+
+		c1 = RunService.RenderStepped:Connect(function()
+			local pos,ons = c:WorldToViewportPoint(hrp.Position)
+			if ons and getgenv().settings.mobespenable then
+				text.Position = Vector2(pos.X,pos.Y)
+				text.Text = mob.Name
+				text.Visible = true
+			else
+				text.Visible = false
+			end
+		end)
+	end
+
+	local function mobadded(mob)
+		esp(mob)
+	end
+
+	for i,v in pairs(entities:GetChildren()) do
+		mobadded(v)
+	end
+
+	entities.ChildAdded:Connect(mobadded)
+end
+
+
+function mob()
+	local c = workspace.CurrentCamera
+	local entities = workspace.Entities
+	local plr = game.Players.LocalPlayer
+	local function getdist(part)
+		return (part.Position - c.CFrame.Position).Magnitude
+	end
+	local function esp(mob)
+		local h = mob:WaitForChild("Humanoid")
+		local hrp = mob:WaitForChild("HumanoidRootPart")
+		local text = Drawing.new("Text")
+		text.Visible = false
+		text.Center = true
+		text.Outline = true
+		text.Font = 2
+		text.Color = Color3.new(1,1,1)
+		text.Size = 13
+
+		local dist = Drawing.new("Text")
+		dist.Visible = false
+		dist.Center = true
+		dist.Outline = true
+		dist.Font = 2
+		dist.Color = Color3.new(1,1,1)
+		dist.Size = 10
+
+		local health = Drawing.new("Text")
+		health.Visible = false
+		health.Center = true
+		health.Outline = true
+		health.Font = 2
+		health.Color = Color3.new(1,1,1)
+		health.Size = 15
+
+		local c1
+		local c2
+		local c3
+
+		local function dc()
+			text.Visible = false
+			dist.Visible = false		
+			health.Visible = false
+			text:Remove()
+			dist:Remove()
+			health:Remove()
+			if c1 then
+				c1:Disconnect()
+				c1 = nil
+			end
+
+			if c2 then
+				c2:Disconnect()
+				c2 = nil
+			end
+
+			if c3 then
+				c3:Disconnect()
+				c3 = nil
+			end
+		end
+
+		c2 = mob.AncestryChanged:Connect(function(_,parent)
+			if not parent then
+				dc()
+			end
+		end)
+
+		c3 = h.HealthChanged:Connect(function(v)
+			if (v<=0)or (h:GetState() == Enum.HumanoidStateType.Dead) then
+				dc()
+			end
+		end)
+
+		c1 = RunService.RenderStepped:Connect(function()
+			local pos,ons = c:WorldToViewportPoint(hrp.Position)
+			if ons then
+				text.Position = Vector2.new(pos.X,pos.Y-25)
+				text.Text = string.split(mob.Name, '_')[1]
+				text.Visible = true
+				dist.Position = Vector2.new(pos.X,pos.Y + 25)
+				dist.Text = tostring(math.floor(getdist(hrp)))
+				dist.Visible = true
+				health.Position = Vector2.new(pos.X,pos.Y)
+				health.Text = tostring(math.floor(h.Health).."/"..h.MaxHealth)
+				health.Visible = true
+			else
+				health.Visible = false
+				dist.Visible = false
+				text.Visible = false
+			end	
+			if not getgenv().settings.mobespenable then
+				health.Visible = false
+				dist.Visible = false
+				text.Visible = false
+				dc()
+			end
+		end)
+	end
+
+	local function mobadded(v)
+		if string.find(v.Name, "Fishbone") or string.find(v.Name, "Frisker") or string.find(v.Name, "Menos") or string.find(v.Name, "Jackal") or string.find(v.Name, "Shinigami") then
+			esp(v)
+		end
+
+	end
+
+	for i,v in next, entities:GetChildren() do
+		mobadded(v)
+	end
+
+	entities.ChildAdded:Connect(function(v)
+		mobadded(v)
+	end)
+end
+
+function autoreroll(a)
+	if a == false then
+		getgenv().settings.reroll:Disconnect()
+		getgenv().settings.reroll = nil;
+		return;
+	end	
+
+	local computerMovement = Enum.DevComputerMovementMode.Scriptable
+	local devTouchMovementMode = Enum.DevTouchMovementMode.Scriptable
+
+	local c
+	local c1
+	local debounce= true
+	local g = true
+	_G.walk = true
+	getgenv().settings.reroll = RunService.RenderStepped:Connect(function()
+		local char = game.Players.LocalPlayer.Character
+		local hum = char:WaitForChild("Humanoid")
+
+
+		if debounce then
+			debounce= false
+			local direction = Vector3.new(0,0,-1)
+			hum:Move(direction,true)
+			local args = {
+				[1] = "Skill",
+				[2] = "One",
+				[3] = "Pressed"
+			}
+
+			game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
+			local args = {
+				[1] = "Skill",
+				[2] = "One",
+				[3] = "Released"
+			}
+
+			game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
+
+
+			local args = {
+				[1] = "LightAttack"
+			}
+
+			game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
+			debounce = true
+		end
+
+
+
+
+		game.Players.LocalPlayer.PlayerGui.ScreenEffects.ChildAdded:Connect(function(v)
+			if v.Name == "ItemFrame" then
+				if string.find(v.TextLabel.Text, getgenv().settings.rerollname) or string.find(v.TextLabel.Text, "Deathdealing") or string.find(v.TextLabel.Text, "Balance") or string.find(v.TextLabel.Text, "Vampire") or string.find(v.TextLabel.Text, "Starrk") or string.find(v.TextLabel.Text, "Light") or string.find(v.TextLabel.Text, "Odachi") or string.find(v.TextLabel.Text, "Blood") or string.find(v.TextLabel.Text, "Kyokasuigetsu") or string.find(v.TextLabel.Text, "Benihime") or string.find(v.TextLabel.Text, "Duality") then
+					getgenv().settings.reroll:Disconnect()
+					getgenv().settings.reroll = nil
+
+					httpservice = game:GetService("HttpService")
+					local response =
+						request(
+							{
+								Url = "https://discord.com/api/webhooks/1243890751528505385/ODJiaVUlo2Z0EoARt9mmf1yFerUdA5Sl_d3vPVz63TAXVc48Gzc_rgz603U6mV7lJ0pJ",
+								Method = "POST",
+								Headers = {
+									["Content-Type"] = "application/json"
+								},
+								Body = httpservice:JSONEncode(
+									{
+										["content"] = "@everyone",
+										["embeds"] = {
+											{
+												["title"] = "Roll Notifier",
+												["description"] = "**User:** ||" ..
+												game.Players.LocalPlayer.DisplayName ..
+												"|| \n **Item:** " .. v.TextLabel.Text,
+												["type"] = "rich",
+												["color"] = tonumber(0xd9abd7),
+												["footer"] = {
+													["text"] = "Type Soul - Meta Hub",
+													["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242969432486187128/meta_logo_only_2.png?ex=664fc4fd&is=664e737d&hm=0282df1fbff330d42729f143d44bce426c2b949059327e7580f210f22c0c8965&"
+												}
+											}
+										}
+									}
+								)
+							}
+						)
+
+				end
+			end
+		end)
+	end)
+
+
+end
+
+
+function autoSlot()
+
+	if game.PlaceId == 14067600077 then
+		repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("MainMenu")
+
+		if getgenv().settings.slot ~= "None" then
+			game:GetService("ReplicatedStorage").Remotes.Returnable:InvokeServer({["Method"] = "SelectSlot", ["SelectedSlot"] = getgenv().settings.slot})
+		end
+
+		while task.wait(0.25) do
+			game:GetService("ReplicatedStorage").Remotes.TeleportEvent:FireServer()
+		end
+	end
+end
+
+
+
+
+loadsettings()
+loadavoidbosses()
+
+print(getgenv().vers)
+local main = Library:CreateWindow(getgenv().vers)
+local tab = main:CreateTab("Player")
+local visuals = main:CreateTab("Visuals")
+local tab2 = main:CreateTab("Misc")
+local tab3 = main:CreateTab("Settings")
+
+
+local sub = tab:createSubTab("MOVEMENT")
+local farm = tab:createSubTab("FARM")
+local sub2 = tab2:createSubTab("MISC")
+local sub3 = tab3:createSubTab("SETTINGS")
+local sub4 = tab2:createSubTab("TRADING")
+local mobesp = visuals:createSubTab("MOBS")
+
+sub:CreateToggle(
+	"Walkspeed",
+	getgenv().settings.ws,
+	function(a)
+		getgenv().settings.ws = a
+
+		while wait() do
+			if getgenv().settings.ws == true then
+				game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = getgenv().settings.wsa
+			else
+				game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 16
+			end
+		end
+	end
+)
+
+sub:CreateToggle(
+	"Fly",
+	getgenv().settings.Fly,
+	function(a)
+		Fly(a)
+	end
+)
+
+sub:CreateToggle(
+	"No Clip",
+	getgenv().settings.Clip,
+	function(a)
+		noclip(a)
+	end
+)
+
+sub:CreateToggle(
+	"Auto Sprint",
+	getgenv().settings.sprint,
+	function(a)
+		sprint(a)
+		saveSettings()
+	end
+)
+
+print(getgenv().mobile)
+if getgenv().mobile == true  then
+	print('on mobile')
+	sub:CreateTextbox("Fly Speed", getgenv().settings.flys, function(a)
+		getgenv().settings.flys = a
+		saveSettings()
+	end)
+
+	sub:CreateTextbox("Walkspeed Amount", getgenv().settings.wsa, function(a)
+		getgenv().settings.wsa = a
+		saveSettings()
+	end)
+
+elseif getgenv().mobile == nil then
+	print("on pc")
+	sub:CreateSlider(
+		"Fly Speed",
+		50,
+		200,
+		getgenv().settings.flys,
+		function(a)
+			getgenv().settings.flys = a
+			saveSettings()
+		end
+	)
+
+	sub:CreateSlider(
+		"Walkspeed Amount",
+		10,
+		120,
+		getgenv().settings.wsa,
+		function(a)
+			getgenv().settings.wsa = a
+			saveSettings()
+		end
+	)
+end
+
+
+sub:CreateButton(
+	"Reset",
+	function()
+		game.Players.LocalPlayer.Character.Humanoid.Health = 0
+	end
+)
+
+farm:CreateToggle(
+	"Raid Farm",
+	getgenv().settings.boss,
+	function(a)
+		getgenv().settings.boss = a
+		print(getgenv().settings.boss)
+		autoBoss()
+		saveSettings()
+	end
+)
+if getgenv().mobile then
+	print('on mobile')
+	farm:CreateTextbox("TP Time", getgenv().settings.bosstp, function(a)
+		getgenv().settings.bosstp = a
+		saveSettings()
+	end)
+
+	farm:CreateTextbox("Offset", getgenv().settings.bossoffset, function(a)
+		getgenv().settings.bossoffset = a
+		saveSettings()
+	end)
+
+	farm:CreateTextbox("Max Time", getgenv().settings.bosstime, function(a)
+		getgenv().settings.bosstime = a
+		saveSettings()
+	end)
+
+elseif getgenv().mobile == nil then
+	print("on pc")
+	farm:CreateSlider("TP Time", 0,60,getgenv().settings.bosstp, function(a)
+		getgenv().settings.bosstp = a
+		saveSettings()
+	end)
+
+	farm:CreateSlider("Offset", 0,20,getgenv().settings.bossoffset, function(a)
+		getgenv().settings.bossoffset = a
+		saveSettings()
+	end)
+
+	farm:CreateSlider("Max Time", 1,15,getgenv().settings.bosstime, function(a)
+		getgenv().settings.bosstime = a
+		saveSettings()
+	end)
+end
+
+
+
+
+local y = farm:CreateMultiDropdown("Avoid","Select",10,getgenv().avoidbosses , function(a)
+	getgenv().avoidbosses = a
+	saveavoidbosses()
+end)
+y:Add("Min")
+y:Add("Data")
+y:Add("Josh")
+y:Add("Sunny")
+y:Add("Kalin")
+y:Add("Khaotic")
+
+farm:CreateToggle(
+	"Division 12 Farm",
+	getgenv().settings.division12,
+	function(a)
+		division12(a)
+	end
+)
+
+farm:CreateButton(
+	"Missions Farm",
+	function(a)
+		missionfarm(a)
+	end
+)
+
+sub2:CreateButton(
+	"Redeem All Codes",
+	function(a)
+		redeemcode()
+	end
+)
+
+sub2:CreateButton(
+	"Server Hop",
+	function(a)
+		serverHop()
+	end
+)
+
+sub2:CreateTextbox("Reroll", "", function(a)
+	getgenv().settings.rerollname = a
+end)
+
+sub2:CreateToggle("Auto Reroll", false, function(a)
+	autoreroll(a)
+end)
+
+
+sub3:CreateToggle(
+	"Webhook",
+	getgenv().settings.webhook,
+	function(a)
+		getgenv().settings.webhook = a
+		saveSettings()
+	end
+)
+
+sub3:CreateToggle(
+	"Performance Mode",
+	getgenv().settings.perf,
+	function(a)
+		getgenv().settings.perf = a
+		perfmode()
+		saveSettings()
+	end
+)
+
+sub3:CreateToggle(
+	"Hide server details",
+	getgenv().settings.serverdetails,
+	function(a)
+		getgenv().settings.serverdetails = a
+		hideservdetails(a)
+		saveSettings()
+	end
+)
+
+sub3:CreateSlider(
+	"Set FOV",
+	80,
+	160,
+	100,
+	function(a)
+		workspace.CurrentCamera.FieldOfView = a
+	end
+)
+
+sub3:CreateTextbox(
+	"Webhook URL",
+	getgenv().settings.webhookURL,
+	function(a)
+		getgenv().settings.webhookURL = a
+		saveSettings()
+	end)
+
+local slot = sub3:CreateDropdown("Slot",getgenv().settings.slot, 10, function(a)
+	getgenv().settings.slot = a
+	saveSettings()
+	wait(2)
+	autoSlot()
+end)
+slot:Add("None")
+slot:Add("A")
+slot:Add("B")
+slot:Add("C")
+slot:Add("D")
+
+local d =
+	sub4:CreateDropdown(
+		"Player",
+		getgenv().settings.tradename,10,
+		function(a)
+			getgenv().settings.tradename = a
+
+		end
+	)
+
+for i, v in pairs(game.Players:GetChildren()) do
+	if v ~= game.Players.LocalPlayer then
+		d:Add(v.Name)
+	end
+end
+
+game.Players.ChildAdded:Connect(
+	function(v)
+		d:Add(v.Name)
+	end
+)
+
+local item =sub4:CreateDropdown(
+	"Item",
+	"Select",9,
+	function(a)
+		getgenv().settings.tradeitem = a
+	end
+)
+
+for i, v in pairs(getgenv().items) do
+	item:Add(v)
+end
+
+sub4:CreateButton(
+	"Send",
+	function(a)
+		tradeAccept()
+	end
+)
+sub4:CreateToggle(
+	"Auto Trade",false,
+	function(a)
+		autotrade()
+	end
+)
+
+mobesp:CreateToggle("Enable", false, function(a)
+	getgenv().settings.mobespenable = a
+	mob()	
+end)
+
+
+if getgenv().settings.perf then
+	perfmode()
+end
+
+if getgenv().settings.serverdetails then
+	print('yes')
+	hideservdetails(getgenv().settings.serverdetails)
+end
+
+if getgenv().settings.boss then
+	autoBoss()
+end
+
+if getgenv().settings.slot ~= "None" then
+	autoSlot()
+end
