@@ -239,7 +239,8 @@ function Library:CreateWindow(vers)
 							v:Destroy()
 						end
 					end
-				
+				elseif console.Text == "/hide" then
+					game.CoreGui:FindFirstChild("boss").Enabled = false
 				end
 			end
 		end
