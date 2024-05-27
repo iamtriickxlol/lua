@@ -11,5 +11,9 @@ if getgenv().key then
 end
 
 
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/metauser08/lua/main/update"))()
+if getgenv().vers == nil then
+print("using latest version")
+loadstring(game:HttpGet("https://raw.githubusercontent.com/metauser08/lua/main/latest"))()
+else
+loadstring(game:HttpGet("https://raw.githubusercontent.com/metauser08/lua/main/"..getgenv().vers))()
+end
