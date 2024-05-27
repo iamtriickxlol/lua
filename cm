@@ -1,5 +1,3 @@
-
-print("module loaded")
 local ContextActionService, HttpService = game:GetService('ContextActionService', 'HttpService');
 
 local ControlModule = {};
