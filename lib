@@ -220,7 +220,6 @@ function Library:CreateWindow(vers)
 	MakeDraggable(TopBar,Main)
 
 	UserInputService.InputBegan:Connect(function(input)
-		print(input, input.KeyCode)
 		if input.KeyCode == Enum.KeyCode.Tab then
 			print('pressing tab')
 			Main.Visible = not Main.Visible
