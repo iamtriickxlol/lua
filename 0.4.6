@@ -1,4 +1,4 @@
-getgenv().version = '0.4.6'
+getgenv().vers = '0.4.6'
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local UIS = game:GetService("UserInputService")
@@ -1485,7 +1485,7 @@ loadsettings()
 loadavoidbosses()
 
 
-local main = Library:CreateWindow(getgenv().version)
+local main = Library:CreateWindow(getgenv().vers)
 local tab = main:CreateTab("Player")
 local visuals = main:CreateTab("Visuals")
 local tab2 = main:CreateTab("Misc")
@@ -1811,7 +1811,7 @@ if getgenv().settings.slot ~= "None" then
 	autoSlot()
 end
 
-log("You are on version "..getgenv().version)
+log("You are on vers "..getgenv().vers)
 log("webhook is "..getgenv().settings.webhook)
 log("webhook url: "..getgenv().settings.webhookURL)
 log("Auto raid is "..getgenv().settings.boss)
