@@ -1,4 +1,4 @@
-getgenv().version = '0.4.5'
+getgenv().version = '0.4.6'
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
 local UIS = game:GetService("UserInputService")
@@ -104,6 +104,38 @@ function saveavoidbosses()
 	end
 end
 
+
+local function log(text)
+	local meta = game.CoreGui:WaitForChild("Meta")
+	local frame = meta.Logs:WaitForChild("ScrollingFrame")
+	if meta and text then
+		local log = Instance.new("Frame")
+		local TextLabel = Instance.new("TextLabel")
+
+		log.Name = "log"
+		log.Parent = frame
+		log.BackgroundColor3 = Color3.fromRGB(63, 49, 62)
+		log.BackgroundTransparency = 0.700
+		log.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		log.BorderSizePixel = 0
+		log.Position = UDim2.new(0, 0, 0.147754133, 0)
+		log.Size = UDim2.new(1, 0, 0.017, 0)
+
+		TextLabel.Parent = log
+		TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+		TextLabel.BackgroundTransparency = 1.000
+		TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+		TextLabel.BorderSizePixel = 0
+		TextLabel.Position = UDim2.new(0.00999999978, 0, 0, 0)
+		TextLabel.Size = UDim2.new(0.99000001, 0, 1, 0)
+		TextLabel.Font = Enum.Font.SourceSansBold
+		TextLabel.Text = text
+		TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+		TextLabel.TextSize = 14.000
+		TextLabel.TextWrapped = true
+		TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+	end
+end
 
 local function walkspeed(toggle)
 	if not toggle then
@@ -356,6 +388,7 @@ function autoBoss()
 				boss.Parent = game.CoreGui
 				boss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 				boss.ResetOnSpawn = false
+				boss.DisplayOrder = 1
 
 				background.Name = "background"
 				background.Parent = boss
@@ -469,7 +502,7 @@ function autoBoss()
 												["embeds"] = {
 													{
 														["title"] = "ERROR",
-														["description"] = "Max time has reached limit.",
+														["description"] = "Max time has reached limit. \n **Boss**: ".._G.boss.name,
 														["type"] = "rich",
 														["color"] = tonumber(0xeb4034),
 														["footer"] = {
@@ -487,7 +520,7 @@ function autoBoss()
 						end
 
 						if boss:GetAttribute("CurrentState") == "Unconscious" then
-							print("Boss is dead")
+							log("Boss is dead")
 							c:Disconnect()
 							c = nil
 							plr.Character.HumanoidRootPart.CFrame =  boss.HumanoidRootPart.CFrame
@@ -604,6 +637,7 @@ function autoBoss()
 				for i2, v2 in pairs(v.Parent:GetDescendants()) do
 					if v2:IsA("TextLabel") then
 						if string.find(v2.Text, "obtained.") then
+							log('boss has been killed')
 							_G.win = true
 							c:Disconnect()
 
@@ -698,7 +732,7 @@ function autoBoss()
 											["embeds"] = {
 												{
 													["title"] = "ERROR",
-													["description"] = "Failed to kill: "..string.split(_G.boss.Name, '_')[1],
+													["description"] = "**User:** "..game.Players.LocalPlayer.Name.."\n Failed to kill: "..string.split(_G.boss.Name, '_')[1],
 													["type"] = "rich",
 													["color"] = tonumber(0xeb4034),
 													["footer"] = {
@@ -1430,7 +1464,7 @@ end
 
 
 function autoSlot()
-	
+
 	if game.PlaceId == 14067600077 then
 		repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("MainMenu")
 
@@ -1450,13 +1484,12 @@ end
 loadsettings()
 loadavoidbosses()
 
-print(getgenv().version)
+
 local main = Library:CreateWindow(getgenv().version)
 local tab = main:CreateTab("Player")
 local visuals = main:CreateTab("Visuals")
 local tab2 = main:CreateTab("Misc")
 local tab3 = main:CreateTab("Settings")
-
 
 local sub = tab:createSubTab("MOVEMENT")
 local farm = tab:createSubTab("FARM")
@@ -1563,7 +1596,7 @@ farm:CreateToggle(
 	end
 )
 if getgenv().mobile then
-	print('on mobile')
+	log('on mobile')
 	farm:CreateTextbox("TP Time", getgenv().settings.bosstp, function(a)
 		getgenv().settings.bosstp = a
 		saveSettings()
@@ -1580,7 +1613,7 @@ if getgenv().mobile then
 	end)
 
 elseif getgenv().mobile == nil then
-	print("on pc")
+	log("on pc")
 	farm:CreateSlider("TP Time", 0,60,getgenv().settings.bosstp, function(a)
 		getgenv().settings.bosstp = a
 		saveSettings()
@@ -1777,3 +1810,8 @@ end
 if getgenv().settings.slot ~= "None" then
 	autoSlot()
 end
+
+log("You are on version "..getgenv().version)
+log("webhook is "..getgenv().settings.webhook)
+log("webhook url: "..getgenv().settings.webhookURL)
+log("Auto raid is "..getgenv().settings.boss)
