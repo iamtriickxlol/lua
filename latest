@@ -1792,7 +1792,7 @@ mobesp:CreateToggle("Enable", false, function(a)
 	mob()	
 end)
 
-log("You are on version "..getgenv().version)
+log("You are on version "..getgenv().vers)
 log("webhook is " ..tostring(getgenv().settings.webhook))
 log("webhook url: "..getgenv().settings.webhookURL)
 log("Auto raid is "..tostring(getgenv().settings.boss))
