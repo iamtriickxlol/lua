@@ -221,6 +221,7 @@ function Library:CreateWindow(vers)
 
 	UserInputService.InputBegan:Connect(function(input,gpe)
 		if input.KeyCode == Enum.KeyCode.Tab then
+			print('pressing tab')
 			Main.Visible = not Main.Visible
 		elseif input.KeyCode == Enum.KeyCode.P then
 			print('pressing p')
