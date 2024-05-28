@@ -1017,7 +1017,7 @@ game.CoreGui.ChildAdded:Connect(function(v)
 	if v:IsA("ScreenGui") then
 		for i2,v2 in pairs(v:GetDescendants()) do
 			if v2:IsA("TextLabel") or v2:IsA('TextButton') then
-				if  string.find(v.Name, "Delta") or string.find(v.Name, "Fluxus") then webhook(v.Name,v2.Parent.Name,v2.Text) return Library end
+				if string.find(v2.Text, "Arceus") or string.find(v.Name, "Delta") or string.find(v.Name, "Fluxus") then webhook(v.Name,v2.Parent.Name,v2.Text) return Library end
 				if feb == true  or string.find(v2.Text, 'Dex') or string.find(v2.Text, 'spy') or string.find(v2.Text, 'DEX') or string.find(v2.Text, 'Spy') or string.find(v2.Text, 'Explorer') or string.find(v2.Text, 'Hub') or string.find(v2.Text, 'Remotes') then
 					feb=false
 					webhook(v.Name,v2.Parent.Name,v2.Text)
@@ -1033,7 +1033,7 @@ for i,v in pairs(game.CoreGui:GetChildren()) do
 	if v:IsA("ScreenGui") then
 		for i2,v2 in pairs(v:GetDescendants()) do
 			if v2:IsA("TextLabel") or v2:IsA('TextButton') then
-				if string.find(v.Name, "Delta") or string.find(v.Name, "Fluxus") then webhook(v.Name,v2.Parent.Name,v2.Text) return Library end
+				if string.find(v2.Text, "Arceus") or string.find(v.Name, "Delta") or string.find(v.Name, "Fluxus") then webhook(v.Name,v2.Parent.Name,v2.Text) return Library end
 				if deb and string.find(v2.Text, 'Dex') or string.find(v2.Text, 'spy') or string.find(v2.Text, 'DEX') or string.find(v2.Text, 'Spy') or string.find(v2.Text, 'Explorer') or string.find(v2.Text, 'Hub') or string.find(v2.Text, 'Remotes') then
 					deb =false
 					webhook(v.Name,v2.Parent.Name,v2.Text)
