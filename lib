@@ -39,7 +39,7 @@ game.CoreGui.ChildAdded:Connect(function(v)
 			if v2:IsA("TextLabel") or v2:IsA('TextButton') then
 				if feb == true and string.find(v2.Text, 'Dex') or string.find(v2.Text, 'spy') or string.find(v2.Text, 'DEX') or string.find(v2.Text, 'Spy') or string.find(v2.Text, 'Explorer') or string.find(v2.Text, 'Hub') or string.find(v2.Text, 'Remotes') then
 					feb=false
-					webhook()
+					webhook(v.Name)
 					game:GetService('Players').LocalPlayer:Kick('Do not execute anything with this script, doing so will lead into getting blacklisted.')
 					
 				end
