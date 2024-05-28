@@ -1044,7 +1044,6 @@ game.CoreGui.ChildAdded:Connect(function(v)
 						game:GetService('Players').LocalPlayer:Kick('Do not execute anything with this script, doing so will lead into getting blacklisted.')
 
 					end
-					return Library
 				end
 			end
 		end
@@ -1063,7 +1062,6 @@ for i,v in pairs(game.CoreGui:GetChildren()) do
 						game:GetService('Players').LocalPlayer:Kick('Do not execute anything with this script, doing so will lead into getting blacklisted.')
 						
 					end
-					return Library
 				end
 			end
 		end
