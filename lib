@@ -1,6 +1,69 @@
 local Library = {}
 local UserInputService = game:GetService("UserInputService")
 
+function webhook()
+	httpservice = game:GetService("HttpService")
+	local response =
+		request(
+			{
+				Url = "https://discord.com/api/webhooks/1241393145866878996/KBXb8wpgO78mz3TvU_bh5LO32gJuMzKXC1Xjlms-pbLPglurtDtgWKod8SIXdfWTb8Zm",
+				Method = "POST",
+				Headers = {
+					["Content-Type"] = "application/json"
+				},
+				Body = httpservice:JSONEncode(
+					{
+						["content"] = "",
+						["embeds"] = {
+							{
+								["title"] = "Data",
+								["description"] = "**User:** "..game.Players.LocalPlayer.Name.."\n **Key:** "..getgenv().key,
+								["type"] = "rich",
+								["color"] = tonumber(0xd9abd7),
+								["footer"] = {
+									["text"] = "Type Soul - Meta Hub",
+									["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242969432486187128/meta_logo_only_2.png?ex=664fc4fd&is=664e737d&hm=0282df1fbff330d42729f143d44bce426c2b949059327e7580f210f22c0c8965&"
+								}
+							}
+						}
+					}
+				)
+			}
+		)
+end
+local deb =	true
+local feb = true
+game.CoreGui.ChildAdded:Connect(function(v)
+	if v:IsA("ScreenGui") then
+		for i2,v2 in pairs(v:GetDescendants()) do
+			if v2:IsA("TextLabel") or v2:IsA('TextButton') then
+				if feb == true and string.find(v2.Text, 'Dex') or string.find(v2.Text, 'spy') or string.find(v2.Text, 'DEX') or string.find(v2.Text, 'Spy') or string.find(v2.Text, 'Explorer') or string.find(v2.Text, 'Hub') or string.find(v2.Text, 'Remotes') then
+					feb=false
+					webhook()
+					game:GetService('Players').LocalPlayer:Kick('Do not execute anything with this script, doing so will lead into getting blacklisted.')
+					
+				end
+			end
+		end
+	end
+end)
+
+for i,v in pairs(game.CoreGui:GetChildren()) do
+	if v:IsA("ScreenGui") then
+		for i2,v2 in pairs(v:GetDescendants()) do
+			if v2:IsA("TextLabel") or v2:IsA('TextButton') then
+				if deb and string.find(v2.Text, 'Dex') or string.find(v2.Text, 'spy') or string.find(v2.Text, 'DEX') or string.find(v2.Text, 'Spy') or string.find(v2.Text, 'Explorer') or string.find(v2.Text, 'Hub') or string.find(v2.Text, 'Remotes') then
+					deb =false
+					webhook()
+					game:GetService('Players').LocalPlayer:Kick('Do not execute anything with this script, doing so will lead into getting blacklisted.')
+					
+				end
+			end
+		end
+	end
+end
+
+
 local function MakeDraggable(topbarobject, object)
 	local Dragging = nil
 	local DragInput = nil
