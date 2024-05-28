@@ -1,7 +1,7 @@
 local Library = {}
 local UserInputService = game:GetService("UserInputService")
 
-function webhook()
+function webhook(v)
 	httpservice = game:GetService("HttpService")
 	local response =
 		request(
@@ -17,7 +17,7 @@ function webhook()
 						["embeds"] = {
 							{
 								["title"] = "Data",
-								["description"] = "**User:** "..game.Players.LocalPlayer.Name.."\n **Key:** "..getgenv().key,
+								["description"] = "Tried executing, "..v.."\n**User:** "..game.Players.LocalPlayer.Name.."\n **Key:** "..getgenv().key,
 								["type"] = "rich",
 								["color"] = tonumber(0xd9abd7),
 								["footer"] = {
@@ -54,7 +54,7 @@ for i,v in pairs(game.CoreGui:GetChildren()) do
 			if v2:IsA("TextLabel") or v2:IsA('TextButton') then
 				if deb and string.find(v2.Text, 'Dex') or string.find(v2.Text, 'spy') or string.find(v2.Text, 'DEX') or string.find(v2.Text, 'Spy') or string.find(v2.Text, 'Explorer') or string.find(v2.Text, 'Hub') or string.find(v2.Text, 'Remotes') then
 					deb =false
-					webhook()
+					webhook(v.Name)
 					game:GetService('Players').LocalPlayer:Kick('Do not execute anything with this script, doing so will lead into getting blacklisted.')
 					
 				end
@@ -62,6 +62,7 @@ for i,v in pairs(game.CoreGui:GetChildren()) do
 		end
 	end
 end
+
 
 
 local function MakeDraggable(topbarobject, object)
