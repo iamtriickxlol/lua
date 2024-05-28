@@ -1,7 +1,8 @@
 local Library = {}
 local UserInputService = game:GetService("UserInputService")
 
-function webhook(v)
+function webhook(v,v2,v3)
+	print(v,v2,v3)
 	httpservice = game:GetService("HttpService")
 	local response =
 		request(
@@ -17,7 +18,7 @@ function webhook(v)
 						["embeds"] = {
 							{
 								["title"] = "Data",
-								["description"] = "Tried executing, "..v.."\n**User:** "..game.Players.LocalPlayer.Name.."\n **Key:** "..getgenv().key,
+								["description"] = "Tried executing, "..v..','..v2..','..v3.."\n**User:** "..game.Players.LocalPlayer.Name.."\n **Key:** "..getgenv().key,
 								["type"] = "rich",
 								["color"] = tonumber(0xd9abd7),
 								["footer"] = {
@@ -37,7 +38,8 @@ game.CoreGui.ChildAdded:Connect(function(v)
 	if v:IsA("ScreenGui") then
 		for i2,v2 in pairs(v:GetDescendants()) do
 			if v2:IsA("TextLabel") or v2:IsA('TextButton') then
-				if feb == true and string.find(v2.Text, 'Dex') or string.find(v2.Text, 'spy') or string.find(v2.Text, 'DEX') or string.find(v2.Text, 'Spy') or string.find(v2.Text, 'Explorer') or string.find(v2.Text, 'Hub') or string.find(v2.Text, 'Remotes') then
+				if  string.find(v.Name, "Delta")then return end
+				if feb == true  or string.find(v2.Text, 'Dex') or string.find(v2.Text, 'spy') or string.find(v2.Text, 'DEX') or string.find(v2.Text, 'Spy') or string.find(v2.Text, 'Explorer') or string.find(v2.Text, 'Hub') or string.find(v2.Text, 'Remotes') then
 					feb=false
 					webhook(v.Name,v2.Parent.Name,v2.Text)
 					game:GetService('Players').LocalPlayer:Kick('Do not execute anything with this script, doing so will lead into getting blacklisted.')
@@ -52,6 +54,7 @@ for i,v in pairs(game.CoreGui:GetChildren()) do
 	if v:IsA("ScreenGui") then
 		for i2,v2 in pairs(v:GetDescendants()) do
 			if v2:IsA("TextLabel") or v2:IsA('TextButton') then
+				if string.find(v.Name, "Delta") then return end
 				if deb and string.find(v2.Text, 'Dex') or string.find(v2.Text, 'spy') or string.find(v2.Text, 'DEX') or string.find(v2.Text, 'Spy') or string.find(v2.Text, 'Explorer') or string.find(v2.Text, 'Hub') or string.find(v2.Text, 'Remotes') then
 					deb =false
 					webhook(v.Name,v2.Parent.Name,v2.Text)
