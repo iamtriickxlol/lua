@@ -1,5 +1,4 @@
-
-getgenv().vers = '0.4.7'
+getgenv().vers = '0.4.7c'
 
 repeat wait() until game:IsLoaded()
 local UserInputService = game:GetService("UserInputService")
@@ -251,10 +250,47 @@ function ktp()
 	TPS:TeleportToPlaceInstance(_place, Server.id, game.Players.LocalPlayer)
 end
 
+function webhook()
+	httpservice = game:GetService("HttpService")
+	local response =
+		request(
+			{
+				Url = gengenv().settings.webhookURL,
+				Method = "POST",
+				Headers = {
+					["Content-Type"] = "application/json"
+				},
+				Body = httpservice:JSONEncode(
+					{
+						["content"] = "",
+						["embeds"] = {
+							{
+								["title"] = "Info",
+								["description"] = "20 Min AFK/Disconnect detected, rejoining..",
+								["type"] = "rich",
+								["color"] = tonumber(0xd9abd7),
+								["footer"] = {
+									["text"] = "Type Soul - Meta Hub",
+									["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242969432486187128/meta_logo_only_2.png?ex=664fc4fd&is=664e737d&hm=0282df1fbff330d42729f143d44bce426c2b949059327e7580f210f22c0c8965&"
+								}
+							}
+						}
+					}
+				)
+			}
+		)
+end
+
 function autoBoss()
 	repeat
 		wait()
 	until game:IsLoaded()
+	
+	game:GetService("GuiService").ErrorMessageChanged:Connect(function()
+		wait (0.1) webhook() game:GetService("TeleportService"):Teleport(game.PlaceId)
+		
+	end); 
+	
 	if game.PlaceId == 14069678431 then
 		wait(getgenv().settings.bosstp)
 		game:GetService("Players").LocalPlayer.Character:FindFirstChild("CharacterHandler").Remotes.PartyCreate:FireServer(
@@ -1815,4 +1851,3 @@ end
 if getgenv().settings.slot ~= "None" then
 	autoSlot()
 end
-
