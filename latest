@@ -1775,6 +1775,7 @@ sub3:CreateTextbox(
 local slot = sub3:CreateDropdown("Slot",getgenv().settings.slot, 10, function(a)
 	getgenv().settings.slot = a
 	saveSettings()
+	wait(1)
 	autoSlot()
 end)
 slot:Add("None")
