@@ -10,8 +10,6 @@ local RunService = game:GetService("RunService")
 local Player = Players.LocalPlayer
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtriickxlol/lua/main/lib"))()
 local ControlModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtriickxlol/lua/main/cm"))()
-local s = loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtriickxlol/lua/main/secure"))()
-
 getgenv().settings = {
 	ws = nil,
 	wsa = 16,
@@ -285,12 +283,12 @@ function autoBoss()
 	repeat
 		wait()
 	until game:IsLoaded()
-	
+
 	game:GetService("GuiService").ErrorMessageChanged:Connect(function()
 		wait (0.1) webhook() game:GetService("TeleportService"):Teleport(game.PlaceId)
-		
+
 	end); 
-	
+
 	if game.PlaceId == 14069678431 then
 		wait(getgenv().settings.bosstp)
 		game:GetService("Players").LocalPlayer.Character:FindFirstChild("CharacterHandler").Remotes.PartyCreate:FireServer(
@@ -405,9 +403,7 @@ function autoBoss()
 			end
 
 			if
-				v.Name ~= plr.Name and v:GetAttribute("EntityType") and v.Name ~= "Wolf" and
-				v:GetAttribute("EntityType") == "Shinigami" or
-				v:GetAttribute("EntityType") == "Quincy"
+				string.find(v.Name, "Min") or string.find(v.Name, "Data") or string.find(v.Name, "Sunny") or string.find(v.Name, "Khaotic") or string.find(v.Name, "Kalin") or string.find(v.Name, "Josh")
 			then
 				local lapse = tick()
 				_G.boss = v
