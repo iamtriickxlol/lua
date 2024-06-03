@@ -1,4 +1,4 @@
-getgenv().vers = '0.4.8a'
+getgenv().vers = '0.4.8'
 
 repeat wait() until game:IsLoaded()
 local UserInputService = game:GetService("UserInputService")
@@ -1843,6 +1843,12 @@ function autoParty()
 					waiting:Destroy()
 					local lapse = tick()
 					c = game:GetService("RunService").Heartbeat:Connect(function()
+						if (tick() - lapse) >= (getgenv().settings.bosstime * 60) and debounce == true then		
+							debounce = false
+							ktp()
+							c:Disconnect()
+							ktp()
+						end
 						Timer.Text = math.floor((tick() - lapse) / 60)..'m ' .. math.floor((tick() - lapse) % 60) .. "s"
 						_G.timelapse = tostring(Timer.Text)
 						_G.boss.Humanoid.Health = 0
