@@ -1627,12 +1627,11 @@ function autoParty()
 			local locs = {
 				p = Vector3.new()
 			}
-			local a = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(5),{CFrame = CFrame.new(260.339722, 5078.32422, 298.530792, -0.88512218, 3.25826193e-08, 0.465358675, 1.90299154e-09, 1, -6.63966162e-08, -0.465358675, -5.78835433e-08, -0.88512218)}):Play()
+			local a = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(5),{CFrame = CFrame.new(484.695679, 4999.72656, 299.973297, 0.683195829, 4.31964722e-08, 0.730235219, -2.89894953e-12, 1, -5.91514784e-08, -0.730235219, 4.04099261e-08, 0.683195829)}):Play()
 			local itemcount = getgenv().settings.itemcount
 			local item
 			_G.boss = nil
-
-
+			
 			local waiting = Instance.new("ScreenGui")
 			local background = Instance.new("Frame")
 			local main = Instance.new("Frame")
@@ -1685,7 +1684,43 @@ function autoParty()
 			_G.win = false	
 			_G.timelapse = ""
 			game.Workspace.Entities.ChildAdded:Connect(function(v)
-
+				if #getgenv().avoidbosses > 0 and table.find(getgenv().avoidbosses, string.split(v.Name,"_")[1]) then
+					if getgenv().settings.webhook then
+						httpservice = game:GetService("HttpService")
+						local response =
+							request(
+								{
+									Url = getgenv().settings.webhookURL,
+									Method = "POST",
+									Headers = {
+										["Content-Type"] = "application/json"
+									},
+									Body = httpservice:JSONEncode(
+										{
+											["content"] = "",
+											["embeds"] = {
+												{
+													["title"] = "Warning",
+													["description"] = "Avoided "..string.split(v.Name,"_")[1].. ".",
+													["type"] = "rich",
+													["color"] = tonumber(0xffba70),
+													["footer"] = {
+														["text"] = "Type Soul - Meta Hub",
+														["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242969432486187128/meta_logo_only_2.png?ex=664fc4fd&is=664e737d&hm=0282df1fbff330d42729f143d44bce426c2b949059327e7580f210f22c0c8965&"
+													}
+												}
+											}
+										}
+									)
+								}
+							)
+						ktp()
+						return
+					else
+						ktp()
+						return
+					end
+				end
 
 				if string.find(v.Name, "Min") or string.find(v.Name, "Data") or string.find(v.Name, "Sunny") or string.find(v.Name, "Khaotic") or string.find(v.Name, "Kalin") or string.find(v.Name, "Josh")
 				then
