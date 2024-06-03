@@ -1806,7 +1806,6 @@ function autoParty()
 					BossName.TextWrapped = true
 					BossName.TextXAlignment = Enum.TextXAlignment.Left
 					waiting:Destroy()
-					wait(2)
 					local lapse = tick()
 					c = game:GetService("RunService").Heartbeat:Connect(function()
 						Timer.Text = math.floor((tick() - lapse) / 60)..'m ' .. math.floor((tick() - lapse) % 60) .. "s"
