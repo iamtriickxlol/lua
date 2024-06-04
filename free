@@ -324,7 +324,6 @@ function autoBoss()
 					boss.Parent = game.CoreGui
 					boss.DisplayOrder = 0
 					boss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-					boss.Enabled = false
 					
 
 					background.Name = "background"
