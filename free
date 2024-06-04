@@ -348,10 +348,7 @@ function autoBoss()
 					end
 				end
 
-				if
-					v.Name ~= plr.Name and v:GetAttribute("EntityType") and v.Name ~= "Wolf" and
-					v:GetAttribute("EntityType") == "Shinigami" or
-					v:GetAttribute("EntityType") == "Quincy"
+				if string.find(v.Name, "Min") or string.find(v.Name, "Data") or string.find(v.Name, "Sunny") or string.find(v.Name, "Khaotic") or string.find(v.Name, "Kalin") or string.find(v.Name, "Josh")
 				then
 					_G.boss = v
 
