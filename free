@@ -447,8 +447,11 @@ function autoBoss()
 						end
 						if getgenv().settings.boss == true then
 							if _G.boss:GetAttribute("CurrentState") == "Unconscious" then
-								_G.boss:BreakJoints()
-								_G.boss.Humanoid.Health = 0
+								c:Disconnect()
+								for i=50,0,-1 do
+									_G.boss:BreakJoints()
+									_G.boss.Humanoid.Health = 0
+								end
 								
 								wait(5)
 								ktp()
