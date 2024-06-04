@@ -549,7 +549,6 @@ function autoBoss()
 
 
 		while true do
-			if _G.timer then
 				timer.Text = 'waiting'
 				task.wait(1)
 				timer.Text = 'waiting.'
@@ -558,9 +557,9 @@ function autoBoss()
 				task.wait(1)
 				timer.Text = 'waiting...'
 				task.wait(1)
-			else
-				break;
-			end
+
+
+		
 
 		end
 
