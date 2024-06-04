@@ -200,7 +200,7 @@ function autoBoss()
 		while true do
 			print(`player has been idled for {timer} seconds`)
 		end
-		
+
 		if timer > 10 then
 			webhook()
 			game:GetService('TeleportService'):Teleport(game.PlaceId,game.Players.LocalPlayer)
@@ -221,7 +221,7 @@ function autoBoss()
 		local args = {
 			[1] = "Yes"
 		}
-		
+
 		repeat
 			wait()
 		until game:GetService("Players").LocalPlayer:FindFirstChild("Kisuke")
@@ -270,7 +270,7 @@ function autoBoss()
 		timer.TextColor3 = Color3.fromRGB(194, 194, 194)
 		timer.TextSize = 23.000
 		timer.TextWrapped = true
-		
+
 		repeat wait() until game:IsLoaded()
 
 		local v = CFrame.new(83.9132233, 3.15000319, -611.371887, -0.066856727, -2.77920442e-08, -0.997762561, -1.07590964e-07, 1, -2.06450554e-08, 0.997762561, 1.05969981e-07, -0.066856727)
@@ -289,8 +289,8 @@ function autoBoss()
 		p2.Color = Color3.new(0,0,0)
 		p2.CFrame = v * CFrame.new(0,0,-12)
 		p2.Anchored = true
-		
-	
+
+
 		local debounce = true
 		local c2
 		local c
@@ -301,59 +301,14 @@ function autoBoss()
 		_G.win = false
 		game.Workspace.Entities.ChildAdded:Connect(
 			function(v)
-				local lapse = tick()
-				if string.find(v.Name, "testerserstesrasfw") then
-					if getgenv().settings.webhook then
-						httpservice = game:GetService("HttpService")
-						local response =
-							request(
-								{
-									Url = getgenv().settings.webhookURL,
-									Method = "POST",
-									Headers = {
-										["Content-Type"] = "application/json"
-									},
-									Body = httpservice:JSONEncode(
-										{
-											["content"] = "",
-											["embeds"] = {
-												{
-													["title"] = "Warning",
-													["description"] = "Teleported back due to low win percentage.",
-													["type"] = "rich",
-													["color"] = tonumber(0xffba70),
-													["footer"] = {
-														["text"] = "Type Soul - Meta Hub",
-														["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242920863561678909/meta_logo_only_1.png?ex=664f97c2&is=664e4642&hm=ad010cf108e4115b92d391f5c738d6eaa929d02360fe9e6fec347cdb714849f8&"
-													}
-												}
-											}
-										}
-									)
-								}
-							)
-						local args = {
-							[1] = "Karakura Town",
-						}
-
-						game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
-						return
-					else
-						local args = {
-							[1] = "Karakura Town",
-						}
-
-						game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.ServerListTeleport:FireServer(unpack(args))
-						return
-					end
-				end
+				
 
 				if string.find(v.Name, "Min") or string.find(v.Name, "Data") or string.find(v.Name, "Sunny") or string.find(v.Name, "Khaotic") or string.find(v.Name, "Kalin") or string.find(v.Name, "Josh")
 				then
 					_G.boss = v
 
 					local hum = _G.boss:WaitForChild("Humanoid")
-					
+
 					waiting:Destroy()
 					local boss = Instance.new("ScreenGui")
 					local background = Instance.new("Frame")
@@ -370,8 +325,8 @@ function autoBoss()
 					boss.Parent = game.CoreGui
 					boss.DisplayOrder = 0
 					boss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-					boss.ResetOnSpawn = true
 					
+
 					background.Name = "background"
 					background.Parent = boss
 					background.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -442,62 +397,63 @@ function autoBoss()
 
 					c = game:GetService("RunService").Heartbeat:Connect(function()
 						if (tick()- _G.lapse) >= 240 then
-						c:Disconnect()
+							c:Disconnect()
 							ktp()
 						end
 						if getgenv().settings.boss == true then
 							if _G.boss:GetAttribute("CurrentState") == "Unconscious" then
 								c:Disconnect()
-								for i=50,0,-1 do
-									_G.boss:BreakJoints()
-									_G.boss.Humanoid.Health = 0
-								end
-								
-								wait(5)
+
+								_G.boss:BreakJoints()
+								_G.boss.Humanoid.Health = 0
+
+
+								wait(3)
 								ktp()
 							end
 							local c= workspace.CurrentCamera
 							c.CameraType = Enum.CameraType.Scriptable
 							c.CFrame = p.CFrame
+							
 							local args = {
 								[1] = "LightAttack"
 							}
 
 							game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
-							
+
 							if _G.lapse then
 								Timer.Text =
 									math.floor((tick() - _G.lapse) / 60) ..
 									"m " .. math.floor((tick() - _G.lapse) % 60) .. "s"
 							end
 
-							if _G.boss:FindFirstChild("Head") and _G.boss:FindFirstChild("RagdollColliders") then
+							if _G.boss:FindFirstChild("Head") or _G.boss:FindFirstChild("RagdollColliders") then
 								_G.boss.Head:Destroy()
 								_G.boss["Left Arm"]:Destroy()
 								_G.boss["Right Arm"]:Destroy()
 								_G.boss.RagdollColliders:Destroy()
 
 							end
-							
+
 							if workspace.Effects:FindFirstChild(_G.boss.Name) then
 								workspace.Effects[_G.boss.Name]:Destroy()
 							end
-								_G.boss.Humanoid.Health = 0
-								_G.boss.Humanoid:TakeDamage(99999)
+							_G.boss.Humanoid.Health = 0
+							_G.boss.Humanoid:TakeDamage(99999)
 							plr.Character.HumanoidRootPart.CFrame =
 								_G.boss.HumanoidRootPart.CFrame * CFrame.new(0, 9, 0) *
 								CFrame.Angles(math.rad(-90), 0, math.rad(60))
-							
+
 							_G.Timer = Timer.Text
 						end
 					end)
 					wait(2)
 					_G.timer = true
 					_G.lapse = tick()
-					
+
 				end
 			end)
-		
+
 		local item
 		game.Players.LocalPlayer.PlayerGui.ChildAdded:Connect(
 			function(v)
@@ -540,7 +496,7 @@ function autoBoss()
 								itemLabel.Text = "Item Obtained: " .. item
 								itemLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 								itemLabel.TextSize = 29.000
-		
+
 								httpservice = game:GetService("HttpService")
 								local response =
 									request(
@@ -582,15 +538,15 @@ function autoBoss()
 			function(v)
 				if v.Name == _G.boss.Name and v.Name ~= plr.Name then
 					wait(2)
-					
+
 					ktp()
 
-					
+
 				end
 			end
 		)
-		
-		
+
+
 		while true do
 			if _G.timer then
 				timer.Text = 'waiting'
@@ -606,7 +562,7 @@ function autoBoss()
 			end
 
 		end
-		
+
 	end
 end
 
@@ -646,7 +602,7 @@ function tradeAccept()
 				[2] = getgenv().settings.tradeitem,
 				[3] = i
 			}
-			
+
 			game:GetService("Players").LocalPlayer.Character:WaitForChild("CharacterHandler").Remotes.TradeEvent:FireServer(unpack(args))
 			print('traded:' ..getgenv().settings.tradeitem)
 			wait(.1)
