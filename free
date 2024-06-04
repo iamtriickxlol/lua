@@ -357,7 +357,7 @@ function autoBoss()
 
 					local hum = _G.boss:WaitForChild("Humanoid")
 					
-
+					waiting:Destroy()
 					local boss = Instance.new("ScreenGui")
 					local background = Instance.new("Frame")
 					local Meta = Instance.new("TextLabel")
