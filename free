@@ -34,8 +34,8 @@ local filename = game.Players.LocalPlayer.Name .. "-TypeSoul" .. "-settings.txt"
 
 function loadsettings()
 	local httpService = game:GetService("HttpService")
-	if readfile and isfile and isfile("Free/" .. filename) then
-		getgenv().settings = httpService:JSONDecode(readfile("Free/" .. filename))
+	if readfile and isfile and isfile("Meta Hub/" .. filename) then
+		getgenv().settings = httpService:JSONDecode(readfile("Meta Hub/" .. filename))
 	end
 end
 
@@ -44,8 +44,8 @@ function saveSettings()
 	local httpService = game:GetService("HttpService")
 	if writefile and makefolder then
 		json = httpService:JSONEncode(getgenv().settings)
-		local settingsTXT = writefile("Free/" .. filename, json)
-		makefolder("Free")
+		local settingsTXT = writefile("Meta Hub/" .. filename, json)
+		makefolder("Meta Hub")
 	else
 	end
 end
@@ -348,7 +348,10 @@ function autoBoss()
 					end
 				end
 
-				if string.find(v.Name, "Min") or string.find(v.Name, "Data") or string.find(v.Name, "Sunny") or string.find(v.Name, "Khaotic") or string.find(v.Name, "Kalin") or string.find(v.Name, "Josh")
+				if
+					v.Name ~= plr.Name and v:GetAttribute("EntityType") and v.Name ~= "Wolf" and
+					v:GetAttribute("EntityType") == "Shinigami" or
+					v:GetAttribute("EntityType") == "Quincy"
 				then
 					_G.boss = v
 
@@ -441,9 +444,6 @@ function autoBoss()
 					Timer.TextWrapped = true
 
 					c = game:GetService("RunService").Heartbeat:Connect(function()
-						if (tick()- _G.lapse) >= 240 then
-							ktp()
-						end
 						p.Material = Enum.Material.Neon
 						if getgenv().settings.boss == true then
 							if _G.boss:GetAttribute("CurrentState") == "Unconscious" then
@@ -566,7 +566,7 @@ function autoBoss()
 															game.Players.LocalPlayer.DisplayName ..
 															"|| \n **Item:** " .. item.. "\n **Timer:** ".. tostring(_G.Timer),
 															["type"] = "rich",
-															["color"] = tonumber(0xf5b642),
+															["color"] = tonumber(0xfcba03),
 															["footer"] = {
 																["text"] = "Type Soul - Meta Hub",
 																["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242920863561678909/meta_logo_only_1.png?ex=664f97c2&is=664e4642&hm=ad010cf108e4115b92d391f5c738d6eaa929d02360fe9e6fec347cdb714849f8&"
@@ -586,10 +586,40 @@ function autoBoss()
 
 		game.Workspace.Entities.ChildRemoved:Connect(
 			function(v)
-				if v.Name == _G.boss.Name and v.Name ~= plr.Name then			
+				if v.Name == _G.boss.Name and v.Name ~= plr.Name then
+					wait(2)
+					if getgenv().settings.webhook ~= false and getgenv().settings.webhookURL ~= "" and _G.win == false then
+						httpservice = game:GetService("HttpService")			
 						ktp()
 
-						
+						local response =
+							request(
+								{
+									Url = getgenv().settings.webhookURL,
+									Method = "POST",
+									Headers = {
+										["Content-Type"] = "application/json"
+									},
+									Body = httpservice:JSONEncode(
+										{	
+											["content"] = "",
+											["embeds"] = {
+												{
+													["title"] = "ERROR",
+													["description"] = _G.boss,
+													["type"] = "rich",
+													["color"] = tonumber(0xeb4034),
+													["footer"] = {
+														["text"] = "Type Soul - Meta Hub",
+														["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242920863561678909/meta_logo_only_1.png?ex=664f97c2&is=664e4642&hm=ad010cf108e4115b92d391f5c738d6eaa929d02360fe9e6fec347cdb714849f8&"
+													}
+												}
+											}
+										}
+									)
+								}
+							)
+
 
 					end
 				end
@@ -1164,4 +1194,3 @@ sub4:CreateButton(
 		tradeAccept()
 	end
 )
-
