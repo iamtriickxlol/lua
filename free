@@ -7,7 +7,6 @@ local RunService = game:GetService("RunService")
 local Player = Players.LocalPlayer
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/metauser08/lua/main/lib"))()
 local ControlModule = loadstring(game:HttpGet("https://raw.githubusercontent.com/metauser08/lua/main/cm"))()
-local s = loadstring(game:HttpGet("https://raw.githubusercontent.com/iamtriickxlol/lua/main/secure"))()
 getgenv().settings = {
 	ws = nil,
 	wsa = 16,
@@ -325,6 +324,7 @@ function autoBoss()
 					boss.Parent = game.CoreGui
 					boss.DisplayOrder = 0
 					boss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+					boss.Enabled = false
 					
 
 					background.Name = "background"
@@ -903,21 +903,7 @@ end
 
 loadsettings()
 
-if getgenv().settings.boss then
-	autoBoss()
-end
 
-if getgenv().settings.perf then
-	perfmode()
-end
-
-if getgenv().settings.sprint then
-	sprint(getgenv().settings.sprint)
-end
-
-if getgenv().settings.serverdetails then
-	hideservdetails(getgenv().settings.serverdetails)
-end
 
 local main = Library:CreateWindow(" kon")
 local tab = main:CreateTab("Player")
@@ -1118,3 +1104,19 @@ sub4:CreateButton(
 		tradeAccept()
 	end
 )
+
+if getgenv().settings.boss then
+	autoBoss()
+end
+
+if getgenv().settings.perf then
+	perfmode()
+end
+
+if getgenv().settings.sprint then
+	sprint(getgenv().settings.sprint)
+end
+
+if getgenv().settings.serverdetails then
+	hideservdetails(getgenv().settings.serverdetails)
+end
