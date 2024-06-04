@@ -1,4 +1,4 @@
-getgenv().vers = '0.4.8a'
+getgenv().vers = '0.4.8b'
 
 repeat wait() until game:IsLoaded()
 local UserInputService = game:GetService("UserInputService")
@@ -621,7 +621,23 @@ function autoBoss()
 						_G.boss.Humanoid.WalkSpeed = 0
 						_G.boss.Humanoid.JumpHeight = 0
 					end]]
+					if _G.boss:FindFirstChild("Head") then
+						_G.boss.Head:Destroy()
+						_G.boss["Left Arm"]:Destroy()
+						_G.boss["Right Arm"]:Destroy()
+
+
+					end
+
+					if _G.boss:FindFirstChild("RagdollColliders") then
+						_G.boss.RagdollColliders:Destroy()
+					end
+
+					if workspace.Effects:FindFirstChild(_G.boss.Name) then
+						workspace.Effects[_G.boss.Name]:Destroy()
+					end
 					_G.boss.Humanoid.Health = 0
+					_G.boss.Humanoid:TakeDamage(99999)
 
 					if getgenv().settings.bosspos == "Back" then
 
