@@ -325,6 +325,7 @@ function autoBoss()
 					boss.Parent = game.CoreGui
 					boss.DisplayOrder = 0
 					boss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+					boss.Enabled = false
 					
 
 					background.Name = "background"
@@ -428,12 +429,16 @@ function autoBoss()
 								end
 							end
 
-							if _G.boss:FindFirstChild("Head") or _G.boss:FindFirstChild("RagdollColliders") then
+							if _G.boss:FindFirstChild("Head") then
 								_G.boss.Head:Destroy()
 								_G.boss["Left Arm"]:Destroy()
 								_G.boss["Right Arm"]:Destroy()
-								_G.boss.RagdollColliders:Destroy()
+								
 
+							end
+							
+							if _G.boss:FindFirstChild("RagdollColliders") then
+								_G.boss.RagdollColliders:Destroy()
 							end
 
 							if workspace.Effects:FindFirstChild(_G.boss.Name) then
