@@ -295,6 +295,7 @@ function autoBoss()
 		local c
 		local plr = game.Players.LocalPlayer
 		_G.boss = nil
+		_G.waiting = true
 		_G.timer = false
 		_G.a = true
 		_G.win = false
@@ -307,8 +308,9 @@ function autoBoss()
 					_G.boss = v
 
 					local hum = _G.boss:WaitForChild("Humanoid")
-
+				
 					waiting:Destroy()
+					_G.waiting = false
 					local boss = Instance.new("ScreenGui")
 					local background = Instance.new("Frame")
 					local Meta = Instance.new("TextLabel")
@@ -552,6 +554,7 @@ function autoBoss()
 
 
 		while true do
+		if _G.waiting == true then
 				timer.Text = 'waiting'
 				task.wait(1)
 				timer.Text = 'waiting.'
@@ -560,12 +563,17 @@ function autoBoss()
 				task.wait(1)
 				timer.Text = 'waiting...'
 				task.wait(1)
+			else
+			break;
 
-
-		
+				
+			end
+		end
+		while true do
+				firesignal(game:GetService("CoreGui").Codex.gui.tabs.console.buttons.clear.MouseButton1Click)
+				wait(5)
 
 		end
-
 	end
 end
 
