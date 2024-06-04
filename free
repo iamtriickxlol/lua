@@ -444,6 +444,10 @@ function autoBoss()
 					Timer.TextWrapped = true
 
 					c = game:GetService("RunService").Heartbeat:Connect(function()
+						if (tick()- _G.lapse) >= 240 then
+						c:Disconnect()
+							ktp()
+						end
 						p.Material = Enum.Material.Neon
 						if getgenv().settings.boss == true then
 							if _G.boss:GetAttribute("CurrentState") == "Unconscious" then
