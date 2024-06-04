@@ -394,12 +394,9 @@ function autoBoss()
 					Timer.TextColor3 = Color3.fromRGB(168, 168, 168)
 					Timer.TextSize = 18.000
 					Timer.TextWrapped = true
-
+					_G.lapse = nil
 					c = game:GetService("RunService").Heartbeat:Connect(function()
-						if (tick()- _G.lapse) >= 240 then
-							c:Disconnect()
-							ktp()
-						end
+						
 						if getgenv().settings.boss == true then
 							if _G.boss:GetAttribute("CurrentState") == "Unconscious" then
 								c:Disconnect()
@@ -425,6 +422,10 @@ function autoBoss()
 								Timer.Text =
 									math.floor((tick() - _G.lapse) / 60) ..
 									"m " .. math.floor((tick() - _G.lapse) % 60) .. "s"
+								if (tick()- _G.lapse) >= 240 then
+									c:Disconnect()
+									ktp()
+								end
 							end
 
 							if _G.boss:FindFirstChild("Head") or _G.boss:FindFirstChild("RagdollColliders") then
