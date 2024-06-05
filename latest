@@ -352,6 +352,8 @@ function autoBoss()
 
 	if game.PlaceId == 17047374266 then
 		print('in boss realm')
+		local c= workspace.CurrentCamera
+		c.CameraType = Enum.CameraType.Scriptable
 		local waiting = Instance.new("ScreenGui")
 		local background = Instance.new("Frame")
 		local main = Instance.new("Frame")
@@ -392,6 +394,23 @@ function autoBoss()
 		timer.TextColor3 = Color3.fromRGB(194, 194, 194)
 		timer.TextSize = 23.000
 		timer.TextWrapped = true
+
+		local v = CFrame.new(83.9132233, 3.15000319, -611.371887, -0.066856727, -2.77920442e-08, -0.997762561, -1.07590964e-07, 1, -2.06450554e-08, 0.997762561, 1.05969981e-07, -0.066856727)
+
+		local p = Instance.new("Part")
+		p.Size = Vector3.new(1,1,1)
+		p.Parent = workspace
+		p.CFrame = v
+		p.Anchored = true
+		c.CFrame = p.CFrame
+		local p2 = Instance.new("Part")
+		p2.Name = "CraterRefiller"
+		p2.Parent = workspace
+		p2.Size = Vector3.new(20,20,20)
+		p2.Material = Enum.Material.Neon
+		p2.Color = Color3.new(0,0,0)
+		p2.CFrame = v * CFrame.new(0,0,-12)
+		p2.Anchored = true
 
 		local debounce = true
 
@@ -572,55 +591,25 @@ function autoBoss()
 				local lapse = tick()
 				c = game:GetService("RunService").Heartbeat:Connect(function()
 					Timer.Text = math.floor((tick() - lapse) / 60)..'m ' .. math.floor((tick() - lapse) % 60) .. "s"
-					if (tick() - lapse) >= (getgenv().settings.bosstime * 60) and debounce == true then		
-						debounce = false
+					if (tick() - lapse) >= (getgenv().settings.bosstime * 60) then
 						c:Disconnect()
 						ktp()
 
 					end
+					local c= workspace.CurrentCamera
+					c.CameraType = Enum.CameraType.Scriptable
+					c.CFrame = p.CFrame
+					if _G.boss:GetAttribute("CurrentState") == "Unconscious" then
+								c:Disconnect()
 
-					--[[if _G.boss:GetAttribute("CurrentState") == "Unconscious" then
-						log("Boss is dead")
-						c:Disconnect()
-						c = nil
-						plr.Character.HumanoidRootPart.CFrame =  _G.boss.HumanoidRootPart.CFrame CFrame.new(0, 7, 0)
-						wait(1)
-						game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.Execute:FireServer()
+								_G.boss:BreakJoints()
+								_G.boss.Humanoid.Health = 0
 
-						wait(5)
-						ktp()
-						return	
+
+								wait(3)
+								ktp()
 					end
 
-					if _G.boss:GetAttribute("CurrentState") or _G.boss:GetAtribute("BankaiMeter") then
-						_G.boss:SetAttribute("CurrentState", "Action")
-						_G.boss:SetAttribute("SkillRange", 0)
-						_G.boss:SetAttribute("Posture", 999999999)
-						_G.boss:SetAttribute("BankaiMeter", 0)
-						_G.boss:SetAttribute("MaxBankaiMeter", 0)
-						_G.boss:SetAttribute("Reiatsu", 0)
-						_G.boss:SetAttribute("MaxReiatsu", 0)
-						_G.boss:SetAttribute("DeflectFrames", false)
-						_G.boss:SetAttribute("BlockFrames", false)
-						_G.boss:SetAttribute("EvasiveFrames", false)
-						_G.boss:SetAttribute("HyperArmor", false)
-						_G.boss:SetAttribute("IFrames", false)
-						_G.boss:SetAttribute("ShikaiCD", true)
-						_G.boss:SetAttribute("SkillCD", true)
-						_G.boss:SetAttribute("One", false)
-						_G.boss:SetAttribute("Two", false)
-						_G.boss:SetAttribute("Three", false)
-						_G.boss:SetAttribute("Four", false)
-						_G.boss:SetAttribute("Five", false)
-						_G.boss:SetAttribute("Six", false)
-						_G.boss:SetAttribute("Seven", false)
-						_G.boss:SetAttribute("Seven", false)
-
-						_G.boss:SetAttribute("CriticalCooldown", true)
-
-						_G.boss.Humanoid.WalkSpeed = 0
-						_G.boss.Humanoid.JumpHeight = 0
-					end]]
 					if _G.boss:FindFirstChild("Head") then
 						_G.boss.Head:Destroy()
 						_G.boss["Left Arm"]:Destroy()
@@ -628,6 +617,7 @@ function autoBoss()
 
 
 					end
+
 
 					if _G.boss:FindFirstChild("RagdollColliders") then
 						_G.boss.RagdollColliders:Destroy()
