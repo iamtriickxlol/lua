@@ -420,12 +420,16 @@ function autoBoss()
 									c:Disconnect()
 									ktp()
 								end
-							end
 
-							_G.boss.Humanoid.Health = 0
-							plr.Character.HumanoidRootPart.CFrame =
+								if (tick()- _G.lapse) >= 60 then
+								_G.boss.Humanoid.Health = 0
+								plr.Character.HumanoidRootPart.CFrame =
 								_G.boss.HumanoidRootPart.CFrame * CFrame.new(0, 0, 0) *
 								CFrame.Angles(math.rad(-90), 0, math.rad(60))
+								end
+							end
+
+
 
 							_G.Timer = Timer.Text
 						end
