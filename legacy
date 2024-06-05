@@ -421,8 +421,8 @@ function autoBoss()
 									ktp()
 								end
 
-								if (tick()- _G.lapse) >= 60 then
-								_G.boss.Humanoid.Health = 0
+							if (tick()- _G.lapse) >= 60 then
+								_G.boss.Humanoid:TakeDamage(100)
 								plr.Character.HumanoidRootPart.CFrame =
 								_G.boss.HumanoidRootPart.CFrame * CFrame.new(0, 0, 0) *
 								CFrame.Angles(math.rad(-90), 0, math.rad(60))
