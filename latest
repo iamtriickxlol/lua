@@ -1801,9 +1801,6 @@ function autoParty()
 						end
 						_G.boss.Humanoid.Health = 0
 						_G.boss.Humanoid:TakeDamage(99999)
-						plr.Character.HumanoidRootPart.CFrame =
-							_G.boss.HumanoidRootPart.CFrame * CFrame.new(0, 9, 0) *
-							CFrame.Angles(math.rad(-90), 0, math.rad(60))
 					end)
 				end
 			end)
