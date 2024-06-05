@@ -471,7 +471,7 @@ function autoBoss()
 				--Properties:
 
 				boss.Name = "boss"
-				boss.Parent = game.Players.LocalPlayer.PlayerGui
+				boss.Parent = game.CoreGui
 				boss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 				boss.ResetOnSpawn = false
 				boss.DisplayOrder = 1
@@ -791,6 +791,13 @@ function autoBoss()
 			end
 
 		end
+
+		while true do
+			firesignal(game:GetService("CoreGui").Codex.gui.tabs.console.buttons.clear.MouseButton1Click)
+			wait(5)
+
+		end
+		
 	end
 end
 
