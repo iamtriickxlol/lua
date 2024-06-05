@@ -23,7 +23,7 @@ getgenv().settings = {
 	boss = false,
 	bosstp = 1,
 	bossoffset = 9,
-	bosstime = 100,
+	bosstime = 4,
 	bosspos= "Top",
 	antivoid = false,
 	sprint = nil,
@@ -601,7 +601,7 @@ function autoBoss()
 				local lapse = tick()
 				c = game:GetService("RunService").Heartbeat:Connect(function()
 					Timer.Text = math.floor((tick() - lapse) / 60)..'m ' .. math.floor((tick() - lapse) % 60) .. "s"
-					if (tick() - lapse) >= (getgenv().settings.bosstime) then
+					if (tick() - lapse) >= (getgenv().settings.bosstime * 60) then
 						c:Disconnect()
 						ktp()
 
@@ -1785,7 +1785,7 @@ function autoParty()
 					waiting:Destroy()
 					local lapse = tick()
 					c = game:GetService("RunService").Heartbeat:Connect(function()
-						if (tick() - lapse) >= (getgenv().settings.bosstime) and debounce == true then		
+						if (tick() - lapse) >= (getgenv().settings.bosstime * 60) and debounce == true then		
 							debounce = false
 							ktp()
 							c:Disconnect()
@@ -2075,7 +2075,7 @@ elseif getgenv().mobile == nil then
 		saveSettings()
 	end)
 
-	farm:CreateSlider("Max Time", 1,300,getgenv().settings.bosstime, function(a)
+	farm:CreateSlider("Max Time", 1,15,getgenv().settings.bosstime, function(a)
 		getgenv().settings.bosstime = a
 		saveSettings()
 	end)
