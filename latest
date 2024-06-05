@@ -283,6 +283,16 @@ function webhook()
 end
 
 function autoBoss()
+	game.Players.LocalPlayer.Idled:Connect(function(timer)
+		while true do
+			print(`player has been idled for {timer} seconds`)
+		end
+
+		if timer > 60 then
+			webhook()
+			game:GetService('TeleportService'):Teleport(game.PlaceId,game.Players.LocalPlayer)
+		end
+	end)
 	repeat
 		wait()
 	until game:IsLoaded()
