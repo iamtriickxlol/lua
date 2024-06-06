@@ -193,7 +193,7 @@ if isfolder('/konkey') then
 		local key = readfile('/konkey/key.txt')
 		print(key)
 		print('new')
-		URI_Data = game:HttpGet(https://server-u214.onrender.com/kon/'..key)
+		URI_Data = game:HttpGet('https://server-u214.onrender.com/kon/'..key)
 		print(URI_Data)
 		if string.find(URI_Data, readfile('/konkey/key.txt')) then
 			CheckKey.Text = "Checking key.."
