@@ -185,7 +185,7 @@ MakeDraggable(Main,Main)
 repeat wait() until game:IsLoaded()
 ts:Create(Main,TweenInfo.new(.5,Enum.EasingStyle.Bounce,Enum.EasingDirection.Out), {Size = UDim2.new(0.24,0,0.24,0)}):Play()
 
-URI = "https://server-u214.onrender.com/kon/" 
+URI = "https://server-u214.onrender.com/kon" 
 local URI_Data 
 
 if isfolder('/konkey') then
@@ -216,7 +216,7 @@ end
 
 CheckKey.MouseButton1Click:Connect(function()
 	print(Key.Text)
-	URI = "https://server-u214.onrender.com/kon/"
+	URI = "https://server-u214.onrender.com/kon"
 	local URI_Data 
 	if Key.Text then
 		URI_Data = game:HttpGet(URI..'/'..Key.Text)
