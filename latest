@@ -881,8 +881,6 @@ function autoaccept()
 		wait(5)
 	end
 end
-firesignal(game:GetService("Players").LocalPlayer.PlayerGui.Storing.MainFrame.StorageFrame.List["Hogyoku Fragment"].AddItem)
-
 
 function redeemcode(a)
 	local codes = {
@@ -2235,6 +2233,11 @@ sub4:CreateToggle("Auto Accept", false, function(a)
 	getgenv().settings.autoaccept = a
 	autoaccept()
 end)
+
+sub4:CreateButton("Store all", function(a)
+
+end)
+
 
 mobesp:CreateToggle("Enable", false, function(a)
 	getgenv().settings.mobespenable = a
