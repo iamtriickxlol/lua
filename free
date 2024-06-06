@@ -112,7 +112,7 @@ CheckKey.AnchorPoint = Vector2.new(0.5, 0.5)
 CheckKey.BackgroundColor3 = Color3.fromRGB(23, 18, 26)
 CheckKey.BorderColor3 = Color3.fromRGB(0, 0, 0)
 CheckKey.BorderSizePixel = 0
-CheckKey.Position = UDim2.new(0.740999997, 0, 0.832000017, 0)
+CheckKey.Position = UDim2.new(0.5, 0, 0.832000017, 0)
 CheckKey.Size = UDim2.new(0.446999997, 0, 0.200000003, 0)
 CheckKey.Font = Enum.Font.SourceSansBold
 CheckKey.Text = "Check"
@@ -122,23 +122,6 @@ CheckKey.TextSize = 18.000
 CheckKey.TextWrapped = true
 
 UICorner_4.Parent = CheckKey
-
-CopyLink.Name = "CopyLink"
-CopyLink.Parent = Main_2
-CopyLink.AnchorPoint = Vector2.new(0.5, 0.5)
-CopyLink.BackgroundColor3 = Color3.fromRGB(23, 18, 26)
-CopyLink.BorderColor3 = Color3.fromRGB(0, 0, 0)
-CopyLink.BorderSizePixel = 0
-CopyLink.Position = UDim2.new(0.259000003, 0, 0.832000017, 0)
-CopyLink.Size = UDim2.new(0.446999997, 0, 0.200000003, 0)
-CopyLink.Font = Enum.Font.SourceSansBold
-CopyLink.Text = "Copy Link"
-CopyLink.TextColor3 = Color3.fromRGB(255, 255, 255)
-CopyLink.TextScaled = true
-CopyLink.TextSize = 18.000
-CopyLink.TextWrapped = true
-
-UICorner_5.Parent = CopyLink
 
 -- Scripts:
 local function MakeDraggable(topbarobject, object)
@@ -202,14 +185,14 @@ MakeDraggable(Main,Main)
 repeat wait() until game:IsLoaded()
 ts:Create(Main,TweenInfo.new(.5,Enum.EasingStyle.Bounce,Enum.EasingDirection.Out), {Size = UDim2.new(0.24,0,0.24,0)}):Play()
 
-URI = "https://server-u214.onrender.com/" 
+URI = "https://server-u214.onrender.com/kon/" 
 local URI_Data 
 
 if isfolder('/konkey') then
 	if isfile('/konkey/key.txt') then
 		local key = readfile('/konkey/key.txt')
 		print(key)
-		URI_Data = game:HttpGet(URI..'?key='..key)
+		URI_Data = game:HttpGet(URI..'/'..key)
 		print(URI_Data)
 		if string.find(URI_Data, readfile('/konkey/key.txt')) then
 			CheckKey.Text = "Checking key.."
@@ -233,11 +216,11 @@ end
 
 CheckKey.MouseButton1Click:Connect(function()
 	print(Key.Text)
-	URI = "https://server-u214.onrender.com/" 
+	URI = "https://server-u214.onrender.com/kon/"
 	local URI_Data 
 	if Key.Text then
-		URI_Data = game:HttpGet(URI..'?key='..Key.Text)
-		if URI_Data and string.find(URI_Data, "invalid") then
+		URI_Data = game:HttpGet(URI..'/'..Key.Text)
+		if URI_Data and string.find(URI_Data, "failed") then
 			print("invalid")
 			CheckKey.Text = "Invalid key."
 			wait(1)
@@ -255,8 +238,4 @@ CheckKey.MouseButton1Click:Connect(function()
 	wait(.5)
 	writefile('/konkey/key.txt', Key.Text)
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/metauser08/lua/main/legacy"))()
-end)
-
-CopyLink.MouseButton1Click:Connect(function()
-	setclipboard('https://direct-link.net/1185926/konkey')
 end)
