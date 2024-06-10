@@ -795,7 +795,7 @@ function autoBoss()
 												["embeds"] = {
 													{
 														["title"] = "Raid Notifier",
-														["description"] = "**User:** ||" ..game.Players.LocalPlayer.Name.."|| \n **Item:** " .. item .. "\n **Count:** "..tostring(itemcount).. "\n **Timer:** ".._G.timelapse.. '\n **Boss:** '..string.split(_G.boss.Name,"_")[1],
+														["description"] = "**User:** ||" ..game.Players.LocalPlayer.Name.."|| \n **Item:** " .. item .. "\n **Timer:** ".._G.timelapse.. '\n **Boss:** '..string.split(_G.boss.Name,"_")[1],
 														["type"] = "rich",
 														["color"] = tonumber(0xd9abd7),
 														["footer"] = {
