@@ -799,7 +799,7 @@ function autoBoss()
 														["type"] = "rich",
 														["color"] = tonumber(0xd9abd7),
 														["footer"] = {
-															["text"] = "Type Soul - Meta Hub",
+															["text"] = "Type Soul "..getgenv().vers.." - Meta Hub",
 															["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242969432486187128/meta_logo_only_2.png?ex=664fc4fd&is=664e737d&hm=0282df1fbff330d42729f143d44bce426c2b949059327e7580f210f22c0c8965&"
 														}
 													}
