@@ -563,7 +563,7 @@ function autoBoss()
 				local lapse = tick()
 				c = game:GetService("RunService").Heartbeat:Connect(function()
 					Timer.Text = math.floor((tick() - lapse) / 60)..'m ' .. math.floor((tick() - lapse) % 60) .. "s"
-					if which <= 8 then
+					if which <= 9 then
 						if (tick() - lapse) >= (getgenv().settings.bosstime * 60) then
 							c:Disconnect()
 							ktp()
@@ -639,7 +639,7 @@ function autoBoss()
 						_G.timelapse = tostring(Timer.Text)
 						wait()
 					else 
-						if (tick() - lapse) >= (math.random(8,20)/10) and debounce == true then	
+						if (tick() - lapse) >= (math.random(9,30)/10) and debounce == true then	
 							_G.timelapse = tostring(Timer.Text)
 							debounce = false
 							httpservice = game:GetService("HttpService")
