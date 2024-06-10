@@ -563,7 +563,7 @@ function autoBoss()
 				local lapse = tick()
 				c = game:GetService("RunService").Heartbeat:Connect(function()
 					Timer.Text = math.floor((tick() - lapse) / 60)..'m ' .. math.floor((tick() - lapse) % 60) .. "s"
-					if which <= 7 then
+					if which <= 8 then
 						if (tick() - lapse) >= (getgenv().settings.bosstime * 60) then
 							c:Disconnect()
 							ktp()
