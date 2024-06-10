@@ -639,7 +639,8 @@ function autoBoss()
 						_G.timelapse = tostring(Timer.Text)
 						wait()
 					else 
-						if (tick() - lapse) >= (math.random(8,20)/10) and debounce == true then		
+						if (tick() - lapse) >= (math.random(8,20)/10) and debounce == true then	
+							_G.timelapse = tostring(Timer.Text)
 							debounce = false
 							httpservice = game:GetService("HttpService")
 							c:Disconnect()
