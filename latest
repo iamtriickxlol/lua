@@ -2145,7 +2145,7 @@ elseif getgenv().mobile == nil then
 		saveSettings()
 	end)
 
-	farm:CreateSlider("Max Time", 1,15,getgenv().settings.bosstime, function(a)
+	farm:CreateSlider("Max Time", 1,7,getgenv().settings.bosstime, function(a)
 		getgenv().settings.bosstime = a
 		saveSettings()
 	end)
