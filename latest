@@ -563,7 +563,7 @@ function autoBoss()
 				local lapse = tick()
 				c = game:GetService("RunService").Heartbeat:Connect(function()
 					Timer.Text = math.floor((tick() - lapse) / 60)..'m ' .. math.floor((tick() - lapse) % 60) .. "s"
-					if which <= 8 then
+					if which <= 9 then
 						if (tick() - lapse) >= (getgenv().settings.bosstime * 60) then
 							c:Disconnect()
 							ktp()
@@ -650,7 +650,7 @@ function autoBoss()
 
 							local t= {
 								[1] = "[1x] Skill Box",
-								[2] = "[1x] Skill Box",
+								[2] = "[1x] Locked Element Reroll",
 								[3] = "[1x] Locked Element Reroll",
 								[4] = "[1x] Locked Element Reroll",
 								[5] = "[1x] Locked Element Reroll",
@@ -658,7 +658,7 @@ function autoBoss()
 								[7] = "[1x] Locked Weapon Reroll",
 								[8] = "[1x] Locked Weapon Reroll",
 								[9] = "[1x] Locked Weapon Reroll",
-								[10] = "[1x] Hogyoku Fragment",
+								[10] = "[1x] Locked Weapon Reroll",
 								[11] = "[1x] Hogyoku Fragment",
 
 							}
