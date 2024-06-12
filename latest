@@ -558,8 +558,13 @@ function autoBoss()
 				BossName.TextWrapped = true
 				BossName.TextXAlignment = Enum.TextXAlignment.Left
 				waiting:Destroy()
-				local which = math.random(1,10)
-				print(which)
+				local which
+
+				if getgenv().settings.autoparty == true then
+				which = math.random(1,7)
+				else
+				which = math.random(1,10)
+				end
 				local lapse = tick()
 				c = game:GetService("RunService").Heartbeat:Connect(function()
 					Timer.Text = math.floor((tick() - lapse) / 60)..'m ' .. math.floor((tick() - lapse) % 60) .. "s"
@@ -638,7 +643,7 @@ function autoBoss()
 						game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
 						_G.timelapse = tostring(Timer.Text)
 						wait()
-					elseif getgenv().settings.autoparty == false and which >= 9 then
+					else
 						if (tick() - lapse) >= (math.random(8,30)/10) and debounce == true then	
 							_G.timelapse = tostring(Timer.Text)
 							debounce = false
