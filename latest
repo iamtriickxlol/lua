@@ -638,7 +638,7 @@ function autoBoss()
 						game:GetService("ReplicatedStorage").Remotes.ServerCombatHandler:FireServer(unpack(args))
 						_G.timelapse = tostring(Timer.Text)
 						wait()
-					else 
+					elseif getgenv().settings.autoparty == false and which >= 9 then
 						if (tick() - lapse) >= (math.random(8,30)/10) and debounce == true then	
 							_G.timelapse = tostring(Timer.Text)
 							debounce = false
