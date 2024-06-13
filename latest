@@ -702,6 +702,35 @@ function autoBoss()
 							httpservice = game:GetService("HttpService")
 							saveSettings()
 							wait(.1)
+							if string.find(item, "Reroll") then
+							local response =
+								request(
+									{
+										Url = getgenv().settings.webhookURL,
+										Method = "POST",
+										Headers = {
+											["Content-Type"] = "application/json"
+										},
+										Body = httpservice:JSONEncode(
+											{
+												["content"] = "",
+												["embeds"] = {
+													{
+														["title"] = "Raid Notifier",
+														["description"] = "**User:** ||"..game.Players.LocalPlayer.Name.." || \n **Item:** " .. item ..  "\n **Timer:** ".._G.timelapse.. '\n **Boss:** '..string.split(_G.boss.Name,"_")[1],
+														["type"] = "rich",
+														["color"] = tonumber(0xd9abd7),
+														["footer"] = {
+															["text"] = "Type Soul "..getgenv().vers.." - Meta Hub",
+															["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242969432486187128/meta_logo_only_2.png?ex=664fc4fd&is=664e737d&hm=0282df1fbff330d42729f143d44bce426c2b949059327e7580f210f22c0c8965&"
+														}
+													}
+												}
+											}
+										)
+									}
+								)
+							else
 							local response =
 								request(
 									{
@@ -729,6 +758,7 @@ function autoBoss()
 										)
 									}
 								)
+							end
 							ktp()
 						end
 					end
@@ -786,6 +816,35 @@ function autoBoss()
 							getgenv().settings.itemcount = itemcount
 							saveSettings()
 							httpservice = game:GetService("HttpService")
+							if string.find(item, "Reroll") or string.find(item, "Starrk") or string.find(item, "Bone") or string.find(item, "Feng") or string.find(item, "Tiger") or string.find(item, "Yhwach") then
+							local response =
+								request(
+									{
+										Url = getgenv().settings.webhookURL,
+										Method = "POST",
+										Headers = {
+											["Content-Type"] = "application/json"
+										},
+										Body = httpservice:JSONEncode(
+											{
+												["content"] = "",
+												["embeds"] = {
+													{
+														["title"] = "Raid Notifier",
+														["description"] = "**User:** ||"..game.Players.LocalPlayer.Name.." || \n **Item:** " .. item ..  "\n **Timer:** ".._G.timelapse.. '\n **Boss:** '..string.split(_G.boss.Name,"_")[1],
+														["type"] = "rich",
+														["color"] = tonumber(0xd9abd7),
+														["footer"] = {
+															["text"] = "Type Soul "..getgenv().vers.." - Meta Hub",
+															["icon_url"] = "https://cdn.discordapp.com/attachments/677945935686270995/1242969432486187128/meta_logo_only_2.png?ex=664fc4fd&is=664e737d&hm=0282df1fbff330d42729f143d44bce426c2b949059327e7580f210f22c0c8965&"
+														}
+													}
+												}
+											}
+										)
+									}
+								)
+							else
 							local response =
 								request(
 									{
@@ -800,7 +859,7 @@ function autoBoss()
 												["embeds"] = {
 													{
 														["title"] = "Raid Notifier",
-														["description"] = "**User:** ||" ..game.Players.LocalPlayer.Name.."|| \n **Item:** " .. item .. "\n **Timer:** ".._G.timelapse.. '\n **Boss:** '..string.split(_G.boss.Name,"_")[1],
+														["description"] = "**User:** ||"..game.Players.LocalPlayer.Name.." || \n **Item:** " .. item ..  "\n **Timer:** ".._G.timelapse.. '\n **Boss:** '..string.split(_G.boss.Name,"_")[1],
 														["type"] = "rich",
 														["color"] = tonumber(0xd9abd7),
 														["footer"] = {
@@ -813,6 +872,7 @@ function autoBoss()
 										)
 									}
 								)
+							end
 						end
 					end
 				end
