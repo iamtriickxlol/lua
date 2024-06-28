@@ -1,248 +1,342 @@
-SX_VM_CNONE();
-local Maid = sharedRequire('Maid.lua');
-local Services = sharedRequire('Services.lua');
+getgenv().ps = "TbdPN1z4bp"
+local Player = game.Players.LocalPlayer
+local TweenService = game:GetService("TweenService")
 
-local toCamelCase = sharedRequire('toCamelCase.lua');
-local library = sharedRequire('../UILibrary.lua');
+function attack(mob)
+	print()
+	for i = 1,5 do
+		local args = {
+			[1] = {
+				[1] = "damage",
+				[2] = {
+					[1] = workspace.NPCs:FindFirstChild(mob).HumanoidRootPart
+				},
+				[3] = "Melee",
+				[4] = {
+					[1] = i,
+					[2] = "Air",
+					[3] = "Melee"
+				},
+				[5] = true,
+				[6] = CFrame.new(0, 0, 0) * CFrame.Angles(-0, 0, -0)
+			}
+		}
 
-local Players, CorePackages, HttpService = Services:Get('Players', 'CorePackages', 'HttpService');
-local LocalPlayer = Players.LocalPlayer;
+		wait(.1)
+	end
+end
+function teleport(pos)
+	local rootPart = Player.Character and Player.Character.PrimaryPart;
+	if(not rootPart) then return warn('Teleport: No root part') end;
 
-local NUM_ACTORS = 8;
+	local vectorPos = typeof(pos) == 'Vector3' and pos or pos.p;
+	local tween = TweenService:Create(rootPart, TweenInfo.new((vectorPos - rootPart.Position).Magnitude / 40, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {CFrame = typeof(pos) == 'CFrame' and pos or CFrame.new(pos)});
+	tween:Play();
+	
+	local args = {
+		[1] = "Sky Walk2",
+		[2] = {
+			["char"] = game:GetService("Players").LocalPlayer.Character,
+			["cf"] = CFrame.new(8732.40234375, 437.0458984375, 11922.232421875) * CFrame.Angles(1.570796251296997, 3.937807235843138e-08, 1.9295309782028198)
+		}
+	}
 
---[[
-	We'll add an example cuz I have no brain
+	game:GetService("ReplicatedStorage").Events.Skill:InvokeServer(unpack(args))
+	return tween;
+end;
+if game.PlaceId == 1730877806 then
+	repeat wait() until game:IsLoaded()
+	print('main game')
+	local HttpService = game:GetService("HttpService")
+	local box = game:GetService("Players").LocalPlayer.PlayerGui.PrivateServers.PrivateServersPanel.ServerCodeBox.TextBox;
+	box.Text = getgenv().ps;
+	firesignal(box.FocusLost);
 
-	local chestsESP = createBaseESP('chests'); -- This is the base ESP it returns a class with .new, .Destroy, :UpdateAll, :UnloadAll, and some other stuff
+	local buttonEffect = require(game.ReplicatedStorage.Modules.ButtonEffect);
+	local randomString = HttpService:GenerateGUID(false);
 
-	-- Listen to chests childAdded through Utility.listenToChildAdded and then create an espObject for that chest
-	-- chestsESP.new only accepts BasePart or CFrame
-	-- It has a lazy parameter allowing it to not update the get the position everyframe only get the screen position
-	-- Also a color parameter
+	repeat
+		task.wait();
+	until game.Players.LocalPlayer.PlayerGui:FindFirstChild('chooseType');
 
-	Utility.listenToChildAdded(workspace.Chests, function(obj)
-		local espObject = chestsESP.new(obj, 'Normal Chest', color, isLazy);
-
-		obj.Destroying:Connect(function()
-			espObject:Destroy();
-		end);
-	end);
-
-	local function updateChestESP(toggle)
-		if (not toggle) then
-			maid.chestESP = nil;
-			chestsESP:UnloadAll();
-			return;
-		end;
-
-		maid.chestESP = RunService.Stepped:Connect(function()
-			chestsESP:UpdateAll();
-		end);
+	rawset(buttonEffect, randomString, function() end);
+	
+	for _, connection in next, getconnections(game:GetService("Players").LocalPlayer.PlayerGui.chooseType.Frame.regular.MouseButton1Click) do
+		setconstant(connection.Function, 5, randomString);
+		connection.Function();
 	end;
 
-	-- UI Lib functions
-	:AddToggle({text = 'Enable', flag = 'chests', callback = updateChestESP});
-	:AddToggle({text = 'Show Distance', textpos = 2, flag = 'Chests Show Distance'});
-	:AddToggle({text = 'Show Normal Chest'}):AddColor({text = 'Normal Chest Color'}); -- Filer for if you want to see that chest and select the color of it
-]]
+end
+if game.PlaceId == 7465136166 then
+	repeat wait() until game:IsLoaded()
+	teleport(CFrame.new(5876.421875, 9.557064056396484, -10219.763671875))
+	for i = 1,5  do
+		local args = {
+			[1] = "Sky Walk2",
+			[2] = {
+				["char"] = game:GetService("Players").LocalPlayer.Character,
+				["cf"] = CFrame.new(8732.40234375, 437.0458984375, 11922.232421875) * CFrame.Angles(1.570796251296997, 3.937807235843138e-08, 1.9295309782028198)
+			}
+		}
 
-local playerScripts = LocalPlayer:WaitForChild('PlayerScripts')
+		game:GetService("ReplicatedStorage").Events.Skill:InvokeServer(unpack(args))
+		wait(5)
+	end
+end
+if game.PlaceId == 11424731604 then
+	print('suc')
+	--repeat wait() until #game.Workspace.NPCs:GetChildren() > 0
+	print("vera")
+	local vera = game.Workspace.NPCs:FindFirstChild("Vera")
+	if vera then
+		repeat
+			attack(vera.Name)
+			teleport(vera.HumanoidRootPart.CFrame * CFrame.new(0,10,0))
+		until game.Workspace.NPCs:FindFirstChild("Vera") == nil
+	end
+	print('vera not found')
+	task.wait(7)
+	if workspace.Effects:FindFirstChild("Key") then
+		print('found key')
+		teleport(workspace.Effects.Key.Key.Position)
+		repeat wait() until workspace.Effects.Key:FindFirstChild("highlightPrompt")
+		print('unlocking')
+		local vim = game:GetService("VirtualInputManager")
+		vim:SendKeyEvent(true,Enum.KeyCode.E,false,game)
+		
+	end
+	print('unlocked')
+	teleport(CFrame.new(2950.7236328125, 2075.745361328125, -13802.826171875))
+	repeat wait() until game.Workspace.NPCs:FindFirstChild("Impel Guard")
+	print('found guard')
+	
+	repeat
+		local mob = game.Workspace.NPCs:FindFirstChild("Impel Guard")
+		teleport(mob.HumanoidRootPart.CFrame * CFrame.new(0,8,0))
+		attack(mob.Name)
+		
+	until #game.Workspace.NPCs:GetChildren() == 0
+end
 
-local playerScriptsLoader = playerScripts:FindFirstChild('PlayerScriptsLoader');
-local actors = {};
 
-local readyCount = 0;
-local broadcastEvent = Instance.new('BindableEvent');
 
-local supportedGamesList = HttpService:JSONDecode(sharedRequire('../../gameList.json'));
-local gameName = supportedGamesList[tostring(game.GameId)];
 
-if (not playerScriptsLoader and gameName == 'Apocalypse Rising 2') then
-	playerScriptsLoader = playerScripts:FindFirstChild('FreecamDelete');
-end;
 
-if (playerScriptsLoader) then
-	for _ = 1, NUM_ACTORS do
-		local commId, commEvent;
 
-		if (isSynapseV3) then
-			commEvent = {
-				_event = Instance.new('BindableEvent'),
 
-				Connect = function(self, f)
-					return self._event.Event:Connect(f)
-				end,
 
-				Fire = function(self, ...)
-					self._event:Fire(...);
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+-- Script generated by SimpleSpy - credits to exx#9394
+function damage(mob)
+	
+	for i = 1,5 do
+		local args = {
+			[1] = {
+				[1] = "damage",
+				[2] = {
+					[1] = workspace.NPCs:FindFirstChild(mob).HumanoidRootPart
+				},
+				[3] = "Melee",
+				[4] = {
+					[1] = i,
+					[2] = "Air",
+					[3] = "Melee"
+				},
+				[5] = true,
+				[6] = CFrame.new(0, 0, 0) * CFrame.Angles(-0, 0, -0)
+			}
+		}
+
+		wait(.1)
+	end
+
+end
+
+
+
+game:GetService("ReplicatedStorage").Events.CombatRegister:InvokeServer(unpack(args))
+-- Script generated by SimpleSpy - credits to exx#9394
+
+local args = {
+	[1] = "Normal"
+}
+
+game:GetService("Players").LocalPlayer.PlayerGui.DiffChooser.Replication.RemoteEvent:FireServer(unpack(args))
+
+
+-- Script generated by SimpleSpy - credits to exx#9394
+
+local args = {
+	[1] = "Sky Walk2",
+	[2] = {
+		["char"] = game:GetService("Players").LocalPlayer.Character,
+		["cf"] = CFrame.new(8732.40234375, 437.0458984375, 11922.232421875) * CFrame.Angles(1.570796251296997, 3.937807235843138e-08, 1.9295309782028198)
+	}
+}
+
+game:GetService("ReplicatedStorage").Events.Skill:InvokeServer(unpack(args))
+
+
+workspace.Effects.Key
+
+
+
+local vim = game:GetService("VirtualInputManager")
+vim:SendKeyEvent(true,Enum.KeyCode.E,false,game)
+
+
+
+-- Script generated by SimpleSpy - credits to exx#9394
+-- Script generated by SimpleSpy - credits to exx#9394
+
+local args = {
+	[1] = "Strength",
+	[3] = 600
+}
+
+game:GetService("ReplicatedStorage").Events.stats:FireServer(unpack(args))
+
+
+local args = {
+	[1] = "Defense",
+	[2] = nil,
+	[3] = 275
+}
+
+game:GetService("ReplicatedStorage").Events.stats:FireServer(unpack(args))
+
+setclipboard(tostring(game.Players.LocalPlayer.Character.PrimaryPart.Position))
+
+local sets = {
+	["first"] = 2950.7236328125, 2075.745361328125, -13802.826171875,
+	['maze done'] = 2666.26416015625, 2075.7451171875, -15480.1982421875,
+	['2nd floor 1'] = 3196.458251953125, 2381.6005859375, -20273.447265625,
+	['2ndfloor 2'] = 3200.255615234375, 2378.810791015625, -20358.029296875,
+	['2nd floor 3'] = 3403.934326171875, 2378.73046875, -20392.76953125,
+	['2nd floor 4'] = 3433.24462890625, 2378.730712890625, -20579.974609375,
+	['2nd floor boss 1'] = 3256.68212890625, 2378.6806640625, -20374.916015625,
+	['2nd floor 5'] = 3199.856201171875, 2378.680908203125, -20610.396484375,
+	['2nd floor boss 2'] = 3198.26123046875, 2386.54345703125, -20801.001953125,
+	['2nd floor end'] = 3195.436767578125, 2378.680908203125, -21072.125,
+	['3rd floor 1'] = 4968.43359375, 2306.630126953125, -20720.14453125,
+	[]
+	
+}
+4765.65869140625, 2314.118408203125, -20752.263671875
+4707.44482421875, 2306.630126953125, -20725.353515625 -- lever
+5138.4814453125, 2320.51416015625, -20798.9609375
+5161.45361328125, 2306.6298828125, -20799.17578125 -- lever 2
+4943.54736328125, 2330.62939453125, -20903.943359375 -- main gate
+4856.93701171875, 2379.792724609375, -21003.55859375
+4789.197265625, 2425.625244140625, -20791.982421875 -- boss 1
+5186.71142578125, 2406.243896484375, -20776.759765625
+5532.05517578125, 2420.130126953125, -20802.05859375
+5564.41259765625, 2509.05029296875, -20966.416015625
+5662.73974609375, 2482.6826171875, -20472.0078125 -- main boss
+5664.65869140625, 2489.63037109375, -20261.560546875 -- end
+
+
+-- floor 4
+9992.2373046875, 1599.1070556640625, -19096.564453125 - 1
+10053.830078125, 1637.7935791015625, -19542.505859375 --2
+9713.470703125, 1628.853515625, -19706.212890625 - 3
+9621.4619140625, 1634.9129638671875, -20232.689453125 -4
+10099.802734375, 1631.0411376953125, -20312.55859375 - 5
+10628.2890625, 1633.5128173828125, -20342.849609375 - 6
+10931.6787109375, 1631.137451171875, -20498.73828125 - 7
+10870.1923828125, 1640.4453125, -21007.205078125 - 8
+10658.185546875, 1635.6864013671875, -20969.669921875 - 9
+10092.4091796875, 1645.875244140625, -21646.388671875 - 10
+9985.05859375, 1682.339599609375, -21805.11328125 -- boss
+9970.9765625, 1657.853515625, -22132.1953125 -- end
+
+-- floor 5
+10604.60546875, 545.7876586914062, -27485.3125 -- 1
+10605.0654296875, 493.90692138671875, -28457.330078125 -- 2
+10261.455078125, 482.426025390625, -28366.1328125 -- 3
+9693.8203125, 514.8116455078125, -28455.38671875 -- 4
+9381.9296875, 606.786376953125, -28020.599609375 -- 5
+
+9631.8994140625, 454.7039794921875, -27606.865234375 -- vera
+
+local Player = game.Players.LocalPlayer
+local TweenService = game:GetService("TweenService")
+function findleg()
+	for i,v in pairs(workspace.Effects:GetChildren()) do
+		if v:IsA("Model") then
+			if v:FindFirstChild("Lock") then
+				for i2,v2 in pairs(v:GetDescendants()) do
+					if v2:IsA("ProximityPrompt") then
+						if string.find(v2.ObjectText, "Legendary") then
+							return v
+						end
+					ends
 				end
-			};
-		else
-			commId, commEvent = getgenv().syn.create_comm_channel();
-		end;
+			end
+		end
+	end
+end
 
-		local clone = playerScriptsLoader:Clone();
-		local actor = Instance.new('Actor');
-		clone.Parent = actor;
+print(findleg().PrimaryPart)
 
-		local playerModule = CorePackages.InGameServices.MouseIconOverrideService:Clone();
-		playerModule.Name = 'PlayerModule';
-		playerModule.Parent = actor;
+function teleport(pos)
+	local rootPart = Player.Character and Player.Character.PrimaryPart;
+	if(not rootPart) then return warn('Teleport: No root part') end;
 
-		if (not isSynapseV3) then
-			syn.protect_gui(actor);
-		end;
-
-		actor.Parent = LocalPlayer.PlayerScripts;
-
-		local connection;
-
-		connection = commEvent:Connect(function(data)
-			if (data.updateType == 'ready') then
-				commEvent:Fire({updateType = 'giveEvent', event = broadcastEvent, gameName = gameName});
-				actor:Destroy();
-
-				readyCount += 1;
-
-				connection:Disconnect();
-				connection = nil;
-			end;
-		end);
-
-		originalFunctions.runOnActor(actor, sharedRequire('@utils/createBaseESPParallel.lua'), commId or commEvent);
-		table.insert(actors, {
-			actor = actor,
-			commEvent = commEvent
-		});
-	end;
-
-	print('Waiting for actors');
-	repeat task.wait(); until readyCount >= NUM_ACTORS;
-	print('All actors have been loaded');
-else
-	local commId, commEvent = getgenv().syn.create_comm_channel();
-
-	local connection;
-	connection = commEvent:Connect(function(data)
-		if (data.updateType == 'ready') then
-			connection:Disconnect();
-			connection = nil;
-
-			commEvent:Fire({updateType = 'giveEvent', event = broadcastEvent});
-		end;
-	end);
-
-	loadstring(sharedRequire('@utils/createBaseESPParallel.lua'))(commId);
-
-	table.insert(actors, {commEvent = commEvent});
-	readyCount = 1;
+	local vectorPos = typeof(pos) == 'Vector3' and pos or pos.p;
+	local tween = TweenService:Create(rootPart, TweenInfo.new((vectorPos - rootPart.Position).Magnitude / 40, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {CFrame = typeof(pos) == 'CFrame' and pos or CFrame.new(pos)});
+	tween:Play();
+	return tween;
 end;
 
-local count = 1;
+function lever()
+	for i,v in pairs(workspace.Islands["Impel Base - Floor 2"].Interactables:GetDescendants()) do
+		if v:IsA("ProximityPrompt") then
+			if string.find(v.ActionText, "Lever") then
+				print(v.Parent.Position)
+			end
+		end
+	end
+end
+teleport(findleg().PrimaryPart.Position)
+task.wait()
 
-local function createBaseEsp(flag, container)
-	container = container or {};
-	local BaseEsp = {};
+local vim = game:GetService("VirtualInputManager")
+vim:SendKeyEvent(true,Enum.KeyCode.E,false,game)
 
-	BaseEsp.ClassName = 'BaseEsp';
-	BaseEsp.Flag = flag;
-	BaseEsp.Container = container;
-	BaseEsp.__index = BaseEsp;
+	local lastboss = "Warden of Impel Down, Vera"
+	local stun = Instance.new("BoolValue")
+	stun.Name = "Stun"
+	game:GetService("RunService").Heartbeat:Connect(function()
+		local v = workspace.NPCs:FindFirstChild(lastboss)
+		
+		if v:FindFirstChild("Humanoid") then
+			stun.Parent = v
+			v.Humanoid.Health = 1
+		end
+	end)
 
-	local whiteColor = Color3.new(1, 1, 1);
+game.Players.LocalPlayer.PlayerGui.BattleReportGui
 
-	local maxDistanceFlag = BaseEsp.Flag .. 'MaxDistance';
-	local showHealthFlag = BaseEsp.Flag .. 'ShowHealth';
-	local showESPFlag = BaseEsp.Flag;
+setclipboard(game.PlaceId)
 
-	function BaseEsp.new(instance, tag, color, isLazy)
-		assert(instance, '#1 instance expected');
-		assert(tag, '#2 tag expected');
-
-		local isCustomInstance = false;
-
-		if (typeof(instance) == 'table' and rawget(instance, 'code')) then
-			isCustomInstance = true;
-		end;
-
-		color = color or whiteColor;
-
-		local self = setmetatable({}, BaseEsp);
-		self._tag = tag;
-
-		local displayName = tag;
-
-		if (typeof(tag) == 'table') then
-			displayName = tag.displayName;
-			self._tag = tag.tag;
-		end;
-
-		self._instance = instance;
-		self._text = displayName;
-		self._color = color;
-		self._showFlag = toCamelCase('Show ' .. self._tag);
-		self._colorFlag = toCamelCase(self._tag .. ' Color');
-		self._colorFlag2 = BaseEsp.Flag .. 'Color';
-		self._showDistanceFlag = BaseEsp.Flag .. 'ShowDistance';
-		self._isLazy = isLazy;
-		self._actor = actors[(count % readyCount) + 1];
-		self._id = count;
-		self._maid = Maid.new();
-
-		count += 1;
-
-		if (isLazy and not isCustomInstance) then
-			self._instancePosition = instance.Position;
-		end;
-
-		self._maxDistanceFlag = maxDistanceFlag;
-		self._showHealthFlag = showHealthFlag;
-
-		if (isCustomInstance) then
-			self._isCustomInstance = true;
-			self._code = instance.code;
-			self._vars = instance.vars;
-		end;
-
-		local smallData = table.clone(self);
-		smallData._actor = nil;
-		self._actor.commEvent:Fire({
-			updateType = 'new',
-			data = smallData,
-			isCustomInstance = isCustomInstance,
-			showFlag = showESPFlag
-		});
+local places = {
+		['raid'] = 11424731604,
+		['main'] = 1730877806,
+	
+}
 
 
-		return self;
-	end;
-
-	function BaseEsp:Unload() end;
-	function BaseEsp:BaseUpdate() end;
-	function BaseEsp:UpdateAll() end;
-	function BaseEsp:Update() end;
-	function BaseEsp:UnloadAll() end;
-	function BaseEsp:Disable() end;
-
-	function BaseEsp:Destroy()
-		self._maid:Destroy();
-		self._actor.commEvent:Fire({
-			updateType = 'destroy',
-			id = self._id
-		});
-	end;
-
-	return BaseEsp;
-end;
-
-library.OnFlagChanged:Connect(function(data)
-	broadcastEvent:Fire({
-		type = data.type,
-		flag = data.flag,
-		color = data.color,
-		state = data.state,
-		value = data.value
-	});
-end);
-
-return createBaseEsp;
