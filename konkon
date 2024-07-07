@@ -1267,7 +1267,6 @@
 			end
 		elseif game.PlaceId == 17047374266 then
 			if getgenv().settings.autopartyname == nil then
-				repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("BossChooser")
 				local hrp = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
 				local locs = {
 					p = Vector3.new()
@@ -1612,4 +1611,4 @@ end)
 	Shoga
 	Prox
 	]]
-print('latestv')
+print('latestva')
