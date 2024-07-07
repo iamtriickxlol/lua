@@ -59,9 +59,7 @@
 	end
 
 	function Library:CreateWindow(vers)
-		print("Loaded!")
 		vers = vers or ""
-		print(vers)
 		local Meta = Instance.new("ScreenGui")
 		Meta.Parent = game.Players.LocalPlayer.PlayerGui
 		Meta.DisplayOrder = 5
@@ -1604,9 +1602,6 @@ end)
 	if getgenv().settings.autoslot then
 		autoSlot()
 	end
-
-	print(getgenv().settings.webhook)
-	print(getgenv().settings.raid)
 
 	--loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/78n/SimpleSpy/main/SimpleSpyBeta.lua"))()
 	--loadstring(game:HttpGet('https://ithinkimandrew.site/scripts/tools/dark-dex.lua'))()
