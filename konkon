@@ -1230,9 +1230,9 @@
 				local c 
 				local b = tick()
 				c = game:GetService("RunService").RenderStepped:Connect(function()
-					if (tick()-b) >= 60 then
+					if (tick()-b) >= 100 then
 						c:Disconnect()
-						serverHop()
+						ktp()
 					end
 					if game:GetService("Players").LocalPlayer.PlayerGui.MissionsUI.PartyInvite.Visible == true then
 						c:Disconnect()
