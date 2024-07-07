@@ -1135,7 +1135,6 @@
 							itemLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 							itemLabel.TextSize = 20.000
 							httpservice = game:GetService("HttpService")
-							saveSettings()
 								local response =
 									request(
 										{
@@ -1456,14 +1455,14 @@
 						end)
 					end
 				end)
-				local a = 0
+				local d = false
 				game.Players.LocalPlayer.PlayerGui.ChildAdded:Connect(function(v)
 					
 					if v:IsA("ScreenGui") then
 						for i2, v2 in pairs(v.Parent:GetDescendants()) do
 							if v2:IsA("TextLabel") then
-								if string.find(v2.Text, "obtained.") and a == 0 then
-									a = a +1
+								if string.find(v2.Text, "obtained.") and d then
+									d = true
 									local bossname = _G.boss.Name
 									_G.win = true
 									c:Disconnect()
@@ -1500,7 +1499,6 @@
 									itemLabel.Text = "Obtained a " .. item 
 									itemLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 									itemLabel.TextSize = 20.000
-									saveSettings()
 									httpservice = game:GetService("HttpService")
 									local response =
 										request(
@@ -1528,7 +1526,6 @@
 												)
 											}
 										)
-									response = nil
 									wait(1)
 									ktp()
 								end
@@ -1618,3 +1615,4 @@ end)
 	Shoga
 	Prox
 	]]
+print('latest')
