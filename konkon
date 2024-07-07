@@ -895,7 +895,6 @@
 			KonBoss.Name = "KonBoss"
 			KonBoss.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 			KonBoss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-			KonBoss.Enabled = false
 
 			Frame.Parent = KonBoss
 			Frame.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -931,7 +930,6 @@
 					KonBoss.Parent = game.CoreGui
 					KonBoss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 					KonBoss.DisplayOrder = 5
-					KonBoss.Enabled = false
 					Frame.Parent = KonBoss
 					Frame.AnchorPoint = Vector2.new(0.5, 0.5)
 					Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
@@ -1281,7 +1279,6 @@
 				KonBoss.Name = "KonBoss"
 				KonBoss.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 				KonBoss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-				KonBoss.Enabled = false
 
 				Frame.Parent = KonBoss
 				Frame.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -1326,7 +1323,6 @@
 						KonBoss.Parent = game.CoreGui
 						KonBoss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 						KonBoss.DisplayOrder = 5
-						KonBoss.Enabled = false
 						Frame.Parent = KonBoss
 						Frame.AnchorPoint = Vector2.new(0.5, 0.5)
 						Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
@@ -1611,4 +1607,4 @@ end)
 	Shoga
 	Prox
 	]]
-print('latestva')
+print('latestv')
