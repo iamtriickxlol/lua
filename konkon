@@ -59,7 +59,9 @@
 	end
 
 	function Library:CreateWindow(vers)
+		print("Loaded!")
 		vers = vers or ""
+		print(vers)
 		local Meta = Instance.new("ScreenGui")
 		Meta.Parent = game.Players.LocalPlayer.PlayerGui
 		Meta.DisplayOrder = 5
@@ -1094,7 +1096,7 @@
 				if v:IsA("ScreenGui") then
 					for i2, v2 in pairs(v.Parent:GetDescendants()) do
 						if v2:IsA("TextLabel") then
-						if string.find(v2.Text, "obtained.") and a == 0 then
+						if string.find(v2.Text, "obtained") and a == 0 then
 							a = a +1
 								_G.win = true
 								c:Disconnect()
@@ -1259,7 +1261,7 @@
 					game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("PartyInvite"):FireServer(unpack(args))
 				else
 					wait(1)
-					serverHop()
+					game:GetService("TeleportService"):Teleport(14067600077)
 				end
 
 			end
@@ -1459,7 +1461,7 @@
 					if v:IsA("ScreenGui") then
 						for i2, v2 in pairs(v.Parent:GetDescendants()) do
 							if v2:IsA("TextLabel") then
-								if string.find(v2.Text, "obtained.") and d then
+								if string.find(v2.Text, "obtained") and d then
 									d = true
 									local bossname = _G.boss.Name
 									_G.win = true
@@ -1610,4 +1612,4 @@ end)
 	Shoga
 	Prox
 	]]
-print('latest')
+print('latestv')
