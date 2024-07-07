@@ -782,6 +782,28 @@
 		else
 		end
 	end
+	
+	function serverHop()
+		local Http = game:GetService("HttpService")
+		local TPS = game:GetService("TeleportService")
+		local Api = "https://games.roblox.com/v1/games/"
+
+		local _place = game.PlaceId
+		local _servers = Api .. _place .. "/servers/Public?sortOrder=Asc&limit=100"
+		function ListServers(cursor)
+			local Raw = game:HttpGet(_servers .. ((cursor and "&cursor=" .. cursor) or ""))
+			return Http:JSONDecode(Raw)
+		end
+
+		local Server, Next
+		repeat
+			local Servers = ListServers(Next)
+			Server = Servers.data[1]
+			Next = Servers.nextPageCursor
+		until Server
+
+		TPS:TeleportToPlaceInstance(_place, Server.id, game.Players.LocalPlayer)
+	end
 
 	function ktp()
 		local Http = game:GetService("HttpService")
@@ -830,7 +852,7 @@
 						game:GetService("Players").LocalPlayer:FindFirstChild("Kisuke"):FireServer(unpack(args))
 					else
 						wait(2)
-						game:GetService("TeleportService"):Teleport(14067600077)
+						serverHop()
 					end
 
 					local b = tick()
@@ -838,7 +860,7 @@
 					c = RunService.RenderStepped:Connect(function()
 						if (tick()-b) >= 20 then
 							c:Disconnect()
-							game:GetService("TeleportService"):Teleport(14067600077)
+							serverHop()
 						end
 					end)
 				else
@@ -1200,341 +1222,342 @@
 		end
 	end
 
-function autoParty()
-	repeat wait() until game:IsLoaded()
-	if game.PlaceId == 14069678431 then
-		repeat
-			wait()
-		until game:IsLoaded()
-		wait(3)
-		if getgenv().settings.autopartyname == nil then
-			local c 
-			local b = tick()
-			c = game:GetService("RunService").RenderStepped:Connect(function()
-				if (tick()-b) >= 30 then
-					c:Disconnect()
-					game:GetService("TeleportService"):Teleport(14067600077)
-				end
-				if game:GetService("Players").LocalPlayer.PlayerGui.MissionsUI.PartyInvite.Visible == true then
-					c:Disconnect()
-					wait(5)
-					local plrname =	game:GetService("Players").LocalPlayer.PlayerGui.MissionsUI.PartyInvite.PartyName.Text
+	function autoParty()
+		repeat wait() until game:IsLoaded()
+		if game.PlaceId == 14069678431 then
+			repeat
+				wait()
+			until game:IsLoaded()
+			wait(3)
+			if getgenv().settings.autopartyname == nil then
+				local c 
+				local b = tick()
+				c = game:GetService("RunService").RenderStepped:Connect(function()
+					if (tick()-b) >= 30 then
+						c:Disconnect()
+						serverHop()
+					end
+					if game:GetService("Players").LocalPlayer.PlayerGui.MissionsUI.PartyInvite.Visible == true then
+						c:Disconnect()
+						wait(5)
+						local plrname =	game:GetService("Players").LocalPlayer.PlayerGui.MissionsUI.PartyInvite.PartyName.Text
+						local args = {
+							[1] = game:GetService("Players")[plrname]
+						}
+
+						game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.PartyAccept:FireServer(unpack(args))
+
+					end
+				end)
+
+
+			else
+				if game:GetService("Players"):FindFirstChild(getgenv().settings.autopartyname) then
+					game:GetService("Players").LocalPlayer.Character:FindFirstChild("CharacterHandler").Remotes.PartyCreate:FireServer()
+					wait()
 					local args = {
-						[1] = game:GetService("Players")[plrname]
+						[1] = game:GetService("Players"):WaitForChild(getgenv().settings.autopartyname)
 					}
 
-					game:GetService("Players").LocalPlayer.Character.CharacterHandler.Remotes.PartyAccept:FireServer(unpack(args))
-
+					game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("PartyInvite"):FireServer(unpack(args))
+				else
+					wait(1)
+					serverHop()
 				end
-			end)
 
-
-		else
-			if game:GetService("Players"):FindFirstChild(getgenv().settings.autopartyname) then
-				game:GetService("Players").LocalPlayer.Character:FindFirstChild("CharacterHandler").Remotes.PartyCreate:FireServer()
-				wait()
-				local args = {
-					[1] = game:GetService("Players"):WaitForChild(getgenv().settings.autopartyname)
-				}
-
-				game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("PartyInvite"):FireServer(unpack(args))
-			else
-				wait(1)
-				game:GetService("TeleportService"):Teleport(14067600077)
 			end
-
-		end
-	elseif game.PlaceId == 17047374266 then
-		if getgenv().settings.autopartyname == nil then
-			repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("BossChooser")
-			local hrp = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
-			local locs = {
-				p = Vector3.new()
-			}
-			
-			local a = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(5),{CFrame = CFrame.new(484.695679, 4999.72656, 299.973297, 0.683195829, 4.31964722e-08, 0.730235219, -2.89894953e-12, 1, -5.91514784e-08, -0.730235219, 4.04099261e-08, 0.683195829)}):Play()
-			local item
-			
-			local KonBoss = Instance.new("ScreenGui")
-			local Frame = Instance.new("Frame")
-
-			KonBoss.Name = "KonBoss"
-			KonBoss.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-			KonBoss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-			KonBoss.Enabled = false
-
-			Frame.Parent = KonBoss
-			Frame.AnchorPoint = Vector2.new(0.5, 0.5)
-			Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-			Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
-			Frame.BorderSizePixel = 0
-			Frame.Position = UDim2.new(0.5, 0, 0.5, 0)
-			Frame.Size = UDim2.new(1.5, 0, 1.5, 0)
-
-			local debounce = true
-
-
-			local plr = game.Players.LocalPlayer
-			local c
-			_G.boss = nil
-			_G.timer = true
-			_G.a = true
-			_G.win = false	
-			_G.timelapse = ""
-			game.Workspace.Entities.ChildAdded:Connect(function(v)
-				if string.find(v.Name, "Min") or string.find(v.Name, "Data") or string.find(v.Name, "Shoga") or string.find(v.Name, "Khaotic") or string.find(v.Name, "Fear") or v:GetAttribute("BossRaidNPC")
-				then
-
-					_G.boss = v
-					_G.timer = false
-
-					local hum = _G.boss:WaitForChild("Humanoid")
-
-
-					local KonBoss = Instance.new("ScreenGui")
-					local Frame = Instance.new("Frame")
-					local Title = Instance.new("Frame")
-					local Hub = Instance.new("TextLabel")
-					local Kon = Instance.new("TextLabel")
-					local Timer = Instance.new("Frame")
-					local TextLabel = Instance.new("TextLabel")
-					local Boss = Instance.new("Frame")
-					local TextLabel_2 = Instance.new("TextLabel")
-
-
-					KonBoss.Name = "KonBoss"
-					KonBoss.Parent = game.CoreGui
-					KonBoss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-					KonBoss.DisplayOrder = 5
-					KonBoss.Enabled = false
-					Frame.Parent = KonBoss
-					Frame.AnchorPoint = Vector2.new(0.5, 0.5)
-					Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-					Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
-					Frame.BorderSizePixel = 0
-					Frame.Position = UDim2.new(0.5, 0, 0.5, 0)
-					Frame.Size = UDim2.new(1.5, 0, 1.5, 0)
-
-					Title.Name = "Title"
-					Title.Parent = Frame
-					Title.AnchorPoint = Vector2.new(0.5, 0.5)
-					Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-					Title.BackgroundTransparency = 1.000
-					Title.BorderColor3 = Color3.fromRGB(0, 0, 0)
-					Title.BorderSizePixel = 0
-					Title.Position = UDim2.new(0.5, 0, 0.460000008, 0)
-					Title.Size = UDim2.new(0, 230, 0, 82)
-
-					Hub.Name = "Hub"
-					Hub.Parent = Title
-					Hub.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-					Hub.BackgroundTransparency = 1.000
-					Hub.BorderColor3 = Color3.fromRGB(0, 0, 0)
-					Hub.BorderSizePixel = 0
-					Hub.Position = UDim2.new(0.513000011, 0, 0.400000006, 0)
-					Hub.Size = UDim2.new(0.317391306, 0, 0.628571451, 0)
-					Hub.ZIndex = 2
-					Hub.Font = Enum.Font.SourceSansBold
-					Hub.Text = "Hub"
-					Hub.TextColor3 = Color3.fromRGB(255, 255, 255)
-					Hub.TextScaled = true
-					Hub.TextSize = 15.000
-					Hub.TextWrapped = true
-
-					Kon.Name = "Kon"
-					Kon.Parent = Title
-					Kon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-					Kon.BackgroundTransparency = 1.000
-					Kon.BorderColor3 = Color3.fromRGB(0, 0, 0)
-					Kon.BorderSizePixel = 0
-					Kon.Position = UDim2.new(0.174999997, 0, 0.391000003, 0)
-					Kon.Size = UDim2.new(0.317000002, 0, 0.629000008, 0)
-					Kon.ZIndex = 2
-					Kon.Font = Enum.Font.SourceSansBold
-					Kon.Text = " Kon"
-					Kon.TextColor3 = Color3.fromRGB(255, 197, 61)
-					Kon.TextScaled = true
-					Kon.TextSize = 15.000
-					Kon.TextWrapped = true
-
-					Timer.Name = "Timer"
-					Timer.Parent = Frame
-					Timer.AnchorPoint = Vector2.new(0.5, 0.5)
-					Timer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-					Timer.BackgroundTransparency = 1.000
-					Timer.BorderColor3 = Color3.fromRGB(0, 0, 0)
-					Timer.BorderSizePixel = 0
-					Timer.Position = UDim2.new(0.5, 0, 0.550000012, 0)
-					Timer.Size = UDim2.new(0, 150, 0, 50)
-
-					TextLabel.Parent = Timer
-					TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-					TextLabel.BackgroundTransparency = 1.000
-					TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
-					TextLabel.BorderSizePixel = 0
-					TextLabel.Size = UDim2.new(1, 0, 1, 0)
-					TextLabel.Font = Enum.Font.SourceSansBold
-					TextLabel.Text = "0m 0s"
-					TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-					TextLabel.TextScaled = true
-					TextLabel.TextSize = 14.000
-					TextLabel.TextWrapped = true
-
-					Boss.Name = "Boss"
-					Boss.Parent = Frame
-					Boss.AnchorPoint = Vector2.new(0.5, 0.5)
-					Boss.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-					Boss.BackgroundTransparency = 1.000
-					Boss.BorderColor3 = Color3.fromRGB(0, 0, 0)
-					Boss.BorderSizePixel = 0
-					Boss.Position = UDim2.new(0.5, 0, 0.5, 0)
-					Boss.Size = UDim2.new(0, 150, 0, 30)
-
-					TextLabel_2.Parent = Boss
-					TextLabel_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-					TextLabel_2.BackgroundTransparency = 1.000
-					TextLabel_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
-					TextLabel_2.BorderSizePixel = 0
-					TextLabel_2.Size = UDim2.new(1, 0, 1, 0)
-					TextLabel_2.Font = Enum.Font.SourceSansBold
-					TextLabel_2.Text = string.split(_G.boss.Name,"_")[1]
-					TextLabel_2.TextColor3 = Color3.fromRGB(170, 170, 170)
-					TextLabel_2.TextScaled = true
-					TextLabel_2.TextSize = 14.000
-					TextLabel_2.TextWrapped = true
-
-					local lapse = tick()
-					c = game:GetService("RunService").Heartbeat:Connect(function()
-						if (tick() - lapse) >= (5 * 60) and debounce == true then		
-							debounce = false
-							ktp()
-							c:Disconnect()
-							ktp()
-						end
-						TextLabel.Text = math.floor((tick() - lapse) / 60)..'m ' .. math.floor((tick() - lapse) % 60) .. "s"
-						_G.timelapse = tostring(TextLabel.Text)
-
-						if _G.boss:FindFirstChild("Head") then
-							_G.boss.Head:Destroy()
-							_G.boss["Left Arm"]:Destroy()
-							_G.boss["Right Arm"]:Destroy()
-
-
-						end
-
-						if _G.boss:FindFirstChild("RagdollColliders") then
-							_G.boss.RagdollColliders:Destroy()
-						end
-
-						if workspace.Effects:FindFirstChild(_G.boss.Name) then
-							workspace.Effects[_G.boss.Name]:Destroy()
-						end
-						_G.boss.Humanoid.Health = 0
-						_G.boss.Humanoid:TakeDamage(99999)
-					end)
-				end
-			end)
-			local a = 0
-			game.Players.LocalPlayer.PlayerGui.ChildAdded:Connect(function(v)
+		elseif game.PlaceId == 17047374266 then
+			if getgenv().settings.autopartyname == nil then
+				repeat task.wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("BossChooser")
+				local hrp = game.Players.LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+				local locs = {
+					p = Vector3.new()
+				}
 				
-				if v:IsA("ScreenGui") then
-					for i2, v2 in pairs(v.Parent:GetDescendants()) do
-						if v2:IsA("TextLabel") then
-							if string.find(v2.Text, "obtained.") and a == 0 then
-								a = a +1
-								local bossname = _G.boss.Name
-								_G.win = true
+				local a = game:GetService("TweenService"):Create(game.Players.LocalPlayer.Character.HumanoidRootPart,TweenInfo.new(5),{CFrame = CFrame.new(484.695679, 4999.72656, 299.973297, 0.683195829, 4.31964722e-08, 0.730235219, -2.89894953e-12, 1, -5.91514784e-08, -0.730235219, 4.04099261e-08, 0.683195829)}):Play()
+				local item
+				
+				local KonBoss = Instance.new("ScreenGui")
+				local Frame = Instance.new("Frame")
+
+				KonBoss.Name = "KonBoss"
+				KonBoss.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+				KonBoss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+				KonBoss.Enabled = false
+
+				Frame.Parent = KonBoss
+				Frame.AnchorPoint = Vector2.new(0.5, 0.5)
+				Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+				Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+				Frame.BorderSizePixel = 0
+				Frame.Position = UDim2.new(0.5, 0, 0.5, 0)
+				Frame.Size = UDim2.new(1.5, 0, 1.5, 0)
+
+				local debounce = true
+
+
+				local plr = game.Players.LocalPlayer
+				local c
+				_G.boss = nil
+				_G.timer = true
+				_G.a = true
+				_G.win = false	
+				_G.timelapse = ""
+				game.Workspace.Entities.ChildAdded:Connect(function(v)
+					if string.find(v.Name, "Min") or string.find(v.Name, "Data") or string.find(v.Name, "Shoga") or string.find(v.Name, "Khaotic") or string.find(v.Name, "Fear") or v:GetAttribute("BossRaidNPC")
+					then
+
+						_G.boss = v
+						_G.timer = false
+
+						local hum = _G.boss:WaitForChild("Humanoid")
+
+
+						local KonBoss = Instance.new("ScreenGui")
+						local Frame = Instance.new("Frame")
+						local Title = Instance.new("Frame")
+						local Hub = Instance.new("TextLabel")
+						local Kon = Instance.new("TextLabel")
+						local Timer = Instance.new("Frame")
+						local TextLabel = Instance.new("TextLabel")
+						local Boss = Instance.new("Frame")
+						local TextLabel_2 = Instance.new("TextLabel")
+
+
+						KonBoss.Name = "KonBoss"
+						KonBoss.Parent = game.CoreGui
+						KonBoss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+						KonBoss.DisplayOrder = 5
+						KonBoss.Enabled = false
+						Frame.Parent = KonBoss
+						Frame.AnchorPoint = Vector2.new(0.5, 0.5)
+						Frame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+						Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+						Frame.BorderSizePixel = 0
+						Frame.Position = UDim2.new(0.5, 0, 0.5, 0)
+						Frame.Size = UDim2.new(1.5, 0, 1.5, 0)
+
+						Title.Name = "Title"
+						Title.Parent = Frame
+						Title.AnchorPoint = Vector2.new(0.5, 0.5)
+						Title.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+						Title.BackgroundTransparency = 1.000
+						Title.BorderColor3 = Color3.fromRGB(0, 0, 0)
+						Title.BorderSizePixel = 0
+						Title.Position = UDim2.new(0.5, 0, 0.460000008, 0)
+						Title.Size = UDim2.new(0, 230, 0, 82)
+
+						Hub.Name = "Hub"
+						Hub.Parent = Title
+						Hub.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+						Hub.BackgroundTransparency = 1.000
+						Hub.BorderColor3 = Color3.fromRGB(0, 0, 0)
+						Hub.BorderSizePixel = 0
+						Hub.Position = UDim2.new(0.513000011, 0, 0.400000006, 0)
+						Hub.Size = UDim2.new(0.317391306, 0, 0.628571451, 0)
+						Hub.ZIndex = 2
+						Hub.Font = Enum.Font.SourceSansBold
+						Hub.Text = "Hub"
+						Hub.TextColor3 = Color3.fromRGB(255, 255, 255)
+						Hub.TextScaled = true
+						Hub.TextSize = 15.000
+						Hub.TextWrapped = true
+
+						Kon.Name = "Kon"
+						Kon.Parent = Title
+						Kon.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+						Kon.BackgroundTransparency = 1.000
+						Kon.BorderColor3 = Color3.fromRGB(0, 0, 0)
+						Kon.BorderSizePixel = 0
+						Kon.Position = UDim2.new(0.174999997, 0, 0.391000003, 0)
+						Kon.Size = UDim2.new(0.317000002, 0, 0.629000008, 0)
+						Kon.ZIndex = 2
+						Kon.Font = Enum.Font.SourceSansBold
+						Kon.Text = " Kon"
+						Kon.TextColor3 = Color3.fromRGB(255, 197, 61)
+						Kon.TextScaled = true
+						Kon.TextSize = 15.000
+						Kon.TextWrapped = true
+
+						Timer.Name = "Timer"
+						Timer.Parent = Frame
+						Timer.AnchorPoint = Vector2.new(0.5, 0.5)
+						Timer.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+						Timer.BackgroundTransparency = 1.000
+						Timer.BorderColor3 = Color3.fromRGB(0, 0, 0)
+						Timer.BorderSizePixel = 0
+						Timer.Position = UDim2.new(0.5, 0, 0.550000012, 0)
+						Timer.Size = UDim2.new(0, 150, 0, 50)
+
+						TextLabel.Parent = Timer
+						TextLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+						TextLabel.BackgroundTransparency = 1.000
+						TextLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+						TextLabel.BorderSizePixel = 0
+						TextLabel.Size = UDim2.new(1, 0, 1, 0)
+						TextLabel.Font = Enum.Font.SourceSansBold
+						TextLabel.Text = "0m 0s"
+						TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+						TextLabel.TextScaled = true
+						TextLabel.TextSize = 14.000
+						TextLabel.TextWrapped = true
+
+						Boss.Name = "Boss"
+						Boss.Parent = Frame
+						Boss.AnchorPoint = Vector2.new(0.5, 0.5)
+						Boss.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+						Boss.BackgroundTransparency = 1.000
+						Boss.BorderColor3 = Color3.fromRGB(0, 0, 0)
+						Boss.BorderSizePixel = 0
+						Boss.Position = UDim2.new(0.5, 0, 0.5, 0)
+						Boss.Size = UDim2.new(0, 150, 0, 30)
+
+						TextLabel_2.Parent = Boss
+						TextLabel_2.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+						TextLabel_2.BackgroundTransparency = 1.000
+						TextLabel_2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+						TextLabel_2.BorderSizePixel = 0
+						TextLabel_2.Size = UDim2.new(1, 0, 1, 0)
+						TextLabel_2.Font = Enum.Font.SourceSansBold
+						TextLabel_2.Text = string.split(_G.boss.Name,"_")[1]
+						TextLabel_2.TextColor3 = Color3.fromRGB(170, 170, 170)
+						TextLabel_2.TextScaled = true
+						TextLabel_2.TextSize = 14.000
+						TextLabel_2.TextWrapped = true
+
+						local lapse = tick()
+						c = game:GetService("RunService").Heartbeat:Connect(function()
+							if (tick() - lapse) >= (5 * 60) and debounce == true then		
+								debounce = false
+								ktp()
 								c:Disconnect()
-								local itemhold = Instance.new("Frame")
-								local itemLabel = Instance.new("TextLabel")
-								local gui = Instance.new("ScreenGui")
-								local nitem = string.gsub(v2.Text, "obtained.", "")
-								local xitem = string.split(nitem, "]")[2]
-								item = xitem
+								ktp()
+							end
+							TextLabel.Text = math.floor((tick() - lapse) / 60)..'m ' .. math.floor((tick() - lapse) % 60) .. "s"
+							_G.timelapse = tostring(TextLabel.Text)
 
-								gui.Name = "boss"
-								gui.Parent = gethui() or game.CoreGui
-								gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-								gui.DisplayOrder = 12
+							if _G.boss:FindFirstChild("Head") then
+								_G.boss.Head:Destroy()
+								_G.boss["Left Arm"]:Destroy()
+								_G.boss["Right Arm"]:Destroy()
 
-								itemhold.Name = "itemhold"
-								itemhold.Parent = gui
-								itemhold.AnchorPoint = Vector2.new(0.5, 0.5)
-								itemhold.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-								itemhold.BackgroundTransparency = 1.000
-								itemhold.BorderColor3 = Color3.fromRGB(0, 0, 0)
-								itemhold.BorderSizePixel = 0
-								itemhold.Position = UDim2.new(0.493745118, 0, 0.7, 0)
-								itemhold.Size = UDim2.new(0.400000006, 0, 0.0399999991, 0)
 
-								itemLabel.Name = "itemLabel"
-								itemLabel.Parent = itemhold
-								itemLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-								itemLabel.BackgroundTransparency = 1.000
-								itemLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
-								itemLabel.BorderSizePixel = 0
-								itemLabel.Size = UDim2.new(1, 0, 1, 0)
-								itemLabel.Font = Enum.Font.SourceSansBold
-								itemLabel.Text = "Obtained a " .. item 
-								itemLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-								itemLabel.TextSize = 20.000
-								saveSettings()
-								httpservice = game:GetService("HttpService")
-								local response =
-									request(
-										{
-											Url = getgenv().settings.webhook,
-											Method = "POST",
-											Headers = {
-												["Content-Type"] = "application/json"
-											},
-											Body = httpservice:JSONEncode(
-												{
-													["content"] = "",
-													["embeds"] = {
-														{
-															["title"] = "Boss Notifier",
-															["description"] = "**User:** *Hidden* \n \n **Boss:** \n `"..string.split(_G.boss.Name,"_")[1].."` \n **Timer:** \n `".._G.timelapse.."` \n **Item:** \n `"..item.."`",
-															["type"] = "rich",
-															["color"] = tonumber(0xffd466),
-															["footer"] = {
-																["text"] = "Type Soul v0.0.1 - Kon Hub",
+							end
+
+							if _G.boss:FindFirstChild("RagdollColliders") then
+								_G.boss.RagdollColliders:Destroy()
+							end
+
+							if workspace.Effects:FindFirstChild(_G.boss.Name) then
+								workspace.Effects[_G.boss.Name]:Destroy()
+							end
+							_G.boss.Humanoid.Health = 0
+							_G.boss.Humanoid:TakeDamage(99999)
+						end)
+					end
+				end)
+				local a = 0
+				game.Players.LocalPlayer.PlayerGui.ChildAdded:Connect(function(v)
+					
+					if v:IsA("ScreenGui") then
+						for i2, v2 in pairs(v.Parent:GetDescendants()) do
+							if v2:IsA("TextLabel") then
+								if string.find(v2.Text, "obtained.") and a == 0 then
+									a = a +1
+									local bossname = _G.boss.Name
+									_G.win = true
+									c:Disconnect()
+									local itemhold = Instance.new("Frame")
+									local itemLabel = Instance.new("TextLabel")
+									local gui = Instance.new("ScreenGui")
+									local nitem = string.gsub(v2.Text, "obtained.", "")
+									local xitem = string.split(nitem, "]")[2]
+									item = xitem
+
+									gui.Name = "boss"
+									gui.Parent = gethui() or game.CoreGui
+									gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+									gui.DisplayOrder = 12
+
+									itemhold.Name = "itemhold"
+									itemhold.Parent = gui
+									itemhold.AnchorPoint = Vector2.new(0.5, 0.5)
+									itemhold.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+									itemhold.BackgroundTransparency = 1.000
+									itemhold.BorderColor3 = Color3.fromRGB(0, 0, 0)
+									itemhold.BorderSizePixel = 0
+									itemhold.Position = UDim2.new(0.493745118, 0, 0.7, 0)
+									itemhold.Size = UDim2.new(0.400000006, 0, 0.0399999991, 0)
+
+									itemLabel.Name = "itemLabel"
+									itemLabel.Parent = itemhold
+									itemLabel.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+									itemLabel.BackgroundTransparency = 1.000
+									itemLabel.BorderColor3 = Color3.fromRGB(0, 0, 0)
+									itemLabel.BorderSizePixel = 0
+									itemLabel.Size = UDim2.new(1, 0, 1, 0)
+									itemLabel.Font = Enum.Font.SourceSansBold
+									itemLabel.Text = "Obtained a " .. item 
+									itemLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+									itemLabel.TextSize = 20.000
+									saveSettings()
+									httpservice = game:GetService("HttpService")
+									local response =
+										request(
+											{
+												Url = getgenv().settings.webhook,
+												Method = "POST",
+												Headers = {
+													["Content-Type"] = "application/json"
+												},
+												Body = httpservice:JSONEncode(
+													{
+														["content"] = "",
+														["embeds"] = {
+															{
+																["title"] = "Boss Notifier",
+																["description"] = "**User:** *Hidden* \n \n **Boss:** \n `"..string.split(_G.boss.Name,"_")[1].."` \n **Timer:** \n `".._G.timelapse.."` \n **Item:** \n `"..item.."`",
+																["type"] = "rich",
+																["color"] = tonumber(0xffd466),
+																["footer"] = {
+																	["text"] = "Type Soul v0.0.1 - Kon Hub",
+																}
 															}
 														}
 													}
-												}
-											)
-										}
-									)
-								response = nil
-								wait(1)
-								ktp()
+												)
+											}
+										)
+									response = nil
+									wait(1)
+									ktp()
+								end
 							end
 						end
 					end
 				end
-			end
-			)
+				)
 
 
-			game.Workspace.Entities.ChildRemoved:Connect(
-				function(v)
-					print(v)
-					if v.Name == _G.boss.Name and v.Name ~= plr.Name then
-						wait(2)
-						if _G.win == false then
-							ktp()
+				game.Workspace.Entities.ChildRemoved:Connect(
+					function(v)
+						print(v)
+						if v.Name == _G.boss.Name and v.Name ~= plr.Name then
+							wait(2)
+							if _G.win == false then
+								ktp()
 
+							end
 						end
 					end
-				end
-			)
+				)
 
 
+			end
 		end
 	end
-end
 
+	
 
 
 
