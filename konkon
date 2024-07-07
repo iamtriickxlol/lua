@@ -1230,7 +1230,7 @@
 				local c 
 				local b = tick()
 				c = game:GetService("RunService").RenderStepped:Connect(function()
-					if (tick()-b) >= 30 then
+					if (tick()-b) >= 60 then
 						c:Disconnect()
 						serverHop()
 					end
