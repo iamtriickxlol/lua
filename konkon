@@ -852,7 +852,7 @@
 						game:GetService("Players").LocalPlayer:FindFirstChild("Kisuke"):FireServer(unpack(args))
 					else
 						wait(2)
-						serverHop()
+						game:GetService("TeleportService"):Teleport(14067600077)
 					end
 
 					local b = tick()
@@ -860,7 +860,7 @@
 					c = RunService.RenderStepped:Connect(function()
 						if (tick()-b) >= 20 then
 							c:Disconnect()
-							serverHop()
+						game:GetService("TeleportService"):Teleport(14067600077)
 						end
 					end)
 				else
