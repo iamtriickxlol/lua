@@ -95,7 +95,6 @@
 		Main.Position = UDim2.new(0.165001467, 0, 0.312655091, 0)
 		Main.Size = UDim2.new(0, 550, 0, 350)
 		Main.ZIndex = 2
-		Main.Visible = True
 		
 		MainTabs.Name = "MainTabs"
 		MainTabs.Parent = Main
