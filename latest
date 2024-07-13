@@ -1,4 +1,4 @@
-getgenv().vers = 'test5'
+getgenv().vers = 'test1'
 
 repeat wait() until game:IsLoaded()
 local UserInputService = game:GetService("UserInputService")
@@ -566,7 +566,7 @@ function autoBoss(a)
 				local which = true
 				local bv = Instance.new("BodyVelocity")
 				bv = Vector3.new(math.huge, math.huge, math.huge)
-				bv.Parent = _G.HumanoidRootPart
+				bv.Parent = _G.boss.HumanoidRootPart
 				bv.Velocity = 100
 				local lapse = tick()
 				c = game:GetService("RunService").Heartbeat:Connect(function()
