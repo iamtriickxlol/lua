@@ -612,11 +612,11 @@ function autoBoss()
 						_G.boss.Humanoid.MaxHealth = 0
 						if getgenv().settings.bosspos == "Back" then
 
-							plr.Character.HumanoidRootPart.CFrame = _G.boss.HumanoidRootPart.CFrame * CFrame.new(0, 0, getgenv().settings.bossoffset + math.random(0,3))
+							plr.Character.HumanoidRootPart.CFrame = _G.boss.HumanoidRootPart.CFrame * CFrame.new(0, 0, getgenv().settings.bossoffset + math.random(-4,4))
 						else
 
 							plr.Character.HumanoidRootPart.CFrame =
-								_G.boss.HumanoidRootPart.CFrame * CFrame.new(0, getgenv().settings.bossoffset + math.random(0,3), 0) * t[getgenv().settings.bosspos]
+								_G.boss.HumanoidRootPart.CFrame * CFrame.new(0, getgenv().settings.bossoffset + math.random(-4,4), 0) * t[getgenv().settings.bosspos]
 						end
 
 						local args = {
