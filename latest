@@ -613,9 +613,8 @@ function autoBoss()
 
 						_G.boss.Humanoid.Health = 0
 						_G.boss.Humanoid:TakeDamage(99999)
-						_G.boss:BreakJoints()
 						_G.boss.Humanoid.WalkSpeed = 0
-						_G.boss.Humanoid.MaxHealth = 1
+						_G.boss.Humanoid.MaxHealth = 0
 						if getgenv().settings.bosspos == "Back" then
 
 							plr.Character.HumanoidRootPart.CFrame = _G.boss.HumanoidRootPart.CFrame * CFrame.new(0, 0, getgenv().settings.bossoffset + math.random(0,3))
