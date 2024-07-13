@@ -1,4 +1,4 @@
-getgenv().vers = 'test1'
+getgenv().vers = 'test'
 
 repeat wait() until game:IsLoaded()
 local UserInputService = game:GetService("UserInputService")
@@ -564,13 +564,18 @@ function autoBoss(a)
 				
 				_G.boss.HumanoidRootPart.CFrame = CFrame.new(-86.5608521, 4984.79053, -49.4588203, 0.858135283, 1.04255776e-07, 0.513423622, -1.04398374e-07, 1, -2.85686941e-08, -0.513423622, -2.90847897e-08, 0.858135283)
 				local which = true
-				local bv = Instance.new("BodyVelocity")
-				bv = Vector3.new(math.huge, math.huge, math.huge)
-				bv.Parent = _G.boss.HumanoidRootPart
-				bv.Velocity = 100
+				getgenv().gbv = Instance.new("BodyVelocity")
+				getgenv().gbv = Vector3.new(math.huge, math.huge, math.huge)
+				
 				local lapse = tick()
 				c = game:GetService("RunService").Heartbeat:Connect(function()
 					Timer.Text = math.floor((tick() - lapse) / 60)..'m ' .. math.floor((tick() - lapse) % 60) .. "s"
+
+
+					local rp = _G.boss.HumanoidRootPart
+				getgenv().gbv.Parent = _G.boss.HumanoidRootPart
+				getgenv().gbv.Velocity = 100
+					if (not rp) then return end
 					if which == true then
 						if (tick() - lapse) >= (getgenv().settings.bosstime * 60) then
 							c:Disconnect()
