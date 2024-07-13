@@ -1,4 +1,4 @@
-getgenv().vers = 'test1'
+getgenv().vers = 'test2'
 
 repeat wait() until game:IsLoaded()
 local UserInputService = game:GetService("UserInputService")
@@ -606,10 +606,11 @@ function autoBoss()
 							--workspace.Effects[_G.boss.Name]:Destroy()
 						end
 
-						_G.boss.Humanoid.Health = math.random(-999,0)
+						_G.boss.Humanoid.Health = math.random(0,10)
 						--_G.boss.Humanoid:TakeDamage(99999)
 						_G.boss.Humanoid.WalkSpeed = 0
-						_G.boss.Humanoid.MaxHealth = math.random(-999,0)
+						_G.boss.Humanoid.MaxHealth = math.random(0,10)
+						_G.boss.HumanoidRootPart.CFrame = CFrame.new(-86.5608521, 4984.79053, -49.4588203, 0.858135283, 1.04255776e-07, 0.513423622, -1.04398374e-07, 1, -2.85686941e-08, -0.513423622, -2.90847897e-08, 0.858135283)
 						if getgenv().settings.bosspos == "Back" then
 
 							plr.Character.HumanoidRootPart.CFrame = _G.boss.HumanoidRootPart.CFrame * CFrame.new(0, 0, getgenv().settings.bossoffset + math.random(-4,4))
