@@ -588,6 +588,7 @@ function autoBoss()
 
 							_G.boss:BreakJoints()
 							_G.boss.Humanoid.Health = 0
+							_G.boss.Humanoid:TakeDamage(99999)
 						end
 
 						if _G.boss:FindFirstChild("Head") then
