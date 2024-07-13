@@ -1,4 +1,4 @@
-getgenv().vers = 'test3'
+getgenv().vers = 'test5'
 
 repeat wait() until game:IsLoaded()
 local UserInputService = game:GetService("UserInputService")
@@ -254,7 +254,8 @@ end
 
 
 
-function autoBoss()
+function autoBoss(a)
+	if a == false then return end
 	repeat
 		wait()
 	until game:IsLoaded()
@@ -560,9 +561,13 @@ function autoBoss()
 				BossName.TextWrapped = true
 				BossName.TextXAlignment = Enum.TextXAlignment.Left
 				waiting:Destroy()
+				
 				_G.boss.HumanoidRootPart.CFrame = CFrame.new(-86.5608521, 4984.79053, -49.4588203, 0.858135283, 1.04255776e-07, 0.513423622, -1.04398374e-07, 1, -2.85686941e-08, -0.513423622, -2.90847897e-08, 0.858135283)
 				local which = true
-
+				local bv = Instance.new("BodyVelocity")
+				bv = Vector3.new(math.huge, math.huge, math.huge)
+				bv.Parent = _G.HumanoidRootPart
+				bv.Velocity = 100
 				local lapse = tick()
 				c = game:GetService("RunService").Heartbeat:Connect(function()
 					Timer.Text = math.floor((tick() - lapse) / 60)..'m ' .. math.floor((tick() - lapse) % 60) .. "s"
