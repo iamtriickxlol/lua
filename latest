@@ -1,4 +1,4 @@
-getgenv().vers = 'tf'
+getgenv().vers = 'ttf'
 
 repeat wait() until game:IsLoaded()
 local UserInputService = game:GetService("UserInputService")
@@ -581,13 +581,7 @@ function autoBoss(a)
 				local lapse = tick()
 				c = game:GetService("RunService").Heartbeat:Connect(function()
 					Timer.Text = math.floor((tick() - lapse) / 60)..'m ' .. math.floor((tick() - lapse) % 60) .. "s"
-
-
-					local rp = _G.boss.HumanoidRootPart
-				
-					if (not rp) then return end
-					getgenv().gbv.Parent = rp
-					getgenv().gbv.Velocity = 100
+					
 					if which == true then
 						if (tick() - lapse) >= (getgenv().settings.bosstime * 60) then
 							c:Disconnect()
