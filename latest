@@ -573,9 +573,10 @@ function autoBoss(a)
 
 
 					local rp = _G.boss.HumanoidRootPart
-				getgenv().gbv.Parent = _G.boss.HumanoidRootPart
-				getgenv().gbv.Velocity = 100
+				
 					if (not rp) then return end
+					getgenv().gbv.Parent = rp
+					getgenv().gbv.Velocity = 100
 					if which == true then
 						if (tick() - lapse) >= (getgenv().settings.bosstime * 60) then
 							c:Disconnect()
