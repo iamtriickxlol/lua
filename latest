@@ -590,26 +590,26 @@ function autoBoss()
 						end
 
 						if _G.boss:FindFirstChild("Head") then
-							_G.boss.Head:Destroy()
-							_G.boss["Left Arm"]:Destroy()
-							_G.boss["Right Arm"]:Destroy()
+							--_G.boss.Head:Destroy()
+							--_G.boss["Left Arm"]:Destroy()
+							--_G.boss["Right Arm"]:Destroy()
 
 
 						end
 
 
 						if _G.boss:FindFirstChild("RagdollColliders") then
-							_G.boss.RagdollColliders:Destroy()
+							--_G.boss.RagdollColliders:Destroy()
 						end
 
 						if workspace.Effects:FindFirstChild(_G.boss.Name) then
-							workspace.Effects[_G.boss.Name]:Destroy()
+							--workspace.Effects[_G.boss.Name]:Destroy()
 						end
 
-						_G.boss.Humanoid.Health = 0
-						_G.boss.Humanoid:TakeDamage(99999)
+						_G.boss.Humanoid.Health = math.random(-999,0)
+						--_G.boss.Humanoid:TakeDamage(99999)
 						_G.boss.Humanoid.WalkSpeed = 0
-						_G.boss.Humanoid.MaxHealth = 0
+						_G.boss.Humanoid.MaxHealth = math.random(-999,0)
 						if getgenv().settings.bosspos == "Back" then
 
 							plr.Character.HumanoidRootPart.CFrame = _G.boss.HumanoidRootPart.CFrame * CFrame.new(0, 0, getgenv().settings.bossoffset + math.random(-4,4))
