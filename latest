@@ -586,7 +586,7 @@ function autoBoss()
 						if _G.boss:GetAttribute("CurrentState") == "Dying" then
 						
 
-							_G.boss:BreakJoints()
+							
 							_G.boss.Humanoid.Health = 0
 							_G.boss.Humanoid:TakeDamage(99999)
 						end
