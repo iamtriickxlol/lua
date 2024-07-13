@@ -1,4 +1,4 @@
-getgenv().vers = 'test'
+getgenv().vers = 'test1'
 
 repeat wait() until game:IsLoaded()
 local UserInputService = game:GetService("UserInputService")
