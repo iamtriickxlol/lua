@@ -560,17 +560,12 @@ function autoBoss()
 				BossName.TextWrapped = true
 				BossName.TextXAlignment = Enum.TextXAlignment.Left
 				waiting:Destroy()
-				local which
+				local which = true
 
-				if getgenv().settings.autoparty == true then
-				which = math.random(1,7)
-				else
-				which = math.random(1,9)
-				end
 				local lapse = tick()
 				c = game:GetService("RunService").Heartbeat:Connect(function()
 					Timer.Text = math.floor((tick() - lapse) / 60)..'m ' .. math.floor((tick() - lapse) % 60) .. "s"
-					if which <= 9 then
+					if which == true then
 						if (tick() - lapse) >= (getgenv().settings.bosstime * 60) then
 							c:Disconnect()
 							ktp()
