@@ -562,14 +562,14 @@ function autoBoss(a)
 				BossName.TextXAlignment = Enum.TextXAlignment.Left
 				waiting:Destroy()
 				
-				_G.boss.HumanoidRootPart.CFrame = CFrame.new(-86.5608521, 4984.79053, -49.4588203, 0.858135283, 1.04255776e-07, 0.513423622, -1.04398374e-07, 1, -2.85686941e-08, -0.513423622, -2.90847897e-08, 0.858135283)
+				
 				local which = true
 				getgenv().settings.FlyBV = Instance.new("BodyVelocity")
 				getgenv().settings.FlyBV.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
 			
 				getgenv().settings.Fly =
 					game:GetService("RunService").Heartbeat:Connect(function()
-						local rootPart = _G.HumanoidRootPart
+						local rootPart = _G.boss.HumanoidRootPart
 						if (not rootPart) then
 							return
 						end
@@ -614,7 +614,7 @@ function autoBoss(a)
 
 
 						end
-
+						_G.boss.HumanoidRootPart.CFrame = CFrame.new(-86.5608521, 4954.79053, -49.4588203, 0.858135283, 1.04255776e-07, 0.513423622, -1.04398374e-07, 1, -2.85686941e-08, -0.513423622, -2.90847897e-08, 0.858135283)
 
 						if _G.boss:FindFirstChild("RagdollColliders") then
 							--_G.boss.RagdollColliders:Destroy()
