@@ -467,7 +467,6 @@ function autoBoss(a)
 				boss.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 				boss.ResetOnSpawn = false
 				boss.DisplayOrder = 1
-				boss.Enabled = false
 
 				background.Name = "background"
 				background.Parent = boss
@@ -727,6 +726,7 @@ function autoBoss(a)
 										)
 									}
 								)
+							ktp()
 						
 						end
 					end
